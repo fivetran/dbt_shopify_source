@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as product_option_id,
         product_id,
         name,
         position,

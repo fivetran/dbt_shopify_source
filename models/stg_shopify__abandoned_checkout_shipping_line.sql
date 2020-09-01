@@ -7,9 +7,9 @@ with source as (
 renamed as (
 
     select
-        checkout_id,
+        checkout_id as abandoned_checkout_id,
         index,
-        id,
+        id as abandoned_checkout_shipping_line_id,
         code,
         price,
         source,

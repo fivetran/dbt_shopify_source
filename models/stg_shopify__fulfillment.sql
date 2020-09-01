@@ -7,11 +7,11 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as fulfillment_id,
         order_id,
         location_id,
-        created_at,
-        updated_at,
+        created_at as created_timestamp,
+        updated_at as updated_timestamp,
         status,
         tracking_company,
         tracking_number,

@@ -10,7 +10,7 @@ renamed as (
         inventory_item_id,
         location_id,
         available,
-        updated_at,
+        updated_at as updated_timestamp,
         _fivetran_synced
 
     from source

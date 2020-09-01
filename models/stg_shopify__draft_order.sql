@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as draft_order_id,
         note,
         email,
         taxes_included,
@@ -15,8 +15,8 @@ renamed as (
         subtotal_price,
         total_tax,
         total_price,
-        created_at,
-        updated_at,
+        created_at as created_timestamp,
+        updated_at as updated_timestamp,
         name,
         shipping_address_name,
         shipping_address_first_name,
@@ -50,9 +50,9 @@ renamed as (
         billing_address_longitude,
         order_id,
         customer_id,
-        invoice_sent_at,
+        invoice_sent_at as invoice_sent_timestamp,
         tax_exempt,
-        completed_at,
+        completed_at as completed_timestamp,
         status,
         invoice_url,
         admin_graphql_api_id,

@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as product_variant_id,
         product_id,
         inventory_item_id,
         title,
@@ -18,8 +18,8 @@ renamed as (
         compare_at_price,
         fulfillment_service,
         inventory_management,
-        created_at,
-        updated_at,
+        created_at as created_timestamp,
+        updated_at as updated_timestamp,
         taxable,
         barcode,
         grams,

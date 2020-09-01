@@ -8,7 +8,7 @@ renamed as (
 
     select
         order_id,
-        id,
+        id as order_line_id,
         product_id,
         variant_id,
         name,

@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as abandoned_checkout_id,
         user_id,
         location_id,
         customer_id,
@@ -16,8 +16,8 @@ renamed as (
         email,
         gateway,
         buyer_accepts_marketing,
-        updated_at,
-        created_at,
+        updated_at as updated_timestamp,
+        created_at as created_timestamp,
         note,
         referring_site,
         subtotal_price,
@@ -28,8 +28,8 @@ renamed as (
         total_weight,
         taxes_included,
         currency,
-        completed_at,
-        closed_at,
+        completed_at as completed_timestamp,
+        closed_at as closed_timestamp,
         source_identifier,
         source_url,
         device_id,
@@ -87,14 +87,7 @@ renamed as (
         credit_card_year,
         credit_card_verification_value,
         landing_site_base_url,
-        _fivetran_synced,
-        note_attribute_updated_at,
-        note_attribute_google_client_id,
-        note_attribute_littledata_updated_at,
-        note_attribute_created_at,
-        note_attribute_attributes_created_at_,
-        note_attribute_mc_cid,
-        note_attribute_attributes_mc_cid_
+        _fivetran_synced
 
     from source
 

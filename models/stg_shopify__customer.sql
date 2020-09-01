@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as customer_id,
         first_name,
         last_name,
         email,
@@ -15,8 +15,8 @@ renamed as (
         state,
         orders_count,
         total_spent,
-        created_at,
-        updated_at,
+        created_at as created_timestamp,
+        updated_at as updated_timestamp,
         accepts_marketing,
         tax_exempt,
         verified_email,

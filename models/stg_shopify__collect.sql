@@ -8,12 +8,12 @@ renamed as (
 
     select
         collection_id,
-        id,
+        id as collect_id,
         product_id,
         featured,
         position,
-        created_at,
-        updated_at,
+        created_at as created_timestamp,
+        updated_at as updated_timestamp,
         _fivetran_synced
 
     from source

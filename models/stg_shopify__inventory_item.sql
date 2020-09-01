@@ -7,10 +7,10 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as inventory_item_id,
         sku,
-        created_at,
-        updated_at,
+        created_at as created_timestamp,
+        updated_at as updated_timestamp,
         requires_shipping,
         cost,
         tracked,

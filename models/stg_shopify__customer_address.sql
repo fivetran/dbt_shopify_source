@@ -8,7 +8,7 @@ renamed as (
 
     select
         customer_id,
-        id,
+        id as customer_address_id,
         name,
         first_name,
         last_name,

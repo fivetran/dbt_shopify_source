@@ -8,7 +8,7 @@ renamed as (
 
     select
         order_id,
-        id,
+        id as order_shipping_line_id,
         code,
         price,
         source,

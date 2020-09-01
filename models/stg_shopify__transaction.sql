@@ -7,13 +7,13 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as transaction_id,
         order_id,
         refund_id,
         amount,
         authorization,
-        created_at,
-        processed_at,
+        created_at as created_timestamp,
+        processed_at as processed_timestamp,
         device_id,
         gateway,
         source_name,

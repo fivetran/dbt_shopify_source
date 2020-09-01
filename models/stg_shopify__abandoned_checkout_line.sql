@@ -7,11 +7,11 @@ with source as (
 renamed as (
 
     select
-        checkout_id,
+        checkout_id as abandoned_checkout_id,
         index,
         variant_id,
         product_id,
-        id,
+        id as abandoned_checkout_line_id,
         key,
         compare_at_price,
         destination_location_id,
