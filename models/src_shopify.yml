@@ -2,7 +2,8 @@ version: 2
 
 sources:
   - name: shopify
-    database: raw
+    schema: "{{ var('shopify_schema', 'shopify') }}"
+    database: "{{ var('shopify_database', target.database) }}"
     tables:
       - name: abandoned_checkout
       - name: abandoned_checkout_discount_code
