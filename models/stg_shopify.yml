@@ -1,1 +1,33 @@
 version: 2
+
+models:
+  - name: stg_shopify__customer
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_shopify__order_line_refund
+    columns:
+      - name: order_line_refund_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_shopify__order_line
+    columns:
+      - name: order_line_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_shopify__order
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_shopify__product
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null

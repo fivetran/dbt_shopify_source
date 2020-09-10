@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ source('shopify', 'order') }}
+    select * from {{ var('order_source') }}
 
 ),
 

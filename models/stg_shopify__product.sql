@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ source('shopify', 'product') }}
+    select * from {{ var('product_source') }}
     where _fivetran_deleted = False
 
 ),
