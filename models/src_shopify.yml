@@ -5,56 +5,11 @@ sources:
     schema: "{{ var('shopify_schema', 'shopify') }}"
     database: "{{ var('shopify_database', target.database) }}"
     tables:
-      - name: abandoned_checkout
-      - name: abandoned_checkout_discount_code
-      - name: abandoned_checkout_line
-      - name: abandoned_checkout_shipping_line
-      - name: abandoned_checkout_tax_line
-      - name: abandoned_checkout_url_tag
-      - name: checkout
-      - name: checkout_discount_code
-      - name: checkout_line
-      - name: checkout_shipping_line
-      - name: checkout_tax_line
-      - name: checkout_url_tag
-      - name: collect
-      - name: collection
-      - name: country
-      - name: customer
-      - name: customer_address
-      - name: customer_saved_search
-      - name: customer_tag
-      - name: discount_allocation
-      - name: discount_application
-      - name: discount_code
-      - name: draft_order
-      - name: draft_order_line
-      - name: draft_order_line_tax_line
-      - name: fivetran_audit
-      - name: fulfillment
-      - name: fulfillment_order_line
-      - name: inventory_item
-      - name: inventory_level
-      - name: location
       - name: order
         identifier: ORDER
         quoting:
           identifier: true
-      - name: order_discount_code
+      - name: customer
       - name: order_line
       - name: order_line_refund
-      - name: order_note_attribute
-      - name: order_shipping_line
-      - name: order_tag
-      - name: order_url_tag
-      - name: price_rule
-      - name: price_rule_ent_product
-      - name: price_rule_prereq_customer
       - name: product
-      - name: product_image
-      - name: product_option
-      - name: product_tag
-      - name: product_variant
-      - name: refund
-      - name: tax_line
-      - name: transaction
