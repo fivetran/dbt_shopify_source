@@ -1,19 +1,19 @@
 with source as (
 
-    select * from {{ var('order_line_refund_source') }}
+    select * from {{ ref('stg_shopify__order_line_refund_tmp') }}
 
 ),
 
 renamed as (
 
     select
-        id as order_line_refund_id,
-        location_id,
-        refund_id,
-        restock_type,
-        quantity,
-        order_line_id,
-        _fivetran_synced
+    
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__order_line_refund_tmp')),
+                staging_columns=get_order_line_refund_columns()
+            )
+        }}
 
     from source
 

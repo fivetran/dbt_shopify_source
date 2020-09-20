@@ -1,24 +1,19 @@
 with source as (
 
-    select * from {{ var('product_source') }}
-    where _fivetran_deleted = False
+    select * from {{ ref('stg_shopify__product_tmp') }}
 
 ),
 
 renamed as (
 
     select
-        id as product_id,
-        title,
-        handle,
-        product_type,
-        vendor,
-        created_at as created_timestamp,
-        updated_at as updated_timestamp,
-        published_at as published_timestamp,
-        published_scope,
-        _fivetran_deleted,
-        _fivetran_synced
+    
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__product_tmp')),
+                staging_columns=get_product_columns()
+            )
+        }}
 
     from source
 

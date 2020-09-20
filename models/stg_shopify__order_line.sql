@@ -1,36 +1,23 @@
 with source as (
 
-    select * from {{ var('order_line_source') }}
+    select * from {{ ref('stg_shopify__order_line_tmp') }}
 
 ),
 
 renamed as (
 
     select
-        order_id,
-        id as order_line_id,
-        product_id,
-        variant_id,
-        name,
-        title,
-        vendor,
-        price,
-        quantity,
-        grams,
-        sku,
-        fulfillable_quantity,
-        fulfillment_service,
-        gift_card,
-        requires_shipping,
-        taxable,
-        index,
-        total_discount,
-        pre_tax_price,
-        fulfillment_status,
-        _fivetran_synced
+    
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__order_line_tmp')),
+                staging_columns=get_order_line_columns()
+            )
+        }}
 
     from source
 
 )
 
 select * from renamed
+
