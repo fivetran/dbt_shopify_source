@@ -1,27 +1,19 @@
 with source as (
 
-    select * from {{ var('customer_source') }}
+    select * from {{ ref('stg_shopify__customer_tmp') }}
 
 ),
 
 renamed as (
 
     select
-        id as customer_id,
-        first_name,
-        last_name,
-        email,
-        phone,
-        state,
-        orders_count,
-        total_spent,
-        created_at as created_timestamp,
-        updated_at as updated_timestamp,
-        accepts_marketing,
-        tax_exempt,
-        verified_email,
-        default_address_id,
-        _fivetran_synced
+    
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__customer_tmp')),
+                staging_columns=get_customer_columns()
+            )
+        }}
 
     from source
 
