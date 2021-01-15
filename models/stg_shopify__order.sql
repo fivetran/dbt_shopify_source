@@ -15,6 +15,13 @@ renamed as (
             )
         }}
 
+      --The below script allows for pass through columns.
+      {% if var('order_pass_through_columns') %}
+      ,
+      {{ var('order_pass_through_columns') | join (", ")}}
+
+      {% endif %}
+
     from source
 
 )

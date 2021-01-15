@@ -32,6 +32,23 @@ vars:
     shopify_database: your_schema_name
 ```
 
+This package includes all source columns defined in the staging_columns.sql macro. To add additional columns to this package, do so using our pass-through column variables. This is extremely useful if you'd like to include custom fields to the package.
+
+```yml
+# dbt_project.yml
+
+...
+config-version: 2
+
+vars:
+  shopify_source:
+    customer_pass_through_columns: []
+    order_line_refund_pass_through_columns: []
+    order_line_pass_through_columns: []
+    order_pass_through_columns: []
+    product_pass_through_columns: []
+```
+
 ## Contributions
 
 Additional contributions to this package are very welcome! Please create issues
