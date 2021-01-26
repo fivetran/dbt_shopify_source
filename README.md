@@ -1,6 +1,6 @@
 # Shopify (Source)
 
-This package models Shopify data from [Fivetran's connector](https://fivetran.com/docs/applications/shopify). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1a2gAjyQ-XSYb5OEe1ZTOHerBC5-of-NrcpP9DTpA5qU/edit).
+This package models Shopify data from [Fivetran's connector](https://fivetran.com/docs/applications/shopify). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/shopify#schemainformation).
 
 This package enriches your Fivetran data by doing the following:
 
