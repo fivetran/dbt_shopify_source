@@ -17,3 +17,8 @@ vars:
     order_line_source: "{{ source('shopify','order_line') }}"
     order_source: "{{ source('shopify','order') }}"
     product_source: "{{ source('shopify','product') }}"
+    customer_pass_through_columns: []
+    order_line_refund_pass_through_columns: []
+    order_line_pass_through_columns: []
+    order_pass_through_columns: []
+    product_pass_through_columns: []
