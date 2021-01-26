@@ -28,8 +28,8 @@ By default, this package looks for your Shopify data in the `shopify` schema of 
 config-version: 2
 
 vars:
-    shopify_schema: your_database_name
-    shopify_database: your_schema_name
+    shopify_database: your_database_name
+    shopify_schema: your_schema_name
 ```
 
 This package includes all source columns defined in the staging_columns.sql macro. To add additional columns to this package, do so using our pass-through column variables. This is extremely useful if you'd like to include custom fields to the package.
