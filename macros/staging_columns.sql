@@ -86,7 +86,7 @@
     {"name": "last_name", "datatype": dbt_utils.type_string()},
     {"name": "orders_count", "datatype": dbt_utils.type_numeric()},
     {"name": "phone", "datatype": dbt_utils.type_string()},
-    {"name": "state", "datatype": dbt_utils.type_string()},
+    {"name": "state", "datatype": dbt_utils.type_string(), "alias": "account_state"},
     {"name": "tax_exempt", "datatype": "boolean", "alias": "is_tax_exempt"},
     {"name": "total_spent", "datatype": dbt_utils.type_float()},
     {"name": "updated_at", "datatype": dbt_utils.type_timestamp(), "alias": "updated_timestamp"},
