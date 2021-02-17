@@ -6,7 +6,7 @@ models:
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
-      - name: accepts_marketing
+      - name: has_accepted_marketing
         description: Whether the customer has consented to receive marketing material via email.
       - name: created_timestamp
         description: The date and time when the customer was created.
@@ -68,7 +68,7 @@ models:
         description: The service provider that's fulfilling the item.
       - name: fulfillment_status
         description: How far along an order is in terms line items fulfilled.
-      - name: gift_card
+      - name: is_gift_card
         description: Whether the item is a gift card. If true, then the item is not taxed or considered for shipping charges.
       - name: grams
         description: The weight of the item in grams.
@@ -87,7 +87,7 @@ models:
         description: The ID of the product that the line item belongs to. Can be null if the original product associated with the order is deleted at a later date.
       - name: quantity
         description: The number of items that were purchased.
-      - name: requires_shipping
+      - name: is_requiring_shipping
         description: Whether the item requires shipping.
       - name: sku
         description: The item's SKU (stock keeping unit).
@@ -140,7 +140,7 @@ models:
         description: The postal code (zip, postcode, Eircode, …) of the billing address.
       - name: browser_ip
         description: The IP address of the browser used by the customer when they placed the order.
-      - name: buyer_accepts_marketing
+      - name: has_buyer_accepted_marketing
         description: Whether the customer consented to receive email updates from the shop.
       - name: cancel_reason
         description: The reason why the order was canceled.
@@ -219,9 +219,9 @@ models:
         description: Where the order originated. Can be set only during order creation, and is not writeable afterwards.
       - name: subtotal_price
         description: The price of the order in the shop currency after discounts but before shipping, taxes, and tips.
-      - name: taxes_included
+      - name: has_taxes_included
         description: Whether taxes are included in the order subtotal.
-      - name: test
+      - name: is_test_order
         description: Whether this is a test order.
       - name: token
         description: A unique token for the order.
