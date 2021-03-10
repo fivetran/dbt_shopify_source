@@ -171,7 +171,7 @@
 {% macro get_product_variant_columns() %}
 
 {% set columns = [
-    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "product_variant_id"},
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "variant_id"},
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
     {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
     {"name": "updated_at", "datatype": dbt_utils.type_timestamp(), "alias": "updated_timestamp"},
