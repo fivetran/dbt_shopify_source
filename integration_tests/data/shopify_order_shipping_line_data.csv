@@ -1,0 +1,21 @@
+order_id,id,code,price,source,title,carrier_identifier,requested_fulfillment_service_id,phone,delivery_category,discounted_price,_fivetran_synced
+e7b58de852a0784e6072035e80c1139b,86df0d26d44eb64e3f4f467bafb3280e,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:51:09.576 +0000
+5bf16cd6e3eff46910c091e3380b8974,9fd72492ac53df4d31b2c5b94862c5fd,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:54:44.842 +0000
+9454388a6ffd417c71e44c63379c7020,629201c76b473ee2f46c235437e35298,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:46:25.505 +0000
+b8002141ac9ebbbf2983ae343d576479,911070b51c3a7615608476ffc8101345,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:49:48.080 +0000
+635161a3b4c806f6d132a8b4d158dc46,f53dea1cadff045743697acfa93b467e,Flat-rate shipping,31,shopify,Flat-rate shipping,,,,,31,2020-12-17 07:50:00.243 +0000
+e5a7ad40e78c0dd6fc307d25983c23ff,a0ca4df32c5a8f603759d8fa424aa8a1,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:56:05.347 +0000
+86b327be6343ceef3262105484fc04ea,d8fca40206fdcb87fbcd6b92243e59ed,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:53:27.342 +0000
+e3f35370330af3a048fb5558151e6c49,32ef8891279b06a8e99ddfe9a06eba85,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 08:00:15.179 +0000
+ba0a0810324ee62396a3f9518d43fc0a,7ad0934f943bfda12514d4fdfdcec7fd,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:53:07.102 +0000
+65a620b88af073953914f4dbfad45c02,732e48cef5eb5bcb7d634e215beac109,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:47:10.462 +0000
+13484d96b0358fc64c0b5a9e61210427,fbcd844adb095ef874a53c2479d2d7e2,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:53:11.798 +0000
+3fdaebf83175ac0d76258a142192d5aa,e3a0bea2cd598b403259627181686e48,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 08:01:27.393 +0000
+6ff21ea774532727eb4b9f7796550ff1,a56f9a823958d6556166c33f5cc408f9,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:48:10.779 +0000
+5b663b6562c83f6ac256c2becd577ffb,1d331eabce2d33e7831da41ad936914f,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:55:25.120 +0000
+84fe379e1df0654eaecfd288a3e101a4,e81fe6137d880b79e0be3ccc17ab018f,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:54:27.525 +0000
+30f9e6abb4f5a843a5284a082c44c496,c01a8a3fc60e6588ac611366e4281169,Flat-rate shipping,0,shopify,Flat-rate shipping,,,,,0,2020-12-17 07:54:40.774 +0000
+8039cfbe93f41323e0faf0d4d24c28d3,fe0032eda2836086902011a5fb011643,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:47:22.921 +0000
+8d8049bab5cdf76b41dce435cb2daf07,c88b75455fb4d022a96fefe82fea3493,Flat-rate shipping,0,shopify,Flat-rate shipping,,,,,0,2020-12-17 07:47:00.140 +0000
+c1705bae904e27800dc25b543da3ba21,1e4a02bc9e3340b323acedf5ef65486c,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:53:14.867 +0000
+8cf42ee87f162abc015b8a380935ac78,76f9c24825b581569a51377511b11f3c,Flat-rate shipping,20,shopify,Flat-rate shipping,,,,,20,2020-12-17 07:57:27.315 +0000

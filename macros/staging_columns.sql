@@ -106,7 +106,10 @@
     {"name": "order_line_id", "datatype": dbt_utils.type_numeric()},
     {"name": "quantity", "datatype": dbt_utils.type_float()},
     {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "restock_type", "datatype": dbt_utils.type_string()}
+    {"name": "restock_type", "datatype": dbt_utils.type_string()},
+    {"name": "subtotal", "datatype": dbt_utils.type_float()},
+    {"name": "total_tax", "datatype": dbt_utils.type_float()}
+
 ] %}
 
 {{ return(columns) }}
@@ -201,5 +204,68 @@
 ] %}
 
 {{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_transaction_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype":	type_numeric()},
+    {"name": "order_id", "datatype":	type_numeric()},
+    {"name": "refund_id", "datatype":	type_numeric()},
+    {"name": "amount", "datatype": dbt_utils.type_float()},
+    {"name": "authorization", "datatype": dbt_utils.type_string()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "processed_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "device_id", "datatype": dbt_utils.type_string()},
+    {"name": "gateway", "datatype": dbt_utils.type_string()},
+    {"name": "source_name", "datatype": dbt_utils.type_string()},
+    {"name": "message", "datatype": dbt_utils.type_string()},
+    {"name": "currency", "datatype": dbt_utils.type_string()},
+    {"name": "location_id", "datatype":	type_numeric()},
+    {"name": "parent_id", "datatype":	type_numeric()},
+    {"name": "payment_avs_result_code", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_bin", "datatype": dbt_utils.type_string()},
+    {"name": "payment_cvv_result_code", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_number", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_company", "datatype": dbt_utils.type_string()},
+    {"name": "kind", "datatype": dbt_utils.type_string()},
+    {"name": "receipt", "datatype":	dbt_utils.type_string()},
+    {"name": "currency_exchange_id", "datatype":	type_numeric()},
+    {"name": "currency_exchange_adjustment", "datatype": dbt_utils.type_float()},
+    {"name": "currency_exchange_original_amount", "datatype": dbt_utils.type_float()},
+    {"name": "currency_exchange_final_amount", "datatype": dbt_utils.type_float()},
+    {"name": "currency_exchange_currency", "datatype": dbt_utils.type_string()},
+    {"name": "error_code", "datatype": dbt_utils.type_string()},
+    {"name": "status", "datatype": dbt_utils.type_string()},
+    {"name": "test", "datatype": "boolean"},
+    {"name": "user_id", "datatype": dbt_utils.type_string()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_order_shipping_line_columns() %}
+
+{% set columns = [
+    {"name": "order_id", "datatype":	type_numeric()},
+    {"name": "id", "datatype":	type_numeric()},
+    {"name": "code", "datatype": dbt_utils.type_string()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "source", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "carrier_identifier", "datatype": dbt_utils.type_string()},
+    {"name": "requested_fulfillment_service_id", "datatype": dbt_utils.type_string()},
+    {"name": "phone", "datatype": dbt_utils.type_string()},
+    {"name": "delivery_category", "datatype": dbt_utils.type_string()},
+    {"name": "discounted_price", "datatype": dbt_utils.type_float()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
 
 {% endmacro %}

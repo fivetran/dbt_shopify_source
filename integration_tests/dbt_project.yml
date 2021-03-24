@@ -8,9 +8,11 @@ vars:
   shopify_source:
     customer_source: "{{ ref('shopify_customer_data') }}"
     order_line_refund_source: "{{ ref('shopify_order_line_refund_data') }}"
+    order_shipping_line_source: "{{ ref('shopify_order_shipping_line_data') }}"
     order_line_source: "{{ ref('shopify_order_line_data') }}"
     order_source: "{{ ref('shopify_order_data') }}"
     product_source: "{{ ref('shopify_product_data') }}"
+    transaction: "{{ ref('shopify_transaction_data') }}"
 
 seeds:
   shopify_source_integration_tests:
@@ -53,3 +55,20 @@ seeds:
         published_at: timestamp
         _fivetran_synced: timestamp
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    shopify_order_shipping_line_data:
+      +column_types:
+        _fivetran_synced: timestamp
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    shopify_transaction_data:
+      +column_types:
+        created_at: timestamp
+        processed_at: timestamp
+        _fivetran_synced: timestamp
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        refund_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        location_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        parent_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        currency_exchange_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
