@@ -47,6 +47,7 @@ vars:
     order_line_pass_through_columns: []
     order_pass_through_columns: []
     product_pass_through_columns: []
+    product_variant_pass_through_columns: []
 ```
 
 ## Contributions
