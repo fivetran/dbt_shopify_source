@@ -268,4 +268,19 @@
 {{ return(columns) }}
 
 
+{% macro get_order_adjustment_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype":	type_numeric()},
+    {"name": "order_id", "datatype":	type_numeric()},
+    {"name": "refund_id", "datatype":	type_numeric()},
+    {"name": "amount", "datatype": dbt_utils.type_float()},
+    {"name": "tax_amount", "datatype": dbt_utils.type_float()},
+    {"name": "kind", "datatype": dbt_utils.type_string()},
+    {"name": "reason", "datatype": dbt_utils.type_string()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
 {% endmacro %}

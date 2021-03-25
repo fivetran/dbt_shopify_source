@@ -60,6 +60,12 @@ seeds:
         _fivetran_synced: timestamp
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    shopify_order_adjustment_data:
+      +column_types:
+        _fivetran_synced: timestamp
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}" 
+        refund_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}" 
     shopify_transaction_data:
       +column_types:
         created_at: timestamp
