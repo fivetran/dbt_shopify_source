@@ -314,4 +314,119 @@ sources:
             description: The weight of the product variant in the unit system specified with weight_unit.
           - name: weight_unit
             description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb."
+      
+      - name: transaction
+        description: Balance Transactions make up the canonical "statement of account", or ledger for a Shopify Payments account. Every single movement of money in or out of the account is recorded here.
+        columns:
+          - name: barcode
+            description: The barcode, UPC, or ISBN number for the product.
+          - name: id
+            description: The unique identifier of the transaction.
+          - name: order_id
+            description: The ID of the related order.
+          - name: refund_id
+            description: 
+          - name: amount
+            description: The gross amount of the transaction, in a decimal formatted string.
+          - name: authorization
+            description: 
+          - name: created_at
+            description: 
+          - name: processed_at
+            description: The time the transaction was processed.
+          - name: device_id
+            description: 
+          - name: gateway
+            description: 
+          - name: source_name
+            description: 
+          - name: message
+            description: 
+          - name: currency
+            description: 
+          - name: location_id
+            description: 
+          - name: parent_id
+            description: 
+          - name: payment_avs_result_code
+            description: 
+          - name: payment_credit_card_bin
+            description: 
+          - name: payment_cvv_result_code
+            description: 
+          - name: payment_credit_card_number
+            description: 
+          - name: payment_credit_card_company
+            description: 
+          - name: kind
+            description: 
+          - name: receipt
+            description: 
+          - name: currency_exchange_id
+            description: 
+          - name: currency_exchange_adjustment
+            description: 
+          - name: currency_exchange_original_amount
+            description: 
+          - name: currency_exchange_final_amount
+            description: 
+          - name: currency_exchange_currency
+            description: 
+          - name: error_code
+            description: 
+          - name: status
+            description: 
+          - name: test
+            description: If the transaction was created for a test mode Order or payment.
+          - name: user_id
+            description: 
+          - name: _fivetran_synced
+            description: 
+            
+      - name: order_shipping_line
+        description: Represents the shipping details that the customer chose for their order.
+        columns:
+          - name: order_id
+            description: 
+          - name: id
+            description: 
+          - name: code
+            description: 
+          - name: price
+            description: 
+          - name: source
+            description: 
+          - name: title
+            description: 
+          - name: carrier_identifier
+            description: 
+          - name: requested_fulfillment_service_id
+            description: 
+          - name: phone
+            description: 
+          - name: delivery_category
+            description: 
+          - name: discounted_price
+            description: 
+          - name: _fivetran_synced
+            description: 
 
+      - name: order_adjustment
+        description: An order adjustment accounts for refunded shipping costs or the difference between calculated and actual refund amount.
+        columns:
+          - name: id
+            description: 
+          - name: order_id
+            description: 
+          - name: refund_id
+            description: 
+          - name: amount
+            description: 
+          - name: tax_amount
+            description: 
+          - name: kind
+            description: 
+          - name: reason
+            description: 
+          - name: _fivetran_synced
+            description: 
