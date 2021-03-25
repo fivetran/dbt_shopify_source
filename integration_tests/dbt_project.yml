@@ -12,7 +12,9 @@ vars:
     order_line_source: "{{ ref('shopify_order_line_data') }}"
     order_source: "{{ ref('shopify_order_data') }}"
     product_source: "{{ ref('shopify_product_data') }}"
-    transaction: "{{ ref('shopify_transaction_data') }}"
+    product_variant_source: "{{ ref('shopify_product_variant_data') }}"
+    transaction_source: "{{ ref('shopify_transaction_data') }}"
+    order_adjustment_source: "{{ ref('shopify_order_adjustment_data') }}"
 
 seeds:
   shopify_source_integration_tests:
