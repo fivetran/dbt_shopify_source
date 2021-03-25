@@ -267,6 +267,8 @@
 
 {{ return(columns) }}
 
+{% endmacro %}
+
 
 {% macro get_order_adjustment_columns() %}
 
