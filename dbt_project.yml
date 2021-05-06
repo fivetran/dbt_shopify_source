@@ -14,6 +14,8 @@ vars:
     product_source:                         "{{ source('shopify','product') }}"
     product_variant_source:                 "{{ source('shopify','product_variant') }}"
     transaction_source:                     "{{ source('shopify','transaction') }}"
+    refund_source:                          "{{ source('shopify','refund') }}"
+    order_adjustment_source:                "{{ source('shopify','order_adjustment') }}"
     customer_pass_through_columns:          []
     order_line_refund_pass_through_columns: []
     order_line_pass_through_columns:        []
@@ -22,5 +24,5 @@ vars:
     product_variant_pass_through_columns:   []
     transaction_pass_through_columns:       []
     
-  dbt_utils_dispatch_list: ['spark_utils', 'fivetran_utils']
-  fivetran_utils_dispatch_list: ['spark_utils']
+  dbt_utils_dispatch_list: [spark_utils, fivetran_utils]
+  fivetran_utils_dispatch_list: [spark_utils]

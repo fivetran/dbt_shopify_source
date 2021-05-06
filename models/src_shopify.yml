@@ -379,3 +379,7 @@ sources:
             description: The ID for the user who was logged into the Shopify POS device when the order was processed, if applicable.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
+
+      - name: refund
+
+      - name: order_adjustment
