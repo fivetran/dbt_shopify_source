@@ -23,7 +23,7 @@ renamed as (
         {% endif %}
 
     from source
-    and not test
+    where not test
 
 )
 
