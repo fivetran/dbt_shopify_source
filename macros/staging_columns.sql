@@ -236,7 +236,7 @@
     {"name": "currency_exchange_currency", "datatype": dbt_utils.type_string()},
     {"name": "error_code", "datatype": dbt_utils.type_string()},
     {"name": "status", "datatype": dbt_utils.type_string()},
-    {"name": "test", "datatype": dbt_utils.type_string()},
+    {"name": "test", "datatype": "boolean"},
     {"name": "user_id", "datatype": dbt_utils.type_numeric()},
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
 ] %}
