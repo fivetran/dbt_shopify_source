@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: shopify
     schema: "{{ var('shopify_schema', 'shopify') }}"
-    database: "{{ var('shopify_database', target.database) }}"
+    database: "{% if target.type != 'spark'%}{{ var('shopify_database', target.database) }}{% endif %}"
     tables:
       - name: order
         description: Each record represents an order in Shopify.
