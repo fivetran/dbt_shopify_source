@@ -25,7 +25,7 @@ integration_tests:
       pass: "{{ env_var('CI_POSTGRES_DBT_PASS') }}"
       dbname: "{{ env_var('CI_POSTGRES_DBT_DBNAME') }}"
       port: 5432
-      schema: quickbooks_source_integration_tests
+      schema: shopify_source_integration_tests
       threads: 8
     bigquery:
       type: bigquery
@@ -47,7 +47,7 @@ integration_tests:
     spark:
       type: spark
       method: http
-      schema: google_ads_source_integration_tests
+      schema: shopify_source_integration_tests
       host: "{{ env_var('CI_SPARK_DBT_HOST') }}"
       organization: "{{ env_var('CI_SPARK_DBT_ORGANIZATION') }}"
       token: "{{ env_var('CI_SPARK_DBT_TOKEN') }}"
