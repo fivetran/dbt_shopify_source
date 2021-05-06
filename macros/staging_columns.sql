@@ -211,7 +211,6 @@
     {"name": "order_id", "datatype": dbt_utils.type_numeric()},
     {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
     {"name": "amount", "datatype": dbt_utils.type_numeric()},
-    {"name": "authorization", "datatype": dbt_utils.type_string()},
     {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
     {"name": "processed_at", "datatype": dbt_utils.type_timestamp(), "alias": "processed_timestamp"},
     {"name": "device_id", "datatype": dbt_utils.type_numeric()},
@@ -239,6 +238,12 @@
     {"name": "user_id", "datatype": dbt_utils.type_numeric()},
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
 ] %}
+
+{% if target.type in ('redshift','postgres') %}
+ {{ columns.append({"name": "authorization", "datatype": dbt_utils.type_string(), "quote": True, "alias": "authorization"}) }}
+{% else %}
+ {"name": "authorization", "datatype": dbt_utils.type_string()}
+{% endif %}
 
 {{ return(columns) }}
 
