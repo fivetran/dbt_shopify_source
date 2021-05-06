@@ -104,6 +104,8 @@
     {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "order_line_refund_id"},
     {"name": "location_id", "datatype": dbt_utils.type_numeric()},
     {"name": "order_line_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "subtotal", "datatype": dbt_utils.type_numeric()},
+    {"name": "total_tax", "datatype": dbt_utils.type_numeric()},
     {"name": "quantity", "datatype": dbt_utils.type_float()},
     {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
     {"name": "restock_type", "datatype": dbt_utils.type_string()}
