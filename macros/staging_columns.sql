@@ -40,6 +40,7 @@
     {"name": "processed_at", "datatype": dbt_utils.type_timestamp(), "alias": "processed_timestamp"},
     {"name": "processing_method", "datatype": dbt_utils.type_string()},
     {"name": "referring_site", "datatype": dbt_utils.type_string()},
+    {"name": "total_shipping_price_set", "datatype": dbt_utils.type_string()},
     {"name": "shipping_address_address_1", "datatype": dbt_utils.type_string()},
     {"name": "shipping_address_address_2", "datatype": dbt_utils.type_string()},
     {"name": "shipping_address_city", "datatype": dbt_utils.type_string()},
