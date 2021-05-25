@@ -22,6 +22,10 @@ renamed as (
 
       {% endif %}
 
+      {% if var('union_schemas', none) or var('union_databases', none) %}
+      , _dbt_source_relation as source_relation
+      {% endif %}
+
     from source
 
 )
