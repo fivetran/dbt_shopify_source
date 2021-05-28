@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: shopify
     schema: "{{ var('shopify_schema', 'shopify') }}"
-    database: "{{ var('shopify_database', target.database) }}"
+    database: "{% if target.type != 'spark'%}{{ var('shopify_database', target.database) }}{% endif %}"
     tables:
       - name: order
         description: Each record represents an order in Shopify.
@@ -153,7 +153,7 @@ sources:
           - name: created_at
             description: The date and time when the customer was created.
           - name: default_address_id
-            description: The default address for the customer. 
+            description: The default address for the customer.
           - name: email
             description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
           - name: first_name
@@ -234,6 +234,10 @@ sources:
             description: The ID of the related refund.
           - name: restock_type
             description: How this refund line item affects inventory levels.
+          - name: subtotal
+            description: Subtotal amount of the order line refund
+          - name: total_tax
+            description: The total tax applied to the refund.
       - name: product
         description: Each record represents a product in Shopify.
         columns:
@@ -281,16 +285,16 @@ sources:
           - name: inventory_management
             description: The fulfillment service that tracks the number of items in stock for the product variant.
           - name: inventory_policy
-            description: Whether customers are allowed to place an order for the product variant when it's out of stock. 
+            description: Whether customers are allowed to place an order for the product variant when it's out of stock.
           - name: inventory_quantity
             description: An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource.
           - name: old_inventory_quantity
             description: This property is deprecated. Use the InventoryLevel resource instead.
-          - name: option1
+          - name: option_1
             description: "The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3."
-          - name: option2
+          - name: option_2
             description: "The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3."
-          - name: option3
+          - name: option_3
             description: "The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3."
           - name: position
             description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
@@ -314,4 +318,120 @@ sources:
             description: The weight of the product variant in the unit system specified with weight_unit.
           - name: weight_unit
             description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb."
-
+          - name: total_shipping_price_set
+            description: The total shipping price set for the order.
+          - name: index
+            description: The index associated with the order.
+          - name: pre_tax_price
+            description: The total pre tax price of the order.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+      - name: transaction
+        description: Each record represents a transaction in Shopify.
+        columns:
+          - name: transaction_id
+            description: The ID for the transaction.
+          - name: order_id
+            description: The ID for the order that the transaction is associated with.
+          - name: refund_id
+            description: The ID associated with a refund in the refund table.
+          - name: amount
+            description: The amount of money included in the transaction.
+          - name: authorization
+            description: The authorization code associated with the transaction.
+          - name: created_timestamp
+            description: The date and time when the transaction was created.
+          - name: processed_timestamp
+            description: The date and time when a transaction was processed.
+          - name: device_id
+            description: The ID for the device.
+          - name: gateway
+            description: The name of the gateway the transaction was issued through.
+          - name: source_name
+            description: The origin of the transaction.
+          - name: message
+            description: A string generated by the payment provider with additional information about why the transaction succeeded or failed.
+          - name: currency
+            description: The three-letter code (ISO 4217 format) for the currency used for the payment.
+          - name: location_id
+            description: The ID of the physical location where the transaction was processed.
+          - name: parent_id
+            description: The ID of an associated transaction.
+          - name: payment_avs_result_code
+            description: The response code from the address verification system.
+          - name: payment_credit_card_bin
+            description: The issuer identification number (IIN), formerly known as bank identification number (BIN) of the customer's credit card.
+          - name: payment_cvv_result_code
+            description: The response code from the credit card company indicating whether the customer entered the card security code, or card verification value, correctly.
+          - name: payment_credit_card_number
+            description: The customer's credit card number, with most of the leading digits redacted.
+          - name: payment_credit_card_company
+            description: The name of the company that issued the customer's credit card.
+          - name: kind
+            description: The transaction's type.
+          - name: receipt
+            description: A transaction receipt attached to the transaction by the gateway.
+          - name: currency_exchange_id
+            description: The ID of the adjustment.
+          - name: currency_exchange_adjustment
+            description: The difference between the amounts on the associated transaction and the parent transaction.
+          - name: currency_exchange_original_amount
+            description: The amount of the parent transaction in the shop currency.
+          - name: currency_exchange_final_amount
+            description: The amount of the associated transaction in the shop currency.
+          - name: currency_exchange_currency
+            description: The shop currency.
+          - name: error_code
+            description: A standardized error code, independent of the payment provider.
+          - name: status
+            description: The status of the transaction.
+          - name: test
+            description: Whether the transaction is a test transaction.
+          - name: user_id
+            description: The ID for the user who was logged into the Shopify POS device when the order was processed, if applicable.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+      - name: refund
+        description: Each record represents a refund within Shopify.
+        columns:
+          - name: id
+            description: The unique numeric identifier for the refund.
+          - name: created_at
+            description: Timestamp of the date when the refund was created.
+          - name: processed_at
+            description: Timestamp of the date when the refund was processed.
+          - name: note
+            description: User generated note attached to the refund.
+          - name: restock
+            description: Boolean indicating if the refund is a result of a restock.
+          - name: user_id
+            description: Reference to the user id which generated the refund.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: total_duties_set
+            description: Record representing total duties set for the refund.
+          - name: order_id
+            description: Reference to the order which the refund is associated.
+      - name: order_adjustment
+        description: Each record represents and adjustment to and order within Shopify.
+        columns:
+          - name: id
+            description: The unique numeric identifier for the order adjustment.
+          - name: order_id
+            description: Reference to the order which the adjustment is associated.
+          - name: refund_id
+            description: Reference to the refund which the adjustment is associated.
+          - name: amount
+            description: Amount of the adjustment.
+          - name: tax_amount
+            description: Tax amount applied to the order adjustment.
+          - name: kind
+            description: The kind of order adjustment (eg. refund, restock, etc.).
+          - name: reason
+            description: The reason for the order adjustment.
+          - name: amount_set
+            description: Amount set towards the order adjustment
+          - name: tax_amount_set
+            description: Tax amount set towards the order adjustment.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"

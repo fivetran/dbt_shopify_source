@@ -40,6 +40,7 @@
     {"name": "processed_at", "datatype": dbt_utils.type_timestamp(), "alias": "processed_timestamp"},
     {"name": "processing_method", "datatype": dbt_utils.type_string()},
     {"name": "referring_site", "datatype": dbt_utils.type_string()},
+    {"name": "total_shipping_price_set", "datatype": dbt_utils.type_string()},
     {"name": "shipping_address_address_1", "datatype": dbt_utils.type_string()},
     {"name": "shipping_address_address_2", "datatype": dbt_utils.type_string()},
     {"name": "shipping_address_city", "datatype": dbt_utils.type_string()},
@@ -104,6 +105,8 @@
     {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "order_line_refund_id"},
     {"name": "location_id", "datatype": dbt_utils.type_numeric()},
     {"name": "order_line_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "subtotal", "datatype": dbt_utils.type_numeric()},
+    {"name": "total_tax", "datatype": dbt_utils.type_numeric()},
     {"name": "quantity", "datatype": dbt_utils.type_float()},
     {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
     {"name": "restock_type", "datatype": dbt_utils.type_string()}
@@ -194,10 +197,89 @@
     {"name": "weight_unit", "datatype": dbt_utils.type_string()},
     {"name": "option_1", "datatype": dbt_utils.type_string()},
     {"name": "option_2", "datatype": dbt_utils.type_string()},
-    {"name": "option_3", "datatype": dbt_utils.type_string()},    
+    {"name": "option_3", "datatype": dbt_utils.type_string()},
     {"name": "tax_code", "datatype": dbt_utils.type_string()},
     {"name": "old_inventory_quantity", "datatype": dbt_utils.type_numeric()},
     {"name": "requires_shipping", "datatype": "boolean", "alias": "is_requiring_shipping"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_transaction_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "transaction_id"},
+    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "amount", "datatype": dbt_utils.type_numeric()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
+    {"name": "processed_at", "datatype": dbt_utils.type_timestamp(), "alias": "processed_timestamp"},
+    {"name": "device_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "gateway", "datatype": dbt_utils.type_string()},
+    {"name": "source_name", "datatype": dbt_utils.type_string()},
+    {"name": "message", "datatype": dbt_utils.type_string()},
+    {"name": "currency", "datatype": dbt_utils.type_string()},
+    {"name": "location_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "parent_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "payment_avs_result_code", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_bin", "datatype": dbt_utils.type_string()},
+    {"name": "payment_cvv_result_code", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_number", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_company", "datatype": dbt_utils.type_string()},
+    {"name": "kind", "datatype": dbt_utils.type_string()},
+    {"name": "receipt", "datatype": dbt_utils.type_string()},
+    {"name": "currency_exchange_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_adjustment", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_original_amount", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_final_amount", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_currency", "datatype": dbt_utils.type_string()},
+    {"name": "error_code", "datatype": dbt_utils.type_string()},
+    {"name": "status", "datatype": dbt_utils.type_string()},
+    {"name": "test", "datatype": "boolean"},
+    {"name": "user_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{% if target.type in ('redshift','postgres') %}
+ {{ columns.append({"name": "authorization", "datatype": dbt_utils.type_string(), "quote": True, "alias": "authorization"}) }}
+{% else %}
+ {"name": "authorization", "datatype": dbt_utils.type_string()}
+{% endif %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_refund_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "refund_id"},
+    {"name": "note", "datatype": dbt_utils.type_string()},
+    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "processed_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "restock", "datatype": "boolean"},
+    {"name": "user_id", "datatype": dbt_utils.type_numeric()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_order_adjustment_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype":  dbt_utils.type_numeric(), "alias": "order_adjustment_id"},
+    {"name": "order_id", "datatype":  dbt_utils.type_numeric()},
+    {"name": "refund_id", "datatype":  dbt_utils.type_numeric()},
+    {"name": "amount", "datatype": dbt_utils.type_float()},
+    {"name": "tax_amount", "datatype": dbt_utils.type_float()},
+    {"name": "kind", "datatype": dbt_utils.type_string()},
+    {"name": "reason", "datatype": dbt_utils.type_string()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()}
 ] %}
 
 {{ return(columns) }}
