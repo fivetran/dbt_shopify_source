@@ -22,6 +22,8 @@ renamed as (
 
       {% endif %}
 
+      {{ source_relation() }}
+
     from source
 
 )
