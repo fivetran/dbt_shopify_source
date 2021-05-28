@@ -15,6 +15,8 @@ renamed as (
                 staging_columns=get_refund_columns()
             )
         }}
+
+      {{ source_relation() }}
         
     from source
 )

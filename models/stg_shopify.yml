@@ -3,6 +3,11 @@ version: 2
 models:
   - name: stg_shopify__customer
     description: Each record represents a customer in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -17,9 +22,6 @@ models:
       - name: first_name
         description: The customer's first name.
       - name: customer_id
-        tests:
-          - unique
-          - not_null
         description: A unique identifier for the customer.
       - name: last_name
         description: The customer's last name.
@@ -37,15 +39,18 @@ models:
         description: The date and time when the customer information was last updated.
       - name: is_verified_email
         description: Whether the customer has verified their email address.
+
   - name: stg_shopify__order_line_refund
     description: Each record represents a line item from an order in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_refund_id
+            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: order_line_refund_id
-        tests:
-          - unique
-          - not_null
         description: The unique identifier of the line item in the refund.
       - name: location_id
         description: TThe unique identifier of the location where the items will be restockedBD
@@ -61,8 +66,14 @@ models:
         description: Subtotal amount of the order line refund
       - name: total_tax
         description: The total tax applied to the refund.
+
   - name: stg_shopify__order_line
     description: Each record represents a line item from an order in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_id
+            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -77,9 +88,6 @@ models:
       - name: grams
         description: The weight of the item in grams.
       - name: order_line_id
-        tests:
-          - unique
-          - not_null
         description: The ID of the line item.
       - name: name
         description: The name of the product variant.
@@ -105,8 +113,14 @@ models:
         description: The ID of the product variant.
       - name: vendor
         description: The name of the item's supplier.
+
   - name: stg_shopify__order
     description: Each record represents an order in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -167,9 +181,6 @@ models:
       - name: fulfillment_status
         description: The order's status in terms of fulfilled line items.
       - name: order_id
-        tests:
-          - unique
-          - not_null
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
       - name: landing_site_base_url
         description: The URL for the page where the buyer landed when they entered the shop.
@@ -249,8 +260,14 @@ models:
         description: The index associated with the order.
       - name: pre_tax_price
         description: The total pre tax price of the order.
+
   - name: stg_shopify__product
     description: Each record represents a product in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - source_relation
     columns:
       - name: _fivetran_deleted
         description: Whether the record has been deleted in the source system.
@@ -261,9 +278,6 @@ models:
       - name: handle
         description: A unique human-friendly string for the product. Automatically generated from the product's title.
       - name: product_id
-        tests:
-          - unique
-          - not_null
         description: An unsigned 64-bit integer that's used as a unique identifier for the product. Each id is unique across the Shopify system. No two products will have the same id, even if they're from different shops.
       - name: product_type
         description: A categorization for the product used for filtering and searching products.
@@ -277,8 +291,14 @@ models:
         description: The date and time when the product was last modified.
       - name: vendor
         description: The name of the product's vendor.
+
   - name: stg_shopify__product_variant
     description: Each record represents a product variant in Shopify
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - variant_id
+            - source_relation
     columns:
       - name: barcode
         description: The barcode, UPC, or ISBN number for the product.
@@ -292,9 +312,6 @@ models:
         description: The weight of the product variant in grams.
       - name: variant_id
         description: The unique numeric identifier for the product variant.
-        tests:
-          - not_null
-          - unique
       - name: image_id
         description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
       - name: inventory_item_id
@@ -337,13 +354,16 @@ models:
         description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb."
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
+
   - name: stg_shopify__transaction
     description: Each record represents a transaction in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - transaction_id
+            - source_relation
     columns:
       - name: transaction_id
-        tests:
-         - unique
-         - not_null
         description: The ID for the transaction.
       - name: order_id
         description: The ID for the order that the transaction is associated with.
@@ -405,14 +425,17 @@ models:
         description: The ID for the user who was logged into the Shopify POS device when the order was processed, if applicable.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
+
   - name: stg_shopify__refund
     description: Each record represents a refund within Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - refund_id
+            - source_relation
     columns:
       - name: refund_id
         description: The unique numeric identifier for the refund.
-        tests:
-          - unique
-          - not_null
       - name: created_at
         description: Timestamp of the date when the refund was created.
       - name: processed_at
@@ -429,14 +452,17 @@ models:
         description: Record representing total duties set for the refund.
       - name: order_id
         description: Reference to the order which the refund is associated.
+
   - name: stg_shopify__order_adjustment
     description: Each record represents and adjustment to and order within Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_adjustment_id
+            - source_relation
     columns:
       - name: order_adjustment_id
         description: The unique numeric identifier for the order adjustment.
-        tests:
-          - unique
-          - not_null
       - name: order_id
         description: Reference to the order which the adjustment is associated.
       - name: refund_id

@@ -1,2 +1,10 @@
-select *
-from {{ var('transaction_source') }}
+{{
+    union_data(
+        table_identifier='transaction', 
+        database_variable='shopify_database', 
+        schema_variable='shopify_schema', 
+        default_database=target.database,
+        default_schema='shopify',
+        default_variable='transaction_source'
+    )
+}}
