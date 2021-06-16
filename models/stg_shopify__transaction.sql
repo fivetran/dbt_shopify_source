@@ -22,7 +22,7 @@ renamed as (
 
         {% endif %}
 
-      {{ source_relation() }}
+      {{ fivetran_utils.source_relation() }}
 
     from source
     where not test

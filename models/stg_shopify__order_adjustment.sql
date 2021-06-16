@@ -16,7 +16,7 @@ renamed as (
             )
         }}
 
-      {{ source_relation() }}
+      {{ fivetran_utils.source_relation() }}
         
     from source
 )
