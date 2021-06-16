@@ -1,5 +1,5 @@
 {{
-    union_data(
+    fivetran_utils.union_data(
         table_identifier='order_line_refund', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

@@ -8,3 +8,4 @@ packages:
 
   - git: https://github.com/fivetran/dbt_fivetran_utils.git
     warn-unpinned: false
+    revision: "union-data-macro"
