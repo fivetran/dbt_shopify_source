@@ -1,1 +1,1 @@
-select * from {{ var('abandoned_checkout') }}
+select * from {{ var('abandoned_checkout_source') }}

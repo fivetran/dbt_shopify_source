@@ -14,6 +14,8 @@ vars:
     product_variant_source:   "{{ ref('shopify_product_variant_data') }}"
     refund_source:            "{{ ref('shopify_refund_data') }}"
     transaction_source:       "{{ ref('shopify_transaction_data') }}"
+    checkout_source:            "{{ ref('shopify_checkout_data') }}"
+    abandoned_checkout_source:  "{{ ref('shopify_abandoned_checkout_data') }}"
 
 seeds:
   shopify_source_integration_tests:
