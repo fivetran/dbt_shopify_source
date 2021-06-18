@@ -23,7 +23,6 @@ vars:
     transaction_source:                     "{{ source('shopify','transaction') }}"
     refund_source:                          "{{ source('shopify','refund') }}"
     order_adjustment_source:                "{{ source('shopify','order_adjustment') }}"
-    checkout_source:                        "{{ source('shopify','checkout') }}"
     abandoned_checkout_source:              "{{ source('shopify','abandoned_checkout') }}"
     
     customer_pass_through_columns:          []

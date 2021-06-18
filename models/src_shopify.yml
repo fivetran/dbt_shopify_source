@@ -436,5 +436,4 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
-      - name: checkout
       - name: abandoned_checkout
