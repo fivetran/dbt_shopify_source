@@ -22,6 +22,8 @@ renamed as (
 
         {% endif %}
 
+      {{ fivetran_utils.source_relation() }}
+
     from source
     where not test
 
