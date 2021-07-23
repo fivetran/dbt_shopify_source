@@ -1,5 +1,5 @@
 packages:
-- package: fivetran/fivetran_utils
-  version: [">=0.1.0", "<0.2.0"]
-- package: fishtown-analytics/spark_utils
-  version: [">=0.2.0", "<0.3.0"]
+  - package: fivetran/fivetran_utils
+    version: [">=0.2.0", "<0.3.0"]
+  - package: dbt-labs/spark_utils
+    version: [">=0.2.0", "<0.3.0"]

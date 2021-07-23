@@ -1,9 +1,9 @@
 
 name: 'shopify_source'
-version: '0.4.1'
+version: '0.5.0'
 config-version: 2
 
-require-dbt-version: [">=0.18.0", "<0.20.0"]
+require-dbt-version: ">=0.20.0"
 
 models: 
   shopify_source:
@@ -32,5 +32,3 @@ vars:
     product_variant_pass_through_columns:   []
     transaction_pass_through_columns:       []
     
-  dbt_utils_dispatch_list: [spark_utils, fivetran_utils]
-  fivetran_utils_dispatch_list: [spark_utils]
