@@ -1,3 +1,6 @@
+--To disable this model, set the shopify__using_order_line_refund variable within your dbt_project.yml file to False.
+{{ config(enabled=var('shopify__using_order_line_refund', True)) }}
+
 with source as (
 
     select * from {{ ref('stg_shopify__order_line_refund_tmp') }}

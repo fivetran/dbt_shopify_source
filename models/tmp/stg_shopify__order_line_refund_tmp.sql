@@ -1,3 +1,6 @@
+--To disable this model, set the shopify__using_order_line_refund variable within your dbt_project.yml file to False.
+{{ config(enabled=var('shopify__using_order_line_refund', True)) }}
+
 {{
     fivetran_utils.union_data(
         table_identifier='order_line_refund', 
