@@ -34,4 +34,4 @@ vars:
 
     shopify__using_order_adjustment:  True
     shopify__using_order_line_refund: True
-    shopify__using_order_refund:      True
+    shopify__using_refund:            True
