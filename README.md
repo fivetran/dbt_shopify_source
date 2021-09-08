@@ -41,6 +41,7 @@ vars:
     shopify_schema: your_schema_name
 ```
 
+### Union Multiple Shopify Connectors
 If you have multiple Shopify connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `union_schemas` or `union_databases` variables:
 
 ```yml
@@ -54,6 +55,7 @@ vars:
     union_databases: ['shopify_usa','shopify_canada'] # use this if the data is in different databases/projects but uses the same schema name
 ```
 
+### Add Passthrough Columns
 This package includes all source columns defined in the staging_columns.sql macro. To add additional columns to this package, do so using our pass-through column variables. This is extremely useful if you'd like to include custom fields to the package.
 
 ```yml
@@ -71,6 +73,20 @@ vars:
     product_pass_through_columns: []
     product_variant_pass_through_columns: []
 ```
+
+### Disable Models
+This package was designed with the intention that users have all relevant Shopify tables being synced by Fivetran. However, if you are a Shopify user that does not operate on returns or adjustments then you will not have the related source tables. As such, you may use the below variable configurations to disable the respective downstream models. All variables are `true` by default. Only add the below configuration if you are wishing to disable the models:
+
+```yml
+# dbt_project.yml
+
+...
+vars:
+  shopify__using_order_adjustment:  false  # true by default
+  shopify__using_order_line_refund: false  # true by default
+  shopify__using_order_refund:      false  # true by default
+```
+
 ### Changing the Build Schema
 By default this package will build the Shopify staging models within a schema titled (<target_schema> + `_stg_shopify`) in your target database. If this is not where you would like your staging Shopify data to be written to, add the following configuration to your `dbt_project.yml` file:
 
