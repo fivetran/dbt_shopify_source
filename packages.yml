@@ -4,5 +4,5 @@ packages:
   - package: dbt-labs/spark_utils
     version: [">=0.2.0", "<0.3.0"]
   - git: https://github.com/fivetran/dbt_fivetran_utils.git
-    revision: feature/string-union-data
+    revision: feature/string-union
     warn-unpinned: false
