@@ -24,7 +24,7 @@ jobs:
             mkdir -p ~/.dbt
             cp integration_tests/ci/sample.profiles.yml ~/.dbt/profiles.yml
       - run:
-          name: "Run Tests - BigQuery"
+          name: "Generate Documentation - BigQuery"
           environment:
               GCLOUD_SERVICE_KEY_PATH: "/home/circleci/gcloud-service-key.json"
 
@@ -36,6 +36,15 @@ jobs:
             python ../.circleci/generate_source.py
             dbt run --target bigquery --full-refresh --vars '{"generating_docs": "yes"}'
             dbt docs generate --target bigquery --vars '{"generating_docs": "yes"}'
+      - run:
+          name: "Copy Documentation to /docs"
+          command: |
+            rm -rf docs
+            mkdir docs
+            cp integration_tests/target/catalog.json docs/catalog.json
+            cp integration_tests/target/index.html docs/index.html
+            cp integration_tests/target/manifest.json docs/manifest.json
+            cp integration_tests/target/run_results.json docs/run_results.json
 
 
   test:
