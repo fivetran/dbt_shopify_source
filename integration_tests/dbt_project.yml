@@ -5,15 +5,15 @@ config-version: 2
 
 vars:
   shopify_source:
-    customer_source:          "{{ ref('shopify_customer_data') }}"
-    order_line_refund_source: "{{ ref('shopify_order_line_refund_data') }}"
-    order_line_source:        "{{ ref('shopify_order_line_data') }}"
-    order_source:             "{{ ref('shopify_order_data') }}"
-    product_source:           "{{ ref('shopify_product_data') }}"
-    order_adjustment_source:  "{{ ref('shopify_order_adjustment_data') }}"
-    product_variant_source:   "{{ ref('shopify_product_variant_data') }}"
-    refund_source:            "{{ ref('shopify_refund_data') }}"
-    transaction_source:       "{{ ref('shopify_transaction_data') }}"
+    customer_source:          "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','customer_data') }}{% else %}{{ ref('shopify_customer_data') }}{% endif %}"
+    order_line_refund_source: "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','order_line_refund_data') }}{% else %}{{ ref('shopify_order_line_refund_data') }}{% endif %}"
+    order_line_source:        "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','order_line_data') }}{% else %}{{ ref('shopify_order_line_data') }}{% endif %}"
+    order_source:             "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','order_data') }}{% else %}{{ ref('shopify_order_data') }}{% endif %}"
+    product_source:           "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','product_data') }}{% else %}{{ ref('shopify_product_data') }}{% endif %}"
+    order_adjustment_source:  "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','order_adjustment_data') }}{% else %}{{ ref('shopify_order_adjustment_data') }}{% endif %}"
+    product_variant_source:   "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','product_variant_data') }}{% else %}{{ ref('shopify_product_variant_data') }}{% endif %}"
+    refund_source:            "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','refund_data') }}{% else %}{{ ref('shopify_refund_data') }}{% endif %}"
+    transaction_source:       "{% if var('generating_docs','no') == 'yes' %}{{ source('shopify','transaction_data') }}{% else %}{{ ref('shopify_transaction_data') }}{% endif %}"
 
 dispatch:
   - macro_namespace: dbt_utils

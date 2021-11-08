@@ -1,7 +1,13 @@
 version: 2
 
 jobs:
-  build:
+  generate-docs:
+    docker:
+      - image: circleci/python:3.7.9-stretch
+
+    steps:
+      - checkout
+  test:
     docker:
       - image: circleci/python:3.7.9-stretch
 
@@ -85,3 +91,22 @@ jobs:
             dbt test --target bigquery
             dbt run --vars '{shopify__using_order_adjustment: false, shopify__using_order_line_refund: false, shopify__using_refund: false}' --target bigquery --full-refresh
             dbt test --target bigquery
+
+workflows:
+  integration-tests:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - master
+                - main
+  generate-docs:
+    jobs:
+      - generate-docs:
+          filters:
+            branches:
+              only:
+                - master
+                - main
+    
