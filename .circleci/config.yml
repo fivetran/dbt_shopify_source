@@ -49,7 +49,7 @@ jobs:
             cp integration_tests/target/run_results.json docs/run_results.json
 
       - run:
-          name: "Generate new commit":
+          name: "Generate new commit"
           command: |
             git config user.email "autobot@fivetran.com"
             git config user.name "Generating Docs Bot"
