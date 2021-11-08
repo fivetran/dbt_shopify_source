@@ -7,6 +7,37 @@ jobs:
 
     steps:
       - checkout
+
+      - run:
+          run: setup_creds
+          command: |
+            echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+
+      - run:
+          name: "Setup dbt"
+          command: |
+            sudo apt install libsasl2-dev
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip setuptools
+            pip install -r integration_tests/requirements.txt
+            mkdir -p ~/.dbt
+            cp integration_tests/ci/sample.profiles.yml ~/.dbt/profiles.yml
+      - run:
+          name: "Run Tests - BigQuery"
+          environment:
+              GCLOUD_SERVICE_KEY_PATH: "/home/circleci/gcloud-service-key.json"
+
+          command: |
+            . venv/bin/activate
+            echo `pwd`
+            cd integration_tests
+            dbt deps
+            python ../.circleci/generate_source.py
+            dbt run --target bigquery --full-refresh --vars '{"generating_docs": "yes"}'
+            dbt docs generate --target bigquery --vars '{"generating_docs": "yes"}'
+
+
   test:
     docker:
       - image: circleci/python:3.7.9-stretch
@@ -96,18 +127,14 @@ workflows:
   version: 2
   integration-tests:
     jobs:
-      - test:
-          filters:
-            branches:
-              ignore:
-                - master
-                - main
-  generate-docs:
-    jobs:
+      # - test
       - generate-docs:
-          filters:
-            branches:
-              only:
-                - master
-                - main
+          # requires:
+          #   - test
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
+          #       - main
+          
     
