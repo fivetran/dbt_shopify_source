@@ -50,6 +50,8 @@ jobs:
 
       - run:
           name: "Generate new commit"
+          fingerprints:
+            - "0a:34:dc:0a:7d:86:e9:b1:e2:a8:9d:af:ef:6d:c2:9c"
           command: |
             git config user.email "autobot@fivetran.com"
             git config user.name "Generating Docs Bot"
