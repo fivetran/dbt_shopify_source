@@ -1,4 +1,6 @@
-version: 2
+version: '2.1'
+orbs:
+  github-cli: circleci/github-cli@1.0.4
 
 jobs:
   generate-docs:
@@ -45,6 +47,22 @@ jobs:
             cp integration_tests/target/index.html docs/index.html
             cp integration_tests/target/manifest.json docs/manifest.json
             cp integration_tests/target/run_results.json docs/run_results.json
+
+      - run:
+          name: "Generate new commit":
+          command: |
+            git config user.email "autobot@fivetran.com"
+            git config user.name "Generating Docs Bot"
+            git checkout -b docs/auto-update-${CIRCLE_SHA1}
+            git add docs
+            git commit -m "[skip ci] update docs"
+            git push origin master
+
+      - gh/setup
+      - run:
+          name: Create Pull Request
+          command: |
+            gh pr create --title "Bugfix from $CIRCLE_BRANCH"
 
 
   test:
