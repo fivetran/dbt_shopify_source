@@ -128,7 +128,7 @@ workflows:
   integration-tests:
     jobs:
       # - test
-      - generate-docs:
+      - generate-docs
           # requires:
           #   - test
           # filters:
