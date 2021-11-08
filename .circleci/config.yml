@@ -62,7 +62,8 @@ jobs:
             git commit -m "[skip ci] update docs"
             git push --set-upstream origin docs/auto-update-${CIRCLE_SHA1}
 
-      - gh/setup
+      - gh/setup:
+          token: "GITHUB_TOKEN_FOR_DOCS"
       - run:
           name: Create Pull Request
           command: |
