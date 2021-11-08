@@ -1,6 +1,6 @@
 version: '2.1'
 orbs:
-  github-cli: circleci/github-cli@1.0.4
+  gh: circleci/github-cli@1.0.4
 
 jobs:
   generate-docs:
