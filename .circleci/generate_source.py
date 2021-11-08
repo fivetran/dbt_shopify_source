@@ -1,6 +1,9 @@
 from google.cloud import bigquery
+import os
 
-client = bigquery.Client.from_service_account_json("~/gcloud-service-key.json")
+client = bigquery.Client.from_service_account_json(
+    f"{os.getenv('HOME')}/gcloud-service-key.json"
+)
 
 schema_name = "shopify_source_integration_tests"
 
