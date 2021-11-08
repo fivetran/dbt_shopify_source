@@ -93,6 +93,7 @@ jobs:
             dbt test --target bigquery
 
 workflows:
+  version: 2
   integration-tests:
     jobs:
       - test:
