@@ -159,14 +159,14 @@ workflows:
   version: 2
   integration-tests:
     jobs:
-      # - test
-      - generate-docs
-          # requires:
-          #   - test
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
-          #       - main
+      - test
+      - generate-docs:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - main
           
     
