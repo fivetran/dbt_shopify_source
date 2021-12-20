@@ -22,7 +22,10 @@ renamed as (
 
         {% endif %}
 
-      {{ fivetran_utils.source_relation() }}
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
 
     from source
     where not test

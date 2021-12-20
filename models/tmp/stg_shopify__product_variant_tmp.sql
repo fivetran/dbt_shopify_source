@@ -5,6 +5,8 @@
         schema_variable='shopify_schema', 
         default_database=target.database,
         default_schema='shopify',
-        default_variable='product_variant_source'
+        default_variable='product_variant_source',
+        union_schema_variable='shopify_union_schemas',
+        union_database_variable='shopify_union_databases'
     )
 }}
