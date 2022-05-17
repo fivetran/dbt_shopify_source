@@ -1,6 +1,6 @@
 {{
     fivetran_utils.union_data(
-        table_identifier='order', 
+        table_identifier='shopify_order_identifier', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 
         default_database=target.database,

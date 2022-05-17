@@ -14,7 +14,6 @@ vars:
     shopify_product_variant_identifier:   "shopify_product_variant_data"
     shopify_refund_identifier:            "shopify_refund_data"
     shopify_transaction_identifier:       "shopify_transaction_data"
-
     shopify_schema: shopify_source_integration_tests
 
 dispatch:
