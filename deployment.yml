@@ -1,0 +1,33 @@
+jobs: fivetran_shopify_sources_test
+# Give each job a unique name. The name will be displayed in the Fivetran dashboard once your jobs are imported.
+# Job names must be unique.
+name: daily
+targetName: prod # The name of the target that will be used when running the job. If it's not specified, the target will be named 'prod'.
+schedule: 0 12 * * * # Define when this job should run, using cron format. This example will run every day at 12:00pm (according to your warehouse timezone). For help with cron formatting, visit https://crontab.guru/.
+   # Optional timeout that limits the maximum run time of the job. You can specify only hours, only minutes or both, for example "6h", "2h30m", "30m"
+   # The value can be in range from 30 minutes to 24 hours.
+   # If timeout is not specified, the job will be terminated after 24 hours.
+timeout: 30m #2h30m
+steps:
+     - name: run models # Give each step in your job a name. This will enable you to track the steps in the logs.
+       command: dbt run # Enter the dbt command that should run in this step. This example will run all your models. For a list of available commands visit https://docs.getdbt.com/reference/model-selection-syntax/.
+     - name: test models
+       command: dbt test # This example will run all your tests.
+#
+# - name: nightly
+#   schedule: 0 0 * * * # This example will run every day at midnight.
+#   steps:
+#     - name: run models
+#       command: dbt run --models my_first_model my_second_model # This example will run two specific models.
+#
+# - name: weekdays
+#   schedule: 30 7 * * 1-5 # The example will run every weekday at 7:30am.
+#   steps:
+#     - name: run models
+#       command: dbt run
+#
+# - name: every30minutes
+#   schedule: '*/30 * * * *' # The example will run every 30 minutes. Note that the cron string is quoted as otherwise it will be treated as invalid alias node (see https://yaml.org/spec/1.2/spec.html#*%20alias// for details)
+#   steps:
+#     - name: version
+#       command: dbt --version
