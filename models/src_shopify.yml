@@ -435,3 +435,27 @@ sources:
             description: Tax amount set towards the order adjustment.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
+      - name: metafield
+        description: Each record represents an entry into a metafield
+        columns:
+          - name: id
+            description: The unique numeric identifier for the metafield.
+          - name: owner_id
+            description: TBD
+          - name: namespace
+            description: TBD
+          - name: key
+            description: Name of the metafield that was created
+          - name: value
+            description: >
+              Value that the metafield takes on for the owner_resource (e.g. for key=pharmacy_npi, value=1487235768 for a 
+              partner pharmacy Customer)
+          - name: description
+            description: TBD
+          - name: owner_resource
+            description: Resource that the metafield is associated with (Customer, Product, Shop, Order, etc.)
+          - name: type
+            description: Data type of the value field
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"        
+      
