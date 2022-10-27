@@ -30,6 +30,7 @@ vars:
     product_pass_through_columns: []
     product_variant_pass_through_columns: []
     transaction_pass_through_columns: []
+    metafield_pass_through_columns: []
 
     shopify__using_order_adjustment: true
     shopify__using_order_line_refund: true

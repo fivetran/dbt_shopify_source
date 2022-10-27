@@ -290,16 +290,16 @@
 
 {% set columns = [
     {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "metafield_id"},
-    {"name": "owner_id", "datatype": , dbt_utils.type_numeric()},
-    {"name": "namespace", "datatype": , dbt_utils.type_string()},
-    {"name": "key", "datatype": , dbt_utils.type_string()},
-    {"name": "value", "datatype": , dbt_utils.type_string()},
-    {"name": "description", "datatype": , dbt_utils.type_string()},
-    {"name": "created_at", "datatype": , dbt_utils.type_timestamp()},
-    {"name": "updated_at", "datatype": , dbt_utils.type_timestamp()},
-    {"name": "owner_resource", "datatype": , dbt_utils.type_string()},
-    {"name": "type", "datatype": , dbt_utils.type_string()},
-    {"name": "_fivetran_synced", "datatype": , dbt_utils.type_timestamp()},
+    {"name": "owner_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "namespace", "datatype": dbt_utils.type_string()},
+    {"name": "key", "datatype": dbt_utils.type_string()},
+    {"name": "value", "datatype": dbt_utils.type_string()},
+    {"name": "description", "datatype": dbt_utils.type_string()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "owner_resource", "datatype": dbt_utils.type_string()},
+    {"name": "type", "datatype": dbt_utils.type_string()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
 ] %}
 
 {{ return(columns) }}
