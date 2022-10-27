@@ -15,12 +15,6 @@ renamed as (
             )
         }}
 
-      --The below script allows for pass through columns.
-      {% if var('metafield_pass_through_columns') %}
-      ,
-      {{ var('metafield_pass_through_columns') | join (", ")}}
-
-      {% endif %}
 
         {{ fivetran_utils.source_relation(
             union_schema_variable='shopify_union_schemas', 

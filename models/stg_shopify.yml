@@ -491,7 +491,7 @@ models:
           - unique
           - not_null
       - name: owner_id
-        description: TBD
+        description: ID of the owner_resource (e.g. if the owner_resource is "Customer" then the owner_id is the customer_id)
       - name: namespace
         description: TBD
       - name: key
