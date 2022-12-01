@@ -28,7 +28,7 @@ To use this dbt package, you must have the following:
 ## Step 2: Install the package
 Include the following shopify_source package version in your `packages.yml` file.
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
-```yaml
+```yml
 packages:
   - package: fivetran/shopify_source
     version: [">=0.7.0", "<0.8.0"]
@@ -48,7 +48,6 @@ This package was designed with the intention that users have all relevant Shopif
 ```yml
 # dbt_project.yml
 
-...
 vars:
   shopify__using_order_adjustment:  false  # true by default
   shopify__using_order_line_refund: false  # true by default
@@ -64,7 +63,6 @@ By default this package will build the Shopify staging models within a schema ti
 ```yml
 # dbt_project.yml
 
-...
 models:
   shopify_source:
     +schema: my_new_schema_name # leave blank for just the target_schema
@@ -74,6 +72,8 @@ If an individual source table has a different name than the package expects, add
 > IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_shopify_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
     
 ```yml
+# dbt_project.yml
+
 vars:
     shopify_<default_source_table_name>_identifier: your_table_name 
 ```
@@ -82,9 +82,6 @@ If you have multiple Shopify connectors in Fivetran and would like to use this p
 
 ```yml
 # dbt_project.yml
-
-...
-config-version: 2
 
 vars:
     shopify_union_schemas: ['shopify_usa','shopify_canada'] # use this if the data is in different schemas/datasets of the same database/project
@@ -95,9 +92,6 @@ This package includes all source columns defined in the staging_columns.sql macr
 
 ```yml
 # dbt_project.yml
-
-...
-config-version: 2
 
 vars:
   shopify_source:
@@ -125,10 +119,10 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/fivetran_utils
-      version: [">=0.3.0", "<0.4.0"]
+      version: [">=0.4.0", "<0.5.0"]
 
     - package: dbt-labs/dbt_utils
-      version: [">=0.8.0", "<0.9.0"]
+      version: [">=1.0.0", "<2.0.0"]
 ```
           
 # 🙌 How is this package maintained and can I contribute?
