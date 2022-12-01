@@ -34,6 +34,7 @@ packages:
     version: [">=0.7.0", "<0.8.0"]
 ```
 ## Step 3: Define database and schema variables
+### Single connector
 By default, this package runs using your destination and the `shopify` schema. If this is not where your Shopify data is (for example, if your Shopify schema is named `shopify_fivetran` and your `issue` table is named `usa_issue`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -42,8 +43,19 @@ vars:
     shopify_schema: your_schema_name 
 ```
 
-## Step 4: Disabling models
-This package was designed with the intention that users have all relevant Shopify tables being synced by Fivetran. However, if you are a Shopify user that does not operate on returns or adjustments then you will not have the related source tables. As such, you may use the below variable configurations to disable the respective downstream models. All variables are `true` by default. To disable those models, add the below configuration in  your root `dbt_project.yml` file:
+### Union multiple connectors
+If you have multiple Shopify connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `shopify_union_schemas` OR `shopify_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+    shopify_union_schemas: ['shopify_usa','shopify_canada'] # use this if the data is in different schemas/datasets of the same database/project
+    shopify_union_databases: ['shopify_usa','shopify_canada'] # use this if the data is in different databases/projects but uses the same schema name
+```
+
+## Step 4: Disable models for non-existent sources
+This package was designed with the intention that users have all relevant Shopify tables being synced by Fivetran. However, if you are a Shopify user that does not operate on `returns` or `adjustments` then you will not have the related source tables. As such, you may use the below variable configurations to disable the respective downstream models. All variables are `true` by default. To disable those models, add the below configuration in  your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -57,6 +69,22 @@ vars:
 ## (Optional) Step 5: Additional configurations
 <details><summary>Expand to view configurations</summary>
     
+### Add Passthrough Columns
+This package includes all source columns defined in the [staging_columns.sql](https://github.com/fivetran/dbt_shopify_source/blob/master/macros/staging_columns.sql) macro. To add additional columns to this package, do so using our pass-through column variables in your root `dbt_project.yml`. This is extremely useful if you'd like to include custom fields to the package.
+
+```yml
+# dbt_project.yml
+
+vars:
+  shopify_source:
+    customer_pass_through_columns: []
+    order_line_refund_pass_through_columns: []
+    order_line_pass_through_columns: []
+    order_pass_through_columns: []
+    product_pass_through_columns: []
+    product_variant_pass_through_columns: []
+```
+
 ### Changing the Build Schema
 By default this package will build the Shopify staging models within a schema titled (<target_schema> + `_stg_shopify`) in your target database. If this is not where you would like your staging Shopify data to be written to, add the following configuration to your `dbt_project.yml` file:
 
@@ -77,32 +105,6 @@ If an individual source table has a different name than the package expects, add
 vars:
     shopify_<default_source_table_name>_identifier: your_table_name 
 ```
-### Union Multiple Shopify Connectors
-If you have multiple Shopify connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `shopify_union_schemas` or `shopify_union_databases` variables:
-
-```yml
-# dbt_project.yml
-
-vars:
-    shopify_union_schemas: ['shopify_usa','shopify_canada'] # use this if the data is in different schemas/datasets of the same database/project
-    shopify_union_databases: ['shopify_usa','shopify_canada'] # use this if the data is in different databases/projects but uses the same schema name
-```
-### Add Passthrough Columns
-This package includes all source columns defined in the staging_columns.sql macro. To add additional columns to this package, do so using our pass-through column variables. This is extremely useful if you'd like to include custom fields to the package.
-
-```yml
-# dbt_project.yml
-
-vars:
-  shopify_source:
-    customer_pass_through_columns: []
-    order_line_refund_pass_through_columns: []
-    order_line_pass_through_columns: []
-    order_pass_through_columns: []
-    product_pass_through_columns: []
-    product_variant_pass_through_columns: []
-```
-
 
 </details>
 
