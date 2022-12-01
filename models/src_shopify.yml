@@ -144,6 +144,7 @@ sources:
           - name: user_id
             description: The ID of the user logged into Shopify POS who processed the order, if applicable.
       - name: customer
+        identifier: "{{ var('shopify_customer_identifier', 'customer') }}"
         description: Each record represents a customer in Shopify.
         columns:
           - name: _fivetran_synced
@@ -177,6 +178,7 @@ sources:
           - name: verified_email
             description: Whether the customer has verified their email address.
       - name: order_line
+        identifier: "{{ var('shopify_order_line_identifier', 'order_line') }}"
         description: Each record represents a line item for an order in Shopify.
         columns:
           - name: _fivetran_synced
@@ -218,6 +220,7 @@ sources:
           - name: vendor
             description: The name of the item's supplier.
       - name: order_line_refund
+        identifier: "{{ var('shopify_order_line_refund_identifier', 'order_line_refund') }}"
         description: Each record represents a line item refund in Shopify.
         columns:
           - name: _fivetran_synced
@@ -239,6 +242,7 @@ sources:
           - name: total_tax
             description: The total tax applied to the refund.
       - name: product
+        identifier: "{{ var('shopify_product_identifier', 'product') }}"
         description: Each record represents a product in Shopify.
         columns:
           - name: _fivetran_deleted
@@ -264,6 +268,7 @@ sources:
           - name: vendor
             description: The name of the product's vendor.
       - name: product_variant
+        identifier: "{{ var('shopify_product_variant_identifier', 'product_variant') }}"
         description: Each record represents a product variant in Shopify
         columns:
           - name: barcode
@@ -327,6 +332,7 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
       - name: transaction
+        identifier: "{{ var('shopify_transaction_identifier', 'transaction') }}"
         description: Each record represents a transaction in Shopify.
         columns:
           - name: transaction_id
@@ -392,6 +398,7 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
       - name: refund
+        identifier: "{{ var('shopify_refund_identifier', 'refund') }}"
         description: Each record represents a refund within Shopify.
         columns:
           - name: id
@@ -413,6 +420,7 @@ sources:
           - name: order_id
             description: Reference to the order which the refund is associated.
       - name: order_adjustment
+        identifier: "{{ var('shopify_order_adjustment_identifier', 'order_adjustment') }}"
         description: Each record represents and adjustment to and order within Shopify.
         columns:
           - name: id

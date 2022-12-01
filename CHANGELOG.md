@@ -1,4 +1,7 @@
 # dbt_shopify_source v0.7.0
+## 🎉 Documentation and Feature Updates
+- Updated README documentation updates for easier navigation and setup of the dbt package
+- Included `shopify_[source_table_name]_identifier` variable for additional flexibility within the package when source tables are named differently.
 
 ## 🚨 Breaking Changes 🚨:
 [PR #36](https://github.com/fivetran/dbt_shopify_source/pull/36) includes the following breaking changes:
