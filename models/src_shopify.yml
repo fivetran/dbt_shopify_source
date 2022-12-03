@@ -435,3 +435,209 @@ sources:
             description: Tax amount set towards the order adjustment.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
+      
+      - name: abandoned_checkout
+        description:
+        columns:
+
+      - name: collection_product
+        description:
+        columns:
+
+      - name: collection
+        description:
+        columns:
+
+      - name: customer_tag
+        description:
+        columns:
+
+      - name: discount_code
+        description: >
+          Table storing discount codes that enable specific discounts to be redeemed. Merchants can distribute discount codes to their customers using a variety of means, such as an email or URL, 
+          and customers can apply these codes at checkout. Each discount code belongs to a price rule, which holds the logic for the discount.
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: code
+            description: The case-insensitive discount code that customers use at checkout. Shopify recommends this map onto the associated `price_rule.title`.
+          - name: created_at
+            description: The date and time (ISO 8601 format) when the discount code was created.
+          - name: id
+            description: The ID for the discount code.
+          - name: price_rule_id
+            description: The ID for the price rule that this discount code belongs to.
+          - name: updated_at
+            description: The date and time (ISO 8601 format) when the discount code was updated.
+          - name: usage_count
+            description: The number of times that the discount code has been redeemed.
+
+      - name: fulfillment
+        description:
+        columns:
+
+      - name: inventory_item
+        description: >
+          An inventory item represents a physical good. It holds essential information about the physical good, including its SKU and whether its inventory is tracked.
+          There is a 1:1 relationship between a product variant and an inventory item.
+        columns:
+          - name: _fivetran_deleted
+            description: Boolean representing if the inventory item was soft-deleted in Shopify.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: cost
+            description: The unit cost of the inventory item. The shop's default currency is used.
+          - name: country_code_of_origin
+            description: The country code (ISO 3166-1 alpha-2) of where the item came from.
+          - name: created_at
+            description: The date and time (ISO 8601 format) when the inventory item was created.
+          - name: id
+            description: The ID of the inventory item.
+          - name: province_code_of_origin
+            description: The province code (ISO 3166-2 alpha-2) of where the item came from. The province code is only used if the shipping provider for the inventory item is Canada Post.
+          - name: requires_shipping
+            description: Boolean representing whether a customer needs to provide a shipping address when placing an order containing the inventory item.
+          - name: sku
+            description: The unique SKU (stock keeping unit) of the inventory item.
+          - name: tracked
+            description: Boolean representing whether inventory levels are tracked for the item. If true, then the inventory quantity changes are tracked by Shopify.
+          - name: updated_at
+            description: The date and time (ISO 8601 format) when the inventory item was last modified.
+
+      - name: inventory_level
+        description:
+        columns:
+
+      - name: location
+        description:
+        columns:
+
+      - name: metafield
+        description: >
+          Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
+          downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: created_at
+            description: The date and time (ISO 8601 format) when the metafield was created.
+          - name: description
+            description: A description of the information that the metafield contains.
+          - name: id
+            description: The unique ID of the metafield.
+          - name: key
+            description: The key of the metafield. Keys can be up to 64 characters long and can contain alphanumeric characters, hyphens, underscores, and periods.
+          - name: namespace
+            description: A container for a group of metafields. Grouping metafields within a namespace prevents your metafields from conflicting with other metafields with the same key name. Must have between 3-255 characters.
+          - name: owner_id
+            description: The unique ID of the resource that the metafield is attached to.
+          - name: owner_resource
+            description: The type of resource (table) that the metafield is attached to.
+          - name: type
+            description: The type of data that the metafield stores in the `value` field. Refer to the [list](https://shopify.dev/apps/metafields/types) of supported types. Use this instead of `value_type`.
+          - name: updated_at
+            description: The date and time (ISO 8601 format) when the metafield was last updated.
+          - name: value
+            description: The data to store in the metafield. The value is always stored as a string, regardless of the metafield's type.
+          - name: value_type
+            description: DEPRECATED as of [June 2022](https://fivetran.com/docs/applications/shopify/changelog#june2022). Use `type` instead.
+
+      - name: order_note_attribute
+        description:
+        columns:
+
+      - name: order_shipping_line
+        description:
+        columns:
+
+      - name: order_shipping_tax_line
+        description:
+        columns:
+
+      - name: order_tag
+        description:
+        columns:
+
+      - name: order_url_tag
+        description:
+        columns:
+
+      - name: price_rule
+        description: >
+          Table storing price rules. You can use price rules to create discounts dependent on conditions. Merchants can distribute the discount codes to their customers. 
+          Using price rules, you can create discounts that specify a discount as a percentage, a fixed amount, or free shipping. You use entitlements and prerequisites to dynamically build these discounts.
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: allocation_limit
+            description: >
+              The number of times the discount can be allocated on the cart - if eligible. For example a Buy 1 hat Get 1 hat for free discount can be applied 3 times on a cart having more than 6 hats, 
+              where maximum of 3 hats get discounted - if the allocation_limit is 3. Empty (null) allocation_limit means unlimited number of allocations.
+          - name: allocation_method
+            description: >
+              The allocation method of the price rule. Valid values include `each` (the discount is applied to each of the entitled items. For example, for a price rule that takes $15 off, each entitled line item in a checkout will be discounted by $15)
+              and `across` (the calculated discount amount will be applied across the entitled items. For example, for a price rule that takes $15 off, the discount will be applied across all the entitled items).
+          - name: created_at
+            description: The date and time (ISO 8601 format) when the price rule was created.
+          - name: customer_selection
+            description: >
+              The customer selection for the price rule. Valid values include `all` (the price rule is valid for all customers) and `prerequisite` 
+              (the customer must either belong to one of the customer segments specified by customer_segment_prerequisite_ids, or be one of the customers specified by prerequisite_customer_ids).
+          - name: ends_at
+            description: The date and time (ISO 8601 format) when the price rule ends. Must be after starts_at.
+          - name: id
+            description: The ID for the price rule.
+          - name: once_per_customer
+            description: Boolean representing whether the generated discount code will be valid only for a single use per customer. This is tracked using customer ID.
+          - name: prerequisite_quantity_range
+            description: If `customer_selection` is `prerequisite`, the minimum number of items for the price rule to be applicable. The quantity of an entitled cart item must be greater than or equal to this value.
+          - name: prerequisite_shipping_price_range
+            description: If `customer_selection` is `prerequisite`, the maximum shipping price for the price rule to be applicable. The shipping price must be less than or equal to this value
+          - name: prerequisite_subtotal_range
+            description: If `customer_selection` is `prerequisite`, the minimum subtotal for the price rule to be applicable. The subtotal of the entitled cart items must be greater than or equal to this value for the discount to apply.
+          - name: prerequisite_to_entitlement_purchase_prerequisite_amount
+            description: If `customer_selection` is `prerequisite`, the prerequisite purchase for a Buy X Get Y discount. The minimum purchase amount required to be entitled to the discount.
+          - name: quantity_ratio_entitled_quantity
+            description: If `customer_selection` is `prerequisite`, in a Buy/Get ratio for a Buy X Get Y discount, this is the offered 'get' quantity.
+          - name: quantity_ratio_prerequisite_quantity
+            description: If `customer_selection` is `prerequisite`, in a Buy/Get ratio for a Buy X Get Y discount, this defines the necessary 'buy' quantity.
+          - name: starts_at
+            description: The date and time (ISO 8601 format) when the price rule starts.
+          - name: target_selection
+            description: >
+              The target selection method of the price rule. Valid values include `all` (the price rule applies the discount to all line items in the checkout) and 
+              `entitled` (the price rule applies the discount to selected entitlements only).
+          - name: target_type
+            description: The target type that the price rule applies to. Valid values include `line_item` (the price rule applies to the cart's line items) and `shipping_line` (the price rule applies to the cart's shipping lines).
+          - name: title
+            description: >
+              The title of the price rule. This is used by the Shopify admin search to retrieve discounts. It is also displayed on the Discounts page of the Shopify admin for bulk discounts. 
+              Shopify recommends that this map onto the associated `discount_code.code`.
+          - name: updated_at
+            description: The date and time (ISO 8601 format) when the price rule was updated.
+          - name: usage_limit
+            description: The maximum number of times the price rule can be used, per discount code.
+          - name: value
+            description: The value of the price rule. If if the value of `target_type` is `shipping_line`, then only -100 is accepted. The value must be negative.
+          - name: value_type
+            description: >
+              The value type of the price rule. Valid values include `fixed_amount` (applies a discount of value as a unit of the store's currency. For example, if value is -30 and the store's currency is USD, then $30 USD is deducted when the discount is applied)
+              and `percentage` (applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied).
+
+              If `target_type` is `shipping_line`, then only `percentage` is accepted.
+
+      - name: product_image
+        description:
+        columns:
+
+      - name: product_tag
+        description:
+        columns:
+
+      - name: shop
+        description:
+        columns:
+
+      - name: tender_transaction
+        description:
+        columns:
