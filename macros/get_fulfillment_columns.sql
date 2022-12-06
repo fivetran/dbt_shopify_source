@@ -7,7 +7,6 @@
     {"name": "location_id", "datatype": dbt.type_int()},
     {"name": "name", "datatype": dbt.type_string()},
     {"name": "order_id", "datatype": dbt.type_int()},
-    {"name": "receipt_authorization", "datatype": dbt.type_string()},
     {"name": "service", "datatype": dbt.type_string()},
     {"name": "shipment_status", "datatype": dbt.type_string()},
     {"name": "status", "datatype": dbt.type_string()},

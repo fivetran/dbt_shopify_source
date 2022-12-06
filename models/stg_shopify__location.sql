@@ -20,23 +20,17 @@ fields as (
 final as (
     
     select 
-[0m22:58:27  [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
-There are 2 unused configuration paths:
-- models.netsuite
-- models.ad_reporting
-
-[0m22:58:30          _fivetran_deleted,
+        _fivetran_deleted as is_deleted,
         _fivetran_synced,
-        active,
+        active as is_active,
         address_1,
         address_2,
         city,
-        country,
-        country_code,
+        coalesce(country_code, country) as country_code,
         country_name,
         created_at,
-        id,
-        legacy,
+        id as location_id,
+        legacy as is_legacy,
         localized_country_name,
         localized_province_name,
         name,
@@ -45,6 +39,7 @@ There are 2 unused configuration paths:
         province_code,
         updated_at,
         zip
+
     from fields
 )
 
