@@ -41,8 +41,8 @@ vars:
     shop_source: "{{ source('shopify','shop') }}" 
     tender_transaction_source: "{{ source('shopify','tender_transaction') }}"
     abandoned_checkout_discount_code_source: "{{ source('shopify','abandoned_checkout_discount_code') }}" 
-    fulfillment_order_line_source: "{{ source('shopify','fulfillment_order_line') }}" 
-    
+    order_discount_code_source: "{{ source('shopify','order_discount_code') }}" 
+
     customer_pass_through_columns: []
     order_line_refund_pass_through_columns: []
     order_line_pass_through_columns: []

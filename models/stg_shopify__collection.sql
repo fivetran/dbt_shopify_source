@@ -20,20 +20,20 @@ fields as (
 final as (
     
     select 
+        id as collection_id,
         _fivetran_deleted as is_deleted,
-        _fivetran_synced,
         case 
             when disjunctive is null then null
             when disjunctive then 'disjunctive'
             else 'conjunctive' end as rule_logic,
         handle,
-        id as collection_id,
         published_at,
         published_scope,
         rules,
         sort_order,
         title,
-        updated_at
+        updated_at,
+        _fivetran_synced
 
     from fields
 )

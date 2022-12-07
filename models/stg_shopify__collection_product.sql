@@ -20,9 +20,9 @@ fields as (
 final as (
     
     select 
-        _fivetran_synced,
         collection_id,
-        product_id
+        product_id,
+        _fivetran_synced,
         
     from fields
 )

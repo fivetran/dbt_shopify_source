@@ -1171,32 +1171,6 @@ sources:
             description: Whether the tender transaction is a test transaction.
           - name: user_id
             description: The ID of the user logged into the Shopify POS device that processed the tender transaction, if applicable.
-      
-      - name: fulfillment_order_line
-        description: May remove this table TODO.
-        columns:
-          - name: _fivetran_synced
-          - name: fulfillable_quantity
-          - name: fulfillment_id
-          - name: fulfillment_service
-          - name: gift_card
-          - name: grams
-          - name: name
-          - name: order_id
-          - name: order_line_id
-          - name: price
-          - name: price_set
-          - name: product_id
-          - name: properties
-          - name: property_pre_order_date
-          - name: quantity
-          - name: requires_shipping
-          - name: sku
-          - name: taxable
-          - name: title
-          - name: variant_id
-          - name: variant_title
-          - name: vendor
 
       - name: abandoned_checkout_discount_code
         description: Abandoned checkouts that applied a discount code. 
@@ -1219,3 +1193,17 @@ sources:
             description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
           - name: updated_at
             description: When the checkout's discount was last updated
+      
+      - name: order_discount_code
+        description: Discount codes placed on orders.
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: amount
+            description: The amount that's deducted from the order total.
+          - name: code
+            description: This property returns the discount code that was entered at checkout. Otherwise this property returns the title of the discount that was applied.
+          - name: order_id
+            description: Associated order ID.
+          - name: type
+            description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.

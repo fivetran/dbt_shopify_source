@@ -81,4 +81,26 @@ seeds:
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         user_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
-
+    shopify_abandoned_checkout_discount_code_data:
+      +column_types:
+        amount: float
+    shopify_abandoned_checkout_data:
+      +column_types:
+        total_line_items_price: float
+    shopify_discount_code_data:
+      +column_types:
+        usage_count: float
+    shopify_order_discount_code_data:
+      +column_types:
+        amount: float
+    shopify_order_shipping_tax_line_data:
+      +column_types:
+        price: float
+    shopify_order_shipping_line_data:
+      +column_types:
+        discounted_price: float
+        price: float
+    shopify_price_rule_data:
+      +column_types:
+        prerequisite_subtotal_range: float
+        value: float

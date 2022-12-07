@@ -26,7 +26,7 @@ final as (
         cost,
         country_code_of_origin,
         province_code_of_origin,
-        requires_shipping as does_require_shipping,
+        requires_shipping,
         tracked as is_inventory_quantity_tracked,
         created_at,
         updated_at,
