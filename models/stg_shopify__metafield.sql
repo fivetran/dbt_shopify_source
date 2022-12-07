@@ -20,17 +20,17 @@ fields as (
 final as (
     
     select 
-        fivetran_synced,
-        created_at,
-        description,
         id as metafield_id,
-        key,
+        description,
         namespace,
+        key,
+        value,
+        lower(coalesce(type, value_type)) as value_type,
         owner_id as owner_resource_id,
         owner_resource,
-        lower(coalesce(type, value_type)) as value_type,
+        created_at,
         updated_at,
-        value
+        _fivetran_synced
         
     from fields
 )

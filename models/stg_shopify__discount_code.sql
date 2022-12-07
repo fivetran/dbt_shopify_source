@@ -20,13 +20,13 @@ fields as (
 final as (
     
     select 
-        _fivetran_synced,
-        code,
-        created_at,
         id as discount_code_id,
+        code,
         price_rule_id,
+        usage_count,
+        created_at,
         updated_at,
-        usage_count
+        _fivetran_synced
         
     from fields
 )

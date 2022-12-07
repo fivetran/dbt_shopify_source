@@ -20,12 +20,10 @@ fields as (
 final as (
     
     select 
-        _fivetran_synced,
-        created_at,
         id as fulfillment_id,
         location_id,
-        name,
         order_id,
+        name,
         service,
         shipment_status,
         status,
@@ -33,8 +31,10 @@ final as (
         tracking_number,
         tracking_numbers,
         tracking_urls,
-        updated_at
-        
+        created_at,
+        updated_at,
+        _fivetran_synced
+
     from fields
 )
 

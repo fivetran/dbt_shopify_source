@@ -19,14 +19,11 @@ fields as (
 
 final as (
     
-    select 
-        _fivetran_synced,
+    select
+        id as price_rule_id,
         allocation_limit,
         allocation_method,
-        created_at,
         customer_selection,
-        ends_at,
-        id as price_rule_id,
         once_per_customer as is_once_per_customer,
         prerequisite_quantity_range as prereq_min_quantity,
         prerequisite_shipping_price_range as prereq_max_shipping_price,
@@ -34,15 +31,18 @@ final as (
         prerequisite_to_entitlement_purchase_prerequisite_amount as prereq_min_purchase_quantity_for_entitlement,
         quantity_ratio_entitled_quantity as prereq_buy_x_get_this,
         quantity_ratio_prerequisite_quantity as prereq_buy_this_get_y,
-        starts_at,
         target_selection,
         target_type,
         title,
-        updated_at,
         usage_limit,
         value,
-        value_type
-        
+        value_type,
+        starts_at,
+        ends_at,
+        created_at,
+        updated_at,
+        _fivetran_synced
+
     from fields
 )
 

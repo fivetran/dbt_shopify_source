@@ -20,17 +20,17 @@ fields as (
 final as (
     
     select 
+        id as inventory_item_id,
+        sku,
         _fivetran_deleted as is_deleted, -- won't filter out for now
-        _fivetran_synced,
         cost,
         country_code_of_origin,
-        created_at,
-        id as inventory_item_id,
         province_code_of_origin,
-        requires_shipping as as does_require_shipping,
-        sku,
+        requires_shipping as does_require_shipping,
         tracked as is_inventory_quantity_tracked,
-        updated_at
+        created_at,
+        updated_at,
+        _fivetran_synced
 
     from fields
 )

@@ -20,25 +20,21 @@ fields as (
 final as (
     
     select 
-[0m22:57:34  [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
-There are 2 unused configuration paths:
-- models.netsuite
-- models.ad_reporting
-
-[0m22:57:37          _fivetran_synced,
+        id as order_shipping_line_id,
+        order_id,
         carrier_identifier,
         code,
         delivery_category,
         discounted_price,
         discounted_price_set,
-        id,
-        order_id,
         phone,
         price,
         price_set,
-        requested_fulfillment_service_id,
+        requested_fulfillment_service_id is not null as is_third_party_required,
         source,
-        title
+        title,
+        _fivetran_synced
+        
     from fields
 )
 

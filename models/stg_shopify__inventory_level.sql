@@ -20,11 +20,11 @@ fields as (
 final as (
     
     select 
-        _fivetran_synced,
-        available as available_quantity,
         inventory_item_id,
         location_id,
-        updated_at
+        available as available_quantity,
+        updated_at,
+        _fivetran_synced
         
     from fields
 )

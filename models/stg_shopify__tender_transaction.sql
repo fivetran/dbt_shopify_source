@@ -20,24 +20,18 @@ fields as (
 final as (
     
     select 
-[0m22:57:19  [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
-There are 2 unused configuration paths:
-- models.netsuite
-- models.ad_reporting
-
-[0m22:57:22          _fivetran_synced,
+        id as transaction_id,
+        order_id,
         amount,
         currency,
-        id,
-        order_id,
-        payment_details_credit_card_company,
-        payment_details_credit_card_number,
         payment_method,
-        processed_at,
         remote_reference,
-        test,
-        user_id
+        user_id,
+        processed_at,
+        _fivetran_synced,
+
     from fields
+    where not coalesce(test, false)
 )
 
 select *

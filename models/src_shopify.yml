@@ -621,7 +621,7 @@ sources:
             description: The date and time (ISO 8601 format) when the collection was last modified.
 
       - name: customer_tag
-        description: Tags that the shop owner has attached to the customer, formatted as a string of comma-separated values. A customer can have up to 250 tags.
+        description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -831,24 +831,90 @@ sources:
             description: DEPRECATED as of [June 2022](https://fivetran.com/docs/applications/shopify/changelog#june2022). Use `type` instead.
 
       - name: order_note_attribute
-        description:
+        description: Table storing custom attributes placed on orders. 
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: name
+            description: Name of the attribute.
+          - name: order_id
+            description: ID referencing the order the note attribute belongs to.
+          - name: value
+            description: Value of the attribute.
 
       - name: order_shipping_line
-        description:
+        description: Represents the shipping details that the customer chose for their order.
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: carrier_identifier
+            description: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
+          - name: code
+            description: A reference to the shipping method.
+          - name: delivery_category
+            description: The general classification of the delivery method.
+          - name: discounted_price
+            description: The pre-tax shipping price with discounts applied.
+          - name: discounted_price_set
+            description: The pre-tax shipping price with discounts applied (JSON).
+          - name: id
+            description: A globally-unique identifier.
+          - name: order_id
+            description: ID of the associated order.
+          - name: phone
+            description: The phone number at the shipping address.
+          - name: price
+            description: Returns the price of the shipping line.
+          - name: price_set
+            description: Returns the price of the shipping line (JSON).
+          - name: requested_fulfillment_service_id
+            description: The fulfillment service requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service.
+          - name: source
+            description: Returns the rate source for the shipping line.
+          - name: title
+            description: Returns the title of the shipping line.
 
       - name: order_shipping_tax_line
-        description:
+        description: Represents taxes associated with order shipping lines.
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: index
+            description: Index (from 1) representing the order of shipping lines per order.
+          - name: order_shipping_line_id
+            description: ID of the order shipping line this recod is associated with.
+          - name: price
+            description: The amount of tax, in shop currency, after discounts and before returns.
+          - name: price_set
+            description: The amount of tax, in shop and presentment currencies, after discounts and before returns (JSON).
+          - name: rate
+            description: The proportion of the line item price that the tax represents as a decimal.
+          - name: title
+            description: The name of the tax.
 
       - name: order_tag
-        description:
+        description: Tags that the shop owner has attached to the order.
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: index
+            description: Index (starting from 1) represnting when the tag was placed on the order. 
+          - name: order_id
+            description: ID of the order being tagged.
+          - name: value
+            description: Value of the tag.
 
       - name: order_url_tag
-        description:
+        description: Key-value tags that the shop owner has attached to the order url.
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: key
+            description: Key of the tag pair.
+          - name: order_id
+            description: ID of the order url being tagged.
+          - name: value
+            description: Value of the tag.
 
       - name: price_rule
         description: >
@@ -915,17 +981,241 @@ sources:
               If `target_type` is `shipping_line`, then only `percentage` is accepted.
 
       - name: product_image
-        description:
+        description: Table storing hosted images of products.
         columns:
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: created_at
+            description: The date and time when the product image was created. The API returns this value in ISO 8601 format.
+          - name: height
+            description: Height dimension of the image which is determined on upload.
+          - name: id
+            description: Unique numeric identifier of the product image.
+          - name: position
+            description: The order of the product image in the list. The first product image is at position 1 and is the "main" image for the product.
+          - name: product_id
+            description: The id of the product associated with the image.
+          - name: src
+            description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image.
+          - name: updated_at
+            description: The date and time when the product image was last modified. The API returns this value in ISO 8601 format.
+          - name: variant_ids
+            description: An array of variant ids associated with the image.
+          - name: width
+            description: Width dimension of the image which is determined on upload.
 
       - name: product_tag
-        description:
+        description: Tags that the shop owner has attached to the product.
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: index
+            description: Index (starting from 1) represnting when the tag was placed on the product. 
+          - name: product_id
+            description: ID of the product being tagged.
+          - name: value
+            description: Value of the tag.
 
       - name: shop
-        description:
+        description: The Shop resource is a collection of general business and store management settings and information about the store.
         columns:
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: address_1
+            description: The shop's street address.
+          - name: address_2
+            description: The optional second line of the shop's street address.
+          - name: checkout_api_supported
+            description: Boolean representing whether the shop is capable of accepting payments directly through the Checkout API.
+          - name: city
+            description: The shop's city.
+          - name: cookie_consent_level
+            description: The cookie consent level defined on the shop's online store.
+          - name: country
+            description: The shop's country. In most cases, this value matches the country_code.
+          - name: country_code
+            description: The two-letter country code corresponding to the shop's country.
+          - name: country_name
+            description: The shop's normalized country name.
+          - name: county_taxes
+            description: Boolean representing whether the shop is applying taxes on a per-county basis. Only applicable to shops based in the US. Either `true` or `null` (not false, according to Shopify API docs).
+          - name: created_at
+            description: The date and time (ISO 8601) when the shop was created.
+          - name: currency
+            description: The three-letter code (ISO 4217 format) for the shop's default currency.
+          - name: customer_email
+            description: The contact email used for communication between the shop owner and the customer.
+          - name: domain
+            description: The shop's domain.
+          - name: eligible_for_card_reader_giveaway
+            description: Boolean representing whether the shop is eligible to receive a free credit card reader from Shopify.
+          - name: eligible_for_payments
+            description: Boolean representing whether the shop is eligible to use Shopify Payments.
+          - name: email
+            description: The contact email used for communication between Shopify and the shop owner.
+          - name: enabled_presentment_currencies
+            description: An array of of enabled currencies (ISO 4217 format) that the shop accepts. Merchants can enable currencies from their Shopify Payments settings in the Shopify Admin.
+          - name: force_ssl
+            description: DEPRECATED.
+          - name: google_apps_domain
+            description: The GSuite URL for the store, if applicable.
+          - name: google_apps_login_enabled
+            description: Boolean representing whether the GSuite login is enabled. Shops with this feature will be able to log in through the GSuite login page. Valid values are `true` and `null`.
+          - name: has_discounts
+            description: Boolean representing whether any active discounts exist for the shop.
+          - name: has_gift_cards
+            description: Boolean representing whether any active gift cards exist for the shop.
+          - name: has_storefront
+            description: Boolean representing whether this shop has an online store.
+          - name: iana_timezone
+            description: The name of the timezone assigned by the [IANA](https://www.iana.org/time-zones).
+          - name: id
+            description: The ID for the shop. A 64-bit unsigned integer.
+          - name: latitude
+            description: The latitude of the shop's location.
+          - name: longitude
+            description: The longitude of the shop's location.
+          - name: money_format
+            description: A string representing the way currency is formatted when the currency isn't specified.
+          - name: money_in_emails_format
+            description: A string representing the way currency is formatted in email notifications when the currency isn't specified.
+          - name: money_with_currency_format
+            description: A string representing the way currency is formatted when the currency is specified.
+          - name: money_with_currency_in_emails_format
+            description: A string representing the way currency is formatted in email notifications when the currency is specified.
+          - name: multi_location_enabled
+            description: DEPRECATED and hard-coded to `true`.
+          - name: myshopify_domain
+            description: The shop's .myshopify.com domain.
+          - name: name
+            description: The name of the shop.
+          - name: password_enabled
+            description: Boolean representing whether the password protection page is enabled on the shop's online store.
+          - name: phone
+            description: The contact phone number for the shop.
+          - name: plan_display_name
+            description: The display name of the Shopify plan the shop is on.
+          - name: plan_name
+            description: The name of the Shopify plan the shop is on.
+          - name: pre_launch_enabled
+            description: Boolen representing whether the pre-launch page is enabled on the shop's online store.
+          - name: primary_locale
+            description: The shop's primary locale, as configured in the language settings of the shop's theme.
+          - name: primary_location_id
+            description: DEPRECATED. Formerly used for the ID of the shipping origin location.
+          - name: province
+            description: The shop's normalized province or state name.
+          - name: province_code
+            description: The two- or three-letter code for the shop's province or state.
+          - name: requires_extra_payments_agreement
+            description: Boolean representing whether the shop requires an extra Shopify Payments agreement.
+          - name: setup_required
+            description: Boolean representing whether the shop has any outstanding setup steps.
+          - name: shop_owner
+            description: The username of the shop owner.
+          - name: source
+            description: The handle of the partner account that referred the merchant to Shopify, if applicable.
+          - name: tax_shipping
+            description: Boolean representing whether taxes are charged for shipping. Valid values are true or false.
+          - name: taxes_included
+            description: Boolean representing whether applicable taxes are included in product prices. Valid values are true or null.
+          - name: timezone
+            description: The name of the timezone the shop is in.
+          - name: updated_at
+            description: The date and time (ISO 8601) when the shop was last updated.
+          - name: weight_unit
+            description: The default unit of weight measurement for the shop.
+          - name: zip
+            description: The shop's zip or postal code.
 
       - name: tender_transaction
-        description:
+        description: >
+          Each tender transaction represents money passing between the merchant and a customer. A tender transaction with a positive amount 
+          represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
+          merchant refunded money back to the customer. Tender transactions represent transactions that modify the shop's balance.
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: amount
+            description: The amount of the tender transaction in the shop's currency.
+          - name: currency
+            description: The three-letter code (ISO 4217 format) for the currency used for the tender transaction.
+          - name: id
+            description: The ID of the transaction.
+          - name: order_id
+            description: The ID of the order that the tender transaction belongs to.
+          - name: payment_method
+            description: >
+              Information about the payment method used for this transaction. Valid values include:
+              - credit_card
+              - cash
+              - android_pay
+              - apple_pay
+              - google_pay
+              - samsung_pay
+              - shopify_pay
+              - amazon
+              - klarna
+              - paypal
+              - unknown
+              - other
+          - name: processed_at
+            description: The date and time (ISO 8601 format) when the tender transaction was processed.
+          - name: remote_reference
+            description: The remote (gateway) reference associated with the tender.
+          - name: test
+            description: Whether the tender transaction is a test transaction.
+          - name: user_id
+            description: The ID of the user logged into the Shopify POS device that processed the tender transaction, if applicable.
+      
+      - name: fulfillment_order_line
+        description: May remove this table TODO.
+        columns:
+          - name: _fivetran_synced
+          - name: fulfillable_quantity
+          - name: fulfillment_id
+          - name: fulfillment_service
+          - name: gift_card
+          - name: grams
+          - name: name
+          - name: order_id
+          - name: order_line_id
+          - name: price
+          - name: price_set
+          - name: product_id
+          - name: properties
+          - name: property_pre_order_date
+          - name: quantity
+          - name: requires_shipping
+          - name: sku
+          - name: taxable
+          - name: title
+          - name: variant_id
+          - name: variant_title
+          - name: vendor
+
+      - name: abandoned_checkout_discount_code
+        description: Abandoned checkouts that applied a discount code. 
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: amount
+            description: The amount of the discount in presentment currency.
+          - name: checkout_id
+            description: ID of the checkout. 
+          - name: code
+            description: The discount code.
+          - name: created_at
+            description: When the checkout discount application was created.
+          - name: discount_id
+            description: ID of the discount.
+          - name: index
+            description: Index (from 1) representing the application of the discount to the checkout. Use the latest (highest index)
+          - name: type
+            description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
+          - name: updated_at
+            description: When the checkout's discount was last updated
