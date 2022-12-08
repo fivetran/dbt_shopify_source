@@ -136,3 +136,8 @@ seeds:
       +column_types:
         value_type: "{{ 'string' if target.type in ('bigquery', 'spark') else 'varchar' }}"
         type: "{{ 'string' if target.type in ('bigquery', 'spark') else 'varchar' }}"
+    shopify_shop_data:
+      +column_types:
+        taxes_included: boolean
+        google_apps_login_enabled: boolean
+        county_taxes: boolean
