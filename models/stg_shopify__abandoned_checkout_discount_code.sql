@@ -14,6 +14,7 @@ fields as (
                 staging_columns=get_abandoned_checkout_discount_code_columns()
             )
         }}
+        , row_number() over(partition by checkout_id, discount_id order by index desc) as n
     from base
 ),
 
@@ -31,6 +32,7 @@ final as (
         _fivetran_synced
 
     from fields
+    where n = 1
 )
 
 select *

@@ -47,7 +47,7 @@ final as (
         weight_unit,
         myshopify_domain,
         cookie_consent_level,
-        shop_owner as shop_owner,
+        shop_owner,
         source,
         tax_shipping as has_shipping_taxes,
         ifnull(taxes_included, false) as has_taxes_included_in_price,

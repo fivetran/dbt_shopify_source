@@ -543,6 +543,9 @@ models:
         description: The payment gateway used by the checkout.
       - name: checkout_id
         description: The ID for the checkout.
+        tests:
+          - unique
+          - not_null
       - name: landing_site_base_url
         description: The URL for the page where the customer entered the shop.
       - name: location_id
@@ -614,13 +617,22 @@ models:
 
   - name: stg_shopify__collection_product
     description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - collection_id
+            - product_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: collection_id
         description: ID referencing the `collection` the product belongs to.
+        tests:
+          - not_null
       - name: product_id
         description: ID referencing the `product`.
+        tests:
+          - not_null
 
   - name: stg_shopify__collection
     description: >
@@ -637,6 +649,9 @@ models:
         description: A unique, human-readable string for the collection automatically generated from its title. This is used in themes by the Liquid templating language to refer to the collection.
       - name: collection_id
         description: The ID for the collection.
+        tests:
+          - not_null
+          - unique
       - name: published_at
         description: The time and date (ISO 8601 format) when the collection was made visible. Returns null for a hidden collection.
       - name: published_scope
@@ -668,13 +683,22 @@ models:
 
   - name: stg_shopify__customer_tag
     description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - index    
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
         description: Index (starting from 1) represnting when the tag was placed on the customer. 
+        tests:
+          - not_null
       - name: customer_id
         description: ID of the customer being tagged.
+        tests:
+          - not_null
       - name: value
         description: Value of the tag.
       
@@ -691,6 +715,9 @@ models:
         description: The date and time (ISO 8601 format) when the discount code was created.
       - name: discount_code_id
         description: The ID for the discount code.
+        tests:
+          - unique
+          - not_null
       - name: price_rule_id
         description: The ID for the price rule that this discount code belongs to.
       - name: updated_at
@@ -709,6 +736,9 @@ models:
         description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
       - name: fulfillment_id
         description: The ID for the fulfillment.
+        tests:
+          - not_null
+          - unique
       - name: location_id
         description: The unique identifier of the location that the fulfillment was processed at.
       - name: name
@@ -770,9 +800,12 @@ models:
         description: The date and time (ISO 8601 format) when the inventory item was created.
       - name: inventory_item_id
         description: The ID of the inventory item.
+        tests:
+          - not_null
+          - unique
       - name: province_code_of_origin
         description: The province code (ISO 3166-2 alpha-2) of where the item came from. The province code is only used if the shipping provider for the inventory item is Canada Post.
-      - name: requires_shipping
+      - name: is_shipping_required
         description: Boolean representing whether a customer needs to provide a shipping address when placing an order containing the inventory item.
       - name: sku
         description: The unique SKU (stock keeping unit) of the inventory item.
@@ -787,6 +820,11 @@ models:
 
       Each inventory level belongs to one inventory item and has one location. For every location where an inventory item can be stocked, there's an inventory level that represents 
       the inventory item's quantities relating to that location.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_item_id
+            - location_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -794,8 +832,12 @@ models:
         description: The available quantity of an inventory item at the inventory level's associated location. Returns null if the inventory item is not tracked.
       - name: inventory_item_id
         description: The ID of the inventory item associated with the inventory level.
+        tests:
+          - not_null
       - name: location_id
         description: The ID of the location that the inventory level belongs to.
+        tests:
+          - not_null
       - name: updated_at
         description: The date and time (ISO 8601 format) when the inventory level was last modified.
 
@@ -825,6 +867,9 @@ models:
         description: The date and time (ISO 8601 format) when the location was created.
       - name: location_id
         description: The ID of the location.
+        tests:
+          - unique
+          - not_null
       - name: is_legacy
         description: >
           Boolean representing whether this is a fulfillment service location. If true, then the location is a fulfillment service location. 
@@ -859,6 +904,9 @@ models:
         description: A description of the information that the metafield contains.
       - name: metafield_id
         description: The unique ID of the metafield.
+        tests:
+          - unique
+          - not_null
       - name: key
         description: The key of the metafield. Keys can be up to 64 characters long and can contain alphanumeric characters, hyphens, underscores, and periods.
       - name: namespace
@@ -876,17 +924,26 @@ models:
 
   - name: stg_shopify__order_note_attribute
     description: Table storing custom attributes placed on orders. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - name
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: name
         description: Name of the attribute.
+        tests:
+          - not_null
       - name: order_id
         description: ID referencing the order the note attribute belongs to.
+        tests:
+          - not_null
       - name: value
         description: Value of the attribute.
 
-  - name: order_shipping_line
+  - name: stg_shopify__order_shipping_line
     description: Represents the shipping details that the customer chose for their order.
     columns:
       - name: _fivetran_synced
@@ -901,8 +958,11 @@ models:
         description: The pre-tax shipping price with discounts applied.
       - name: discounted_price_set
         description: The pre-tax shipping price with discounts applied (JSON).
-      - name: id
+      - name: order_shipping_line_id
         description: A globally-unique identifier.
+        tests:
+          - unique
+          - not_null
       - name: order_id
         description: ID of the associated order.
       - name: phone
@@ -911,22 +971,31 @@ models:
         description: Returns the price of the shipping line.
       - name: price_set
         description: Returns the price of the shipping line (JSON).
-      - name: requested_fulfillment_service_id
+      - name: is_third_party_required
         description: The fulfillment service requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service.
       - name: source
         description: Returns the rate source for the shipping line.
       - name: title
         description: Returns the title of the shipping line.
 
-  - name: order_shipping_tax_line
+  - name: stg_shopify__order_shipping_tax_line
     description: Represents taxes associated with order shipping lines.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_shipping_line_id
+            - index
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
         description: Index (from 1) representing the order of shipping lines per order.
+        tests:
+          - not_null
       - name: order_shipping_line_id
         description: ID of the order shipping line this recod is associated with.
+        tests:
+          - not_null
       - name: price
         description: The amount of tax, in shop currency, after discounts and before returns.
       - name: price_set
@@ -936,31 +1005,49 @@ models:
       - name: title
         description: The name of the tax.
 
-  - name: order_tag
+  - name: stg_shopify__order_tag
     description: Tags that the shop owner has attached to the order.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - index
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
         description: Index (starting from 1) represnting when the tag was placed on the order. 
+        tests:
+          - not_null
       - name: order_id
         description: ID of the order being tagged.
+        tests:
+          - not_null
       - name: value
         description: Value of the tag.
 
-  - name: order_url_tag
+  - name: stg_shopify__order_url_tag
     description: Key-value tags that the shop owner has attached to the order url.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - key
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: key
         description: Key of the tag pair.
+        tests:  
+          - not_null
       - name: order_id
         description: ID of the order url being tagged.
+        tests:
+          - not_null
       - name: value
         description: Value of the tag.
 
-  - name: price_rule
+  - name: stg_shopify__price_rule
     description: >
       Table storing price rules. You can use price rules to create discounts dependent on conditions. Merchants can distribute the discount codes to their customers. 
       Using price rules, you can create discounts that specify a discount as a percentage, a fixed amount, or free shipping. You use entitlements and prerequisites to dynamically build these discounts.
@@ -983,21 +1070,24 @@ models:
           (the customer must either belong to one of the customer segments specified by customer_segment_prerequisite_ids, or be one of the customers specified by prerequisite_customer_ids).
       - name: ends_at
         description: The date and time (ISO 8601 format) when the price rule ends. Must be after starts_at.
-      - name: id
+      - name: price_rule_id
         description: The ID for the price rule.
-      - name: once_per_customer
+        tests:
+          - unique
+          - not_null
+      - name: is_once_per_customer
         description: Boolean representing whether the generated discount code will be valid only for a single use per customer. This is tracked using customer ID.
-      - name: prerequisite_quantity_range
+      - name: prereq_min_quantity
         description: If `customer_selection` is `prerequisite`, the minimum number of items for the price rule to be applicable. The quantity of an entitled cart item must be greater than or equal to this value.
-      - name: prerequisite_shipping_price_range
+      - name: prereq_max_shipping_price
         description: If `customer_selection` is `prerequisite`, the maximum shipping price for the price rule to be applicable. The shipping price must be less than or equal to this value
-      - name: prerequisite_subtotal_range
+      - name: prereq_min_subtotal
         description: If `customer_selection` is `prerequisite`, the minimum subtotal for the price rule to be applicable. The subtotal of the entitled cart items must be greater than or equal to this value for the discount to apply.
-      - name: prerequisite_to_entitlement_purchase_prerequisite_amount
+      - name: prereq_min_purchase_quantity_for_entitlement
         description: If `customer_selection` is `prerequisite`, the prerequisite purchase for a Buy X Get Y discount. The minimum purchase amount required to be entitled to the discount.
-      - name: quantity_ratio_entitled_quantity
+      - name: prereq_buy_x_get_this
         description: If `customer_selection` is `prerequisite`, in a Buy/Get ratio for a Buy X Get Y discount, this is the offered 'get' quantity.
-      - name: quantity_ratio_prerequisite_quantity
+      - name: prereq_buy_this_get_y
         description: If `customer_selection` is `prerequisite`, in a Buy/Get ratio for a Buy X Get Y discount, this defines the necessary 'buy' quantity.
       - name: starts_at
         description: The date and time (ISO 8601 format) when the price rule starts.
@@ -1024,19 +1114,20 @@ models:
 
           If `target_type` is `shipping_line`, then only `percentage` is accepted.
 
-  - name: product_image
+  - name: stg_shopify__product_image
     description: Table storing hosted images of products.
     columns:
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: created_at
         description: The date and time when the product image was created. The API returns this value in ISO 8601 format.
       - name: height
         description: Height dimension of the image which is determined on upload.
-      - name: id
+      - name: product_image_id
         description: Unique numeric identifier of the product image.
+        tests:
+          - unique
+          - not_null
       - name: position
         description: The order of the product image in the list. The first product image is at position 1 and is the "main" image for the product.
       - name: product_id
@@ -1050,22 +1141,31 @@ models:
       - name: width
         description: Width dimension of the image which is determined on upload.
 
-  - name: product_tag
+  - name: stg_shopify__product_tag
     description: Tags that the shop owner has attached to the product.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - index
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
         description: Index (starting from 1) represnting when the tag was placed on the product. 
+        tests:
+          - not_null
       - name: product_id
         description: ID of the product being tagged.
+        tests:
+          - not_null
       - name: value
         description: Value of the tag.
 
-  - name: shop
+  - name: stg_shopify__shop
     description: The Shop resource is a collection of general business and store management settings and information about the store.
     columns:
-      - name: _fivetran_deleted
+      - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1073,7 +1173,7 @@ models:
         description: The shop's street address.
       - name: address_2
         description: The optional second line of the shop's street address.
-      - name: checkout_api_supported
+      - name: has_checkout_api_supported
         description: Boolean representing whether the shop is capable of accepting payments directly through the Checkout API.
       - name: city
         description: The shop's city.
@@ -1085,7 +1185,7 @@ models:
         description: The two-letter country code corresponding to the shop's country.
       - name: country_name
         description: The shop's normalized country name.
-      - name: county_taxes
+      - name: has_county_taxes
         description: Boolean representing whether the shop is applying taxes on a per-county basis. Only applicable to shops based in the US. Either `true` or `null` (not false, according to Shopify API docs).
       - name: created_at
         description: The date and time (ISO 8601) when the shop was created.
@@ -1095,19 +1195,17 @@ models:
         description: The contact email used for communication between the shop owner and the customer.
       - name: domain
         description: The shop's domain.
-      - name: eligible_for_card_reader_giveaway
+      - name: is_eligible_for_card_reader_giveaway
         description: Boolean representing whether the shop is eligible to receive a free credit card reader from Shopify.
-      - name: eligible_for_payments
+      - name: is_eligible_for_payments
         description: Boolean representing whether the shop is eligible to use Shopify Payments.
       - name: email
         description: The contact email used for communication between Shopify and the shop owner.
       - name: enabled_presentment_currencies
         description: An array of of enabled currencies (ISO 4217 format) that the shop accepts. Merchants can enable currencies from their Shopify Payments settings in the Shopify Admin.
-      - name: force_ssl
-        description: DEPRECATED.
       - name: google_apps_domain
         description: The GSuite URL for the store, if applicable.
-      - name: google_apps_login_enabled
+      - name: is_google_apps_login_enabled
         description: Boolean representing whether the GSuite login is enabled. Shops with this feature will be able to log in through the GSuite login page. Valid values are `true` and `null`.
       - name: has_discounts
         description: Boolean representing whether any active discounts exist for the shop.
@@ -1117,8 +1215,11 @@ models:
         description: Boolean representing whether this shop has an online store.
       - name: iana_timezone
         description: The name of the timezone assigned by the [IANA](https://www.iana.org/time-zones).
-      - name: id
+      - name: shop_id
         description: The ID for the shop. A 64-bit unsigned integer.
+        tests:
+          - not_null
+          - unique
       - name: latitude
         description: The latitude of the shop's location.
       - name: longitude
@@ -1131,13 +1232,11 @@ models:
         description: A string representing the way currency is formatted when the currency is specified.
       - name: money_with_currency_in_emails_format
         description: A string representing the way currency is formatted in email notifications when the currency is specified.
-      - name: multi_location_enabled
-        description: DEPRECATED and hard-coded to `true`.
       - name: myshopify_domain
         description: The shop's .myshopify.com domain.
       - name: name
         description: The name of the shop.
-      - name: password_enabled
+      - name: is_password_enabled
         description: Boolean representing whether the password protection page is enabled on the shop's online store.
       - name: phone
         description: The contact phone number for the shop.
@@ -1145,27 +1244,25 @@ models:
         description: The display name of the Shopify plan the shop is on.
       - name: plan_name
         description: The name of the Shopify plan the shop is on.
-      - name: pre_launch_enabled
+      - name: is_pre_launch_enabled
         description: Boolen representing whether the pre-launch page is enabled on the shop's online store.
       - name: primary_locale
         description: The shop's primary locale, as configured in the language settings of the shop's theme.
-      - name: primary_location_id
-        description: DEPRECATED. Formerly used for the ID of the shipping origin location.
       - name: province
         description: The shop's normalized province or state name.
       - name: province_code
         description: The two- or three-letter code for the shop's province or state.
-      - name: requires_extra_payments_agreement
+      - name: is_extra_payments_agreement_required
         description: Boolean representing whether the shop requires an extra Shopify Payments agreement.
-      - name: setup_required
+      - name: is_setup_required
         description: Boolean representing whether the shop has any outstanding setup steps.
       - name: shop_owner
         description: The username of the shop owner.
       - name: source
         description: The handle of the partner account that referred the merchant to Shopify, if applicable.
-      - name: tax_shipping
+      - name: has_shipping_taxes
         description: Boolean representing whether taxes are charged for shipping. Valid values are true or false.
-      - name: taxes_included
+      - name: has_taxes_included_in_price
         description: Boolean representing whether applicable taxes are included in product prices. Valid values are true or null.
       - name: timezone
         description: The name of the timezone the shop is in.
@@ -1176,7 +1273,7 @@ models:
       - name: zip
         description: The shop's zip or postal code.
 
-  - name: tender_transaction
+  - name: stg_shopify__tender_transaction
     description: >
       Each tender transaction represents money passing between the merchant and a customer. A tender transaction with a positive amount 
       represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
@@ -1188,8 +1285,11 @@ models:
         description: The amount of the tender transaction in the shop's currency.
       - name: currency
         description: The three-letter code (ISO 4217 format) for the currency used for the tender transaction.
-      - name: id
+      - name: transaction_id
         description: The ID of the transaction.
+        tests:
+          - unique
+          - not_null
       - name: order_id
         description: The ID of the order that the tender transaction belongs to.
       - name: payment_method
@@ -1211,13 +1311,17 @@ models:
         description: The date and time (ISO 8601 format) when the tender transaction was processed.
       - name: remote_reference
         description: The remote (gateway) reference associated with the tender.
-      - name: test
-        description: Whether the tender transaction is a test transaction.
       - name: user_id
         description: The ID of the user logged into the Shopify POS device that processed the tender transaction, if applicable.
 
-  - name: abandoned_checkout_discount_code
+  - name: stg_shopify__abandoned_checkout_discount_code
     description: Abandoned checkouts that applied a discount code. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - checkout_id
+            - code
+            - discount_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1225,21 +1329,26 @@ models:
         description: The amount of the discount in presentment currency.
       - name: checkout_id
         description: ID of the checkout. 
+        tests:
+          - not_null
       - name: code
         description: The discount code.
       - name: created_at
         description: When the checkout discount application was created.
       - name: discount_id
         description: ID of the discount.
-      - name: index
-        description: Index (from 1) representing the application of the discount to the checkout. Use the latest (highest index)
       - name: type
         description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
       - name: updated_at
         description: When the checkout's discount was last updated
   
-  - name: order_discount_code
+  - name: stg_shopify__order_discount_code
     description: Discount codes placed on orders.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - code
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1247,7 +1356,11 @@ models:
         description: The amount that's deducted from the order total.
       - name: code
         description: This property returns the discount code that was entered at checkout. Otherwise this property returns the title of the discount that was applied.
+        tests:
+          - not_null
       - name: order_id
         description: Associated order ID.
+        tests:
+          - not_null
       - name: type
         description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
