@@ -34,7 +34,7 @@ final as (
         zip,
         latitude,
         longitude,
-        ifnull(county_taxes, false) as has_county_taxes,
+        case when county_taxes is null then false else county_taxes end as has_county_taxes,
         currency,
         enabled_presentment_currencies,
         customer_email,
