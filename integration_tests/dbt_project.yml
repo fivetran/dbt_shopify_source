@@ -110,7 +110,8 @@ seeds:
     shopify_abandoned_checkout_data:
       +column_types:
         total_line_items_price: float
-        shipping_address_phone: "{{ 'string' if target.name in ('bigquery', 'spark') else 'varchar' }}"
+        billing_address_phone: "{{ 'string' if target.type in ('bigquery', 'spark') else 'varchar' }}"
+        shipping_address_phone: "{{ 'string' if target.type in ('bigquery', 'spark') else 'varchar' }}"
     shopify_discount_code_data:
       +column_types:
         usage_count: float
