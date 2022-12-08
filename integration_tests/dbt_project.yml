@@ -129,3 +129,10 @@ seeds:
       +column_types:
         prerequisite_subtotal_range: float
         value: float
+    shopify_collection_data:
+      +column_types:
+        disjunctive: boolean
+    shopify_metafield_data:
+      +column_types:
+        value_type: "{{ 'string' if target.type in ('bigquery', 'spark') else 'varchar' }}"
+        type: "{{ 'string' if target.type in ('bigquery', 'spark') else 'varchar' }}"

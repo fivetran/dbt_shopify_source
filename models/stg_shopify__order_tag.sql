@@ -23,7 +23,7 @@ final as (
         order_id,
         index,
         value,
-        _fivetran_synced,
+        _fivetran_synced
 
     from fields
 )

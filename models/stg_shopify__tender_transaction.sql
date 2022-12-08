@@ -28,7 +28,7 @@ final as (
         remote_reference,
         user_id,
         processed_at,
-        _fivetran_synced,
+        _fivetran_synced
 
     from fields
     where not coalesce(test, false)

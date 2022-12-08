@@ -22,7 +22,7 @@ final as (
     select 
         collection_id,
         product_id,
-        _fivetran_synced,
+        _fivetran_synced
         
     from fields
 )
