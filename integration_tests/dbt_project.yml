@@ -37,7 +37,7 @@ vars:
     tender_transaction_source: "{{ ref('shopify_tender_transaction_data') }}"
     abandoned_checkout_discount_code_source: "{{ ref('shopify_abandoned_checkout_discount_code_data') }}"
     order_discount_code_source: "{{ ref('shopify_order_discount_code_data') }}"
-    
+
 dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
@@ -110,6 +110,7 @@ seeds:
     shopify_abandoned_checkout_data:
       +column_types:
         total_line_items_price: float
+        shipping_address_phone: "{{ 'string' if target.name in ('bigquery', 'spark') else 'varchar' }}"
     shopify_discount_code_data:
       +column_types:
         usage_count: float
