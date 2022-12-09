@@ -1,10 +1,11 @@
-with source as (
+with base as (
 
-    select * from {{ ref('stg_shopify__order_line_tmp') }}
+    select * 
+    from {{ ref('stg_shopify__order_line_tmp') }}
 
 ),
 
-renamed as (
+fields as (
 
     select
     
@@ -15,13 +16,6 @@ renamed as (
             )
         }}
 
-      --The below script allows for pass through columns.
-      {% if var('order_line_pass_through_columns') %}
-      ,
-      {{ var('order_line_pass_through_columns') | join (", ")}}
-
-      {% endif %}
-
         {{ fivetran_utils.source_relation(
             union_schema_variable='shopify_union_schemas', 
             union_database_variable='shopify_union_databases') 
@@ -29,7 +23,53 @@ renamed as (
 
     from source
 
+),
+
+final as (
+    
+    select 
+
+        fulfillable_quantity,
+        fulfillment_service,
+        fulfillment_status,
+        gift_card as is_gift_card,
+        grams,
+        id as order_line_id,
+        index,
+        name,
+        order_id,
+        pre_tax_price,
+        pre_tax_price_set,
+        price,
+        price_set,
+        product_id,
+        property_charge_interval_frequency,
+        property_for_shipping_jan_3_rd_2020,
+        property_shipping_interval_frequency,
+        property_shipping_interval_unit_type,
+        property_subscription_id,
+        quantity,
+        requires_shipping as is_shipping_required,
+        sku,
+        taxable as is_taxable,
+        tax_code,
+        title,
+        total_discount,
+        total_discount_set,
+        variant_id,
+        variant_title,
+        variant_inventory_management,
+        vendor,
+        properties,
+        source_relation,
+        _fivetran_synced
+
+        {{ fivetran_utils.fill_pass_through_columns('order_line_pass_through_columns') }}
+
+    from fields
+
 )
 
-select * from renamed
+select * 
+from final
 

@@ -1,13 +1,14 @@
 --To disable this model, set the shopify__using_order_line_refund variable within your dbt_project.yml file to False.
 {{ config(enabled=var('shopify__using_order_line_refund', True)) }}
 
-with source as (
+with base as (
 
-    select * from {{ ref('stg_shopify__order_line_refund_tmp') }}
+    select * 
+    from {{ ref('stg_shopify__order_line_refund_tmp') }}
 
 ),
 
-renamed as (
+fields as (
 
     select
     
@@ -18,13 +19,6 @@ renamed as (
             )
         }}
 
-      --The below script allows for pass through columns.
-      {% if var('order_line_refund_pass_through_columns') %}
-      ,
-      {{ var('order_line_refund_pass_through_columns') | join (", ")}}
-
-      {% endif %}
-
         {{ fivetran_utils.source_relation(
             union_schema_variable='shopify_union_schemas', 
             union_database_variable='shopify_union_databases') 
@@ -32,7 +26,29 @@ renamed as (
 
     from source
 
+),
+
+final as (
+
+    select
+        id as order_line_refund_id,
+        location_id,
+        order_line_id,
+        subtotal,
+        subtotal_set,
+        total_tax,
+        total_tax_set,
+        quantity,
+        refund_id,
+        restock_type,
+        _fivetran_synced,
+        source_relation,
+
+        {{ fivetran_utils.fill_pass_through_columns('order_line_refund_pass_through_columns') }}
+
+    from fields
 )
 
-select * from renamed
+select *
+from final
 

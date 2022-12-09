@@ -1,14 +1,14 @@
 --To disable this model, set the shopify__using_order_adjustment variable within your dbt_project.yml file to False.
 {{ config(enabled=var('shopify__using_order_adjustment', True)) }}
 
-with source as (
+with base as (
 
     select * 
     from {{ ref('stg_shopify__order_adjustment_tmp') }}
 
 ),
 
-renamed as (
+fields as (
 
     select
         {{
@@ -24,6 +24,25 @@ renamed as (
         }}
         
     from source
+),
+
+final as (
+
+    select
+        id as order_adjustment_id,
+        order_id,
+        refund_id,
+        amount,
+        amount_set,
+        tax_amount,
+        tax_amount_set,
+        kind,
+        reason,
+        source_relation,
+        _fivetran_synced
+
+    from fields
 )
 
-select * from renamed
+select * 
+from final
