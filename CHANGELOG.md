@@ -42,6 +42,7 @@
   - `stg_shopify__product_variant`
   - `stg_shopify__product`
   - `stg_shopify__transaction`
+- The `is_requiring_shipping` field in `stg_shopify__order_line` has been renamed to `is_shipping_required`, just because it sounds better :)
 
 # dbt_shopify_source v0.6.0
 🎉 dbt v1.0.0 Compatibility 🎉
