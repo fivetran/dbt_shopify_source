@@ -21,7 +21,7 @@ fields as (
             union_database_variable='shopify_union_databases') 
         }}
 
-    from source
+    from base
 
 ),
 
@@ -29,8 +29,8 @@ final as (
 
     select 
         id as order_id,
-        processed_at as processed_timestamp,
-        updated_at as updated_timestamp,
+        processed_at,
+        updated_at,
         user_id,
         total_discounts,
         total_discounts_set,
@@ -54,11 +54,11 @@ final as (
         number,
         order_number,
         cancel_reason,
-        cancelled_at as cancelled_timestamp,
+        cancelled_at,
         cart_token,
         checkout_token,
-        closed_at as closed_timestamp,
-        created_at as created_timestamp,
+        closed_at,
+        created_at,
         currency,
         customer_id,
         email,
@@ -99,7 +99,7 @@ final as (
         shipping_address_province,
         shipping_address_province_code,
         shipping_address_zip,
-        test,
+        test as is_test_order,
         token,
         _fivetran_synced,
         _fivetran_deleted,

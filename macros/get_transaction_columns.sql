@@ -1,12 +1,12 @@
 {% macro get_transaction_columns() %}
 
 {% set columns = [
-    {"name": "id", "datatype": dbt.type_numeric(), "alias": "transaction_id"},
+    {"name": "id", "datatype": dbt.type_numeric()},
     {"name": "order_id", "datatype": dbt.type_numeric()},
     {"name": "refund_id", "datatype": dbt.type_numeric()},
     {"name": "amount", "datatype": dbt.type_numeric()},
-    {"name": "created_at", "datatype": dbt.type_timestamp(), "alias": "created_timestamp"},
-    {"name": "processed_at", "datatype": dbt.type_timestamp(), "alias": "processed_timestamp"},
+    {"name": "created_at", "datatype": dbt.type_timestamp()},
+    {"name": "processed_at", "datatype": dbt.type_timestamp()},
     {"name": "device_id", "datatype": dbt.type_numeric()},
     {"name": "gateway", "datatype": dbt.type_string()},
     {"name": "source_name", "datatype": dbt.type_string()},
@@ -37,7 +37,7 @@
 {% if target.type in ('redshift','postgres') %}
  {{ columns.append({"name": "authorization", "datatype": dbt.type_string(), "quote": True, "alias": "authorization"}) }}
 {% else %}
- {"name": "authorization", "datatype": dbt.type_string()}
+ {{ columns.append({"name": "authorization", "datatype": dbt.type_string()}) }}
 {% endif %}
 
 {{ return(columns) }}

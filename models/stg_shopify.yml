@@ -99,7 +99,7 @@ models:
         description: The ID of the product that the line item belongs to. Can be null if the original product associated with the order is deleted at a later date.
       - name: quantity
         description: The number of items that were purchased.
-      - name: is_requiring_shipping
+      - name: is_shipping_required
         description: Whether the item requires shipping.
       - name: sku
         description: The item's SKU (stock keeping unit).
@@ -336,8 +336,6 @@ models:
         description: The price of the product variant.
       - name: product_id
         description: The unique numeric identifier for the product.
-      - name: is_requiring_shipping
-        description: This property is deprecated. Use the `requires_shipping` property on the InventoryItem resource instead.
       - name: sku
         description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService.
       - name: is_taxable

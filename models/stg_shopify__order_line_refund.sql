@@ -24,7 +24,7 @@ fields as (
             union_database_variable='shopify_union_databases') 
         }}
 
-    from source
+    from base
 
 ),
 
@@ -51,4 +51,3 @@ final as (
 
 select *
 from final
-

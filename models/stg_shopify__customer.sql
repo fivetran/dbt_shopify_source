@@ -16,7 +16,6 @@ fields as (
             )
         }}
 
-
         {{ fivetran_utils.source_relation(
             union_schema_variable='shopify_union_schemas', 
             union_database_variable='shopify_union_databases') 
@@ -29,8 +28,9 @@ fields as (
 final as (
 
     select 
-        coalesce(accepts_marketing, email_marketing_consent_state) as has_accepted_marketing,
-        created_at as created_timestamp,
+        accepts_marketing as has_accepted_marketing,
+        email_marketing_consent_state,
+        created_at,
         default_address_id,
         email,
         first_name,
@@ -41,7 +41,7 @@ final as (
         state as account_state,
         tax_exempt as is_tax_exempt,
         total_spent,
-        updated_at as updated_timestamp,
+        updated_at,
         verified_email as is_verified_email,
         note,
         coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as accepts_marketing_updated_at,

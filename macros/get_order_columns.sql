@@ -72,7 +72,7 @@
     {"name": "shipping_address_province", "datatype": dbt.type_string()},
     {"name": "shipping_address_province_code", "datatype": dbt.type_string()},
     {"name": "shipping_address_zip", "datatype": dbt.type_string()},
-    {"name": "test", "datatype": "boolean", "alias": "is_test_order"},
+    {"name": "test", "datatype": "boolean"},
     {"name": "token", "datatype": dbt.type_string()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_deleted", "datatype": "boolean"},

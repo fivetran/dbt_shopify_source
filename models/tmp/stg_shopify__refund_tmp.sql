@@ -26,14 +26,15 @@
 {% else %}
 
 select
-    cast(null as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced,
-    cast(null as {{ dbt_utils.type_timestamp() }}) as created_at,
-    cast(null as {{ dbt_utils.type_numeric() }}) as id,
-    cast(null as {{ dbt_utils.type_string() }}) as note,
-    cast(null as {{ dbt_utils.type_numeric() }}) as order_id,
-    cast(null as {{ dbt_utils.type_timestamp() }}) as processed_at,
+    cast(null as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+    cast(null as {{ dbt.type_timestamp() }}) as created_at,
+    cast(null as {{ dbt.type_numeric() }}) as id,
+    cast(null as {{ dbt.type_string() }}) as note,
+    cast(null as {{ dbt.type_numeric() }}) as order_id,
+    cast(null as {{ dbt.type_timestamp() }}) as processed_at,
     cast(null as boolean) as restock,
-    cast(null as {{ dbt_utils.type_string() }}) as total_duties_set,
-    cast(null as {{ dbt_utils.type_numeric() }}) as user_id
+    cast(null as {{ dbt.type_string() }}) as total_duties_set,
+    cast(null as {{ dbt.type_numeric() }}) as user_id,
+    cast(null as {{ dbt.type_string() }}) as _dbt_source_relation
 
 {% endif %}

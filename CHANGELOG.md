@@ -36,6 +36,12 @@
     - `dbt.current_timestamp_backcompat`
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+- In the following tables, `*_timestamp` columns have been renamed to `*_at` for consistency:
+  - `stg_shopify__customer`
+  - `stg_shopify__order`
+  - `stg_shopify__product_variant`
+  - `stg_shopify__product`
+  - `stg_shopify__transaction`
 
 # dbt_shopify_source v0.6.0
 🎉 dbt v1.0.0 Compatibility 🎉
