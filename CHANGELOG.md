@@ -40,6 +40,12 @@
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
 
+## Updates:
+[PR #38](https://github.com/fivetran/dbt_shopify_source/pull/38) includes the following breaking changes:
+- Esnured Postgres compatibility.
+- README updated for easier package use and navigation.
+- `shopify_<default_source_table_name>_identifier` variables added if an individual source table has a different name than the package expects.
+
 # dbt_shopify_source v0.6.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
