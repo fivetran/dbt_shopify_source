@@ -15,6 +15,12 @@ fields as (
             )
         }}
         , row_number() over(partition by checkout_id, discount_id order by index desc) as n
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -24,12 +30,12 @@ final as (
         checkout_id,
         code,
         discount_id,
-        index,
         amount,
         type,
-        created_at,
-        updated_at,
-        _fivetran_synced
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as  {{ dbt.type_timestamp() }}) as updated_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
     where n = 1

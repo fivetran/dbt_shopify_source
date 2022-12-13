@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_order_shipping_line_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -33,7 +39,8 @@ final as (
         requested_fulfillment_service_id is not null as is_third_party_required,
         source,
         title,
-        _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
         
     from fields
 )

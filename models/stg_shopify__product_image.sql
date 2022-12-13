@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_product_image_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -27,9 +33,10 @@ final as (
         src,
         variant_ids,
         width,
-        created_at,
-        updated_at,
-        _fivetran_synced
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
     where not coalesce(_fivetran_deleted, false)

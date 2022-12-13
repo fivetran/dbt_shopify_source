@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_order_discount_code_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -24,7 +30,8 @@ final as (
         code,
         type,
         amount,
-        _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
     where index = 1 -- Sanity check. index should not > 1 but open an issue if that's not the case in your data

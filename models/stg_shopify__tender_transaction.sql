@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_tender_transaction_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -27,8 +33,9 @@ final as (
         payment_method,
         remote_reference,
         user_id,
-        processed_at,
-        _fivetran_synced
+        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
     where not coalesce(test, false)

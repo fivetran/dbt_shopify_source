@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_inventory_level_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -23,8 +29,9 @@ final as (
         inventory_item_id,
         location_id,
         available as available_quantity,
-        updated_at,
-        _fivetran_synced
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
         
     from fields
 )

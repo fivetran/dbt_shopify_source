@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_abandoned_checkout_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -21,7 +27,6 @@ final as (
     
     select 
         _fivetran_deleted as is_deleted,
-        _fivetran_synced,
         abandoned_checkout_url,
         billing_address_address_1,
         billing_address_address_2,
@@ -40,8 +45,8 @@ final as (
         billing_address_zip,
         buyer_accepts_marketing as has_buyer_accepted_marketing,
         cart_token,
-        closed_at,
-        created_at,
+        cast(closed_at as {{ dbt.type_timestamp() }}) as closed_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         currency as shop_currency,
         customer_id,
         customer_locale,
@@ -81,8 +86,10 @@ final as (
         total_price,
         total_tax,
         total_weight,
-        updated_at,
-        user_id
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        user_id,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
         
     from fields
 )

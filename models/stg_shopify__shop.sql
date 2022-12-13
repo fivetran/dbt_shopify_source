@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_shop_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -69,9 +75,10 @@ final as (
         pre_launch_enabled as is_pre_launch_enabled,
         requires_extra_payments_agreement as is_extra_payments_agreement_required,
         setup_required as is_setup_required,
-        created_at,
-        updated_at,
-        _fivetran_synced
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
 )

@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_order_shipping_tax_line_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -26,7 +32,8 @@ final as (
         price_set,
         rate,
         title,
-        _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
 )

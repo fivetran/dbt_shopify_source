@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_collection_product_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -22,7 +28,8 @@ final as (
     select 
         collection_id,
         product_id,
-        _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
         
     from fields
 )

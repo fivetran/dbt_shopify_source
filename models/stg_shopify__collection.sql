@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_collection_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
@@ -27,13 +33,14 @@ final as (
             when disjunctive then 'disjunctive'
             else 'conjunctive' end as rule_logic,
         handle,
-        published_at,
+        cast(published_at as {{ dbt.type_timestamp() }}) as published_at,
         published_scope,
         rules,
         sort_order,
         title,
-        updated_at,
-        _fivetran_synced
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
 )

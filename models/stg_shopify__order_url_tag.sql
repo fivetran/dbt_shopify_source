@@ -14,16 +14,23 @@ fields as (
                 staging_columns=get_order_url_tag_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+
     from base
 ),
 
 final as (
     
     select 
-        _fivetran_synced,
-        key,
         order_id,
-        value
+        key,
+        value,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
         
     from fields
 )
