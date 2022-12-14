@@ -5,9 +5,9 @@
     {"name": "fulfillable_quantity", "datatype": dbt.type_numeric()},
     {"name": "fulfillment_service", "datatype": dbt.type_string()},
     {"name": "fulfillment_status", "datatype": dbt.type_string()},
-    {"name": "gift_card", "datatype": "boolean", "alias": "is_gift_card"},
+    {"name": "gift_card", "datatype": "boolean"},
     {"name": "grams", "datatype": dbt.type_numeric()},
-    {"name": "id", "datatype": dbt.type_numeric(), "alias": "order_line_id"},
+    {"name": "id", "datatype": dbt.type_numeric()},
     {"name": "index", "datatype": dbt.type_numeric()},
     {"name": "name", "datatype": dbt.type_string()},
     {"name": "order_id", "datatype": dbt.type_numeric()},
@@ -22,9 +22,9 @@
     {"name": "property_shipping_interval_unit_type", "datatype": dbt.type_string()},
     {"name": "property_subscription_id", "datatype": dbt.type_numeric()},
     {"name": "quantity", "datatype": dbt.type_numeric()},
-    {"name": "requires_shipping", "datatype": "boolean", "alias": "is_requiring_shipping"},
+    {"name": "requires_shipping", "datatype": "boolean"},
     {"name": "sku", "datatype": dbt.type_string()},
-    {"name": "taxable", "datatype": "boolean", "alias": "is_taxable"},
+    {"name": "taxable", "datatype": "boolean"},
     {"name": "tax_code", "datatype": dbt.type_string()},
     {"name": "title", "datatype": dbt.type_string()},
     {"name": "total_discount", "datatype": dbt.type_float()},
@@ -35,6 +35,8 @@
     {"name": "vendor", "datatype": dbt.type_string()},
     {"name": "properties", "datatype": dbt.type_string()}
 ] %}
+
+{{ fivetran_utils.add_pass_through_columns(columns, var('order_line_pass_through_columns')) }}
 
 {{ return(columns) }}
 

@@ -1,9 +1,9 @@
 {% macro get_order_columns() %}
 
 {% set columns = [
-    {"name": "id", "datatype": dbt.type_numeric(), "alias": "order_id"},
-    {"name": "processed_at", "datatype": dbt.type_timestamp(), "alias": "processed_timestamp"},
-    {"name": "updated_at", "datatype": dbt.type_timestamp(), "alias": "updated_timestamp"},
+    {"name": "id", "datatype": dbt.type_numeric()},
+    {"name": "processed_at", "datatype": dbt.type_timestamp()},
+    {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "user_id", "datatype": dbt.type_numeric()},
     {"name": "total_discounts", "datatype": dbt.type_float()},
     {"name": "total_discounts_set", "datatype": dbt.type_string()},
@@ -16,7 +16,7 @@
     {"name": "total_tax", "datatype": dbt.type_float()},
     {"name": "source_name", "datatype": dbt.type_string()},
     {"name": "subtotal_price", "datatype": dbt.type_float()},
-    {"name": "taxes_included", "datatype": "boolean", "alias": "has_taxes_included"},
+    {"name": "taxes_included", "datatype": "boolean"},
     {"name": "total_weight", "datatype": dbt.type_numeric()},
     {"name": "total_tip_received", "datatype": dbt.type_float()},
     {"name": "landing_site_base_url", "datatype": dbt.type_string()},
@@ -27,11 +27,11 @@
     {"name": "number", "datatype": dbt.type_numeric()},
     {"name": "order_number", "datatype": dbt.type_numeric()},
     {"name": "cancel_reason", "datatype": dbt.type_string()},
-    {"name": "cancelled_at", "datatype": dbt.type_timestamp(), "alias": "cancelled_timestamp"},
+    {"name": "cancelled_at", "datatype": dbt.type_timestamp()},
     {"name": "cart_token", "datatype": dbt.type_string()},
     {"name": "checkout_token", "datatype": dbt.type_string()},
-    {"name": "closed_at", "datatype": dbt.type_timestamp(), "alias": "closed_timestamp"},
-    {"name": "created_at", "datatype": dbt.type_timestamp(), "alias": "created_timestamp"},
+    {"name": "closed_at", "datatype": dbt.type_timestamp()},
+    {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "currency", "datatype": dbt.type_string()},
     {"name": "customer_id", "datatype": dbt.type_numeric()},
     {"name": "email", "datatype": dbt.type_string()},
@@ -55,7 +55,7 @@
     {"name": "billing_address_province_code", "datatype": dbt.type_string()},
     {"name": "billing_address_zip", "datatype": dbt.type_string()},
     {"name": "browser_ip", "datatype": dbt.type_string()},
-    {"name": "buyer_accepts_marketing", "datatype": "boolean", "alias": "has_buyer_accepted_marketing"},
+    {"name": "buyer_accepts_marketing", "datatype": "boolean"},
     {"name": "total_shipping_price_set", "datatype": dbt.type_string()},
     {"name": "shipping_address_address_1", "datatype": dbt.type_string()},
     {"name": "shipping_address_address_2", "datatype": dbt.type_string()},
@@ -72,7 +72,7 @@
     {"name": "shipping_address_province", "datatype": dbt.type_string()},
     {"name": "shipping_address_province_code", "datatype": dbt.type_string()},
     {"name": "shipping_address_zip", "datatype": dbt.type_string()},
-    {"name": "test", "datatype": "boolean", "alias": "is_test_order"},
+    {"name": "test", "datatype": "boolean"},
     {"name": "token", "datatype": dbt.type_string()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_deleted", "datatype": "boolean"},
@@ -85,6 +85,8 @@
     {"name": "presentment_currency", "datatype": dbt.type_string()},
     {"name": "confirmed", "datatype": "boolean"}
 ] %}
+
+{{ fivetran_utils.add_pass_through_columns(columns, var('order_pass_through_columns')) }}
 
 {{ return(columns) }}
 

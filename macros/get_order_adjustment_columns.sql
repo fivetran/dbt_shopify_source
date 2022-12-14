@@ -1,7 +1,7 @@
 {% macro get_order_adjustment_columns() %}
 
 {% set columns = [
-    {"name": "id", "datatype":  dbt.type_numeric(), "alias": "order_adjustment_id"},
+    {"name": "id", "datatype":  dbt.type_numeric()},
     {"name": "order_id", "datatype":  dbt.type_numeric()},
     {"name": "refund_id", "datatype":  dbt.type_numeric()},
     {"name": "amount", "datatype": dbt.type_float()},
