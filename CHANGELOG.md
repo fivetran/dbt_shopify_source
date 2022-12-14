@@ -36,6 +36,9 @@
     - `dbt.current_timestamp_backcompat`
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+
+
+[PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following breaking changes:
 - In the following tables, `*_timestamp` columns have been renamed to `*_at` for consistency:
   - `stg_shopify__customer`
   - `stg_shopify__order`
@@ -43,6 +46,8 @@
   - `stg_shopify__product`
   - `stg_shopify__transaction`
 - The `is_requiring_shipping` field in `stg_shopify__order_line` has been renamed to `is_shipping_required`, just because it sounds better :)
+- TODO more stuff
+- By default, if the refunds table does not exist, the package will create an empty `stg_shopify__refunds` model. This can still be overwritten by setting `shopify__using_refund` to `false`. We did this because the refunds table is only created once your Shopify account has processed its first refund, and it is unnecessary overhead to have to monitor this and change your dbt_project accordingly. Thus, we took the approach of having this refund table be one that syncs as empty if it is not populated, then seamlessly switches to the source table once it exists.
 
 # dbt_shopify_source v0.6.0
 🎉 dbt v1.0.0 Compatibility 🎉
