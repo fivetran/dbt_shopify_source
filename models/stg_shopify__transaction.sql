@@ -31,8 +31,6 @@ final as (
         order_id,
         refund_id,
         amount,
-        created_at,
-        processed_at,
         device_id,
         gateway,
         source_name,
@@ -55,9 +53,11 @@ final as (
         error_code,
         status,
         user_id,
-        _fivetran_synced,
-        authorization_expires_at,
         authorization_code,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
+        cast(authorization_expires_at as {{ dbt.type_timestamp() }}) as authorization_expires_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('transaction_pass_through_columns') }}

@@ -29,15 +29,15 @@ fields as (
 final as (
 
     select
-        created_at,
         id as refund_id,
         note,
         order_id,
-        processed_at,
         restock,
         total_duties_set,
         user_id,
-        _fivetran_synced,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
 
     from fields

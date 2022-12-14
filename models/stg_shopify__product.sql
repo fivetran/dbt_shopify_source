@@ -28,18 +28,18 @@ fields as (
 final as (
     
     select
-        created_at,
-        handle,
         id as product_id,
+        handle,
         product_type,
-        published_at,
         published_scope,
         title,
-        updated_at,
         vendor,
         status,
         _fivetran_deleted as is_deleted,
-        _fivetran_synced,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(published_at as {{ dbt.type_timestamp() }}) as published_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('product_pass_through_columns') }}

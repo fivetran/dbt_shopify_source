@@ -29,9 +29,6 @@ final as (
 
     select
         id as variant_id,
-        _fivetran_synced,
-        created_at,
-        updated_at,
         product_id,
         inventory_item_id,
         image_id,
@@ -53,6 +50,9 @@ final as (
         option_2,
         option_3,
         tax_code,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('product_variant_pass_through_columns') }}

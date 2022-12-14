@@ -38,8 +38,8 @@ final as (
         tax_amount_set,
         kind,
         reason,
-        source_relation,
-        _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
 
     from fields
 )

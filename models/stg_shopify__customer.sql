@@ -30,7 +30,6 @@ final as (
     select 
         accepts_marketing as has_accepted_marketing,
         email_marketing_consent_state,
-        created_at,
         default_address_id,
         email,
         first_name,
@@ -41,15 +40,16 @@ final as (
         state as account_state,
         tax_exempt as is_tax_exempt,
         total_spent,
-        updated_at,
         verified_email as is_verified_email,
         note,
-        coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as accepts_marketing_updated_at,
         coalesce(marketing_opt_in_level, email_marketing_consent_opt_in_level) as marketing_opt_in_level,
         lifetime_duration,
         currency,
-        source_relation,
-        _fivetran_synced
+        cast( coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as {{ dbt.type_timestamp() }}) as accepts_marketing_updated_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        source_relation
         
         {{ fivetran_utils.fill_pass_through_columns('customer_pass_through_columns') }}
 

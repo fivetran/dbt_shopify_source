@@ -41,7 +41,7 @@ final as (
         quantity,
         refund_id,
         restock_type,
-        _fivetran_synced,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('order_line_refund_pass_through_columns') }}
