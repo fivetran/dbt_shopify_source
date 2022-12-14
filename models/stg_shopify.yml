@@ -369,7 +369,7 @@ models:
         description: The ID associated with a refund in the refund table.
       - name: amount
         description: The amount of money included in the transaction.
-      - name: authorization
+      - name: authorization_code
         description: The authorization code associated with the transaction.
       - name: created_timestamp
         description: The date and time when the transaction was created.
