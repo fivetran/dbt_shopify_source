@@ -57,7 +57,7 @@ final as (
         user_id,
         _fivetran_synced,
         authorization_expires_at,
-        authorization,
+        authorization_code,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('transaction_pass_through_columns') }}

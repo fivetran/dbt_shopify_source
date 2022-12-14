@@ -35,9 +35,9 @@
 ] %}
 
 {% if target.type in ('redshift','postgres') %}
- {{ columns.append({"name": "authorization", "datatype": dbt.type_string(), "quote": True, "alias": "authorization"}) }}
+ {{ columns.append({"name": "authorization", "datatype": dbt.type_string(), "quote": True, "alias": "authorization_code"}) }}
 {% else %}
- {{ columns.append({"name": "authorization", "datatype": dbt.type_string()}) }}
+ {{ columns.append({"name": "authorization", "datatype": dbt.type_string(), "alias": "authorization_code"}) }}
 {% endif %}
 
 {{ return(columns) }}
