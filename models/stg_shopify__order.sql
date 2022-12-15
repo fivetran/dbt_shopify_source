@@ -47,7 +47,6 @@ final as (
         total_weight,
         total_tip_received,
         landing_site_base_url,
-        landing_site_ref,
         location_id,
         name,
         note,
@@ -99,23 +98,23 @@ final as (
         shipping_address_province,
         shipping_address_province_code,
         shipping_address_zip,
-        test as is_test_order,
+        {# test as is_test_order, #}
         token,
-        _fivetran_synced,
-        _fivetran_deleted,
+        _fivetran_deleted as is_deleted,
         app_id,
         checkout_id,
         client_details_user_agent,
         customer_locale,
-        device_id,
         order_status_url,
         presentment_currency,
-        confirmed,
+        confirmed as is_inventory_confirmed,
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('order_pass_through_columns') }}
 
     from fields
+    where not coalesce(test, false)
 )
 
 select * 

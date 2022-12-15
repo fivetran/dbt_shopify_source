@@ -20,7 +20,6 @@
     {"name": "total_weight", "datatype": dbt.type_numeric()},
     {"name": "total_tip_received", "datatype": dbt.type_float()},
     {"name": "landing_site_base_url", "datatype": dbt.type_string()},
-    {"name": "landing_site_ref", "datatype": dbt.type_string()},
     {"name": "location_id", "datatype": dbt.type_numeric()},
     {"name": "name", "datatype": dbt.type_string()},
     {"name": "note", "datatype": dbt.type_string()},
@@ -80,7 +79,6 @@
     {"name": "checkout_id", "datatype": dbt.type_int()},
     {"name": "client_details_user_agent", "datatype": dbt.type_string()},
     {"name": "customer_locale", "datatype": dbt.type_string()},
-    {"name": "device_id", "datatype": dbt.type_string()},
     {"name": "order_status_url", "datatype": dbt.type_string()},
     {"name": "presentment_currency", "datatype": dbt.type_string()},
     {"name": "confirmed", "datatype": "boolean"}

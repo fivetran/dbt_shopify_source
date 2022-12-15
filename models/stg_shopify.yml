@@ -11,8 +11,14 @@ models:
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
-      - name: has_accepted_marketing
-        description: Whether the customer has consented to receive marketing material via email.
+      - name: marketing_consent_state
+        description: >
+          Field indicating if the customer has consented to receive marketing material via email. Coalescing of the new `email_marketing_consent_state`
+          field and the deprected `accepts_marketing` field. Records with the old field will be marked with '(legacy)'.
+      - name: marketing_opt_in_level
+        description: The marketing subscription opt-in level, as described in the M3AAWG Sender Best Common Practices, that the customer gave when they consented to receive marketing material by email.
+      - name: marketing_consent_updated_at
+        description: The date and time when the customer consented to receive marketing material by email. If no date is provided, then the date and time when the consent information was sent is used.
       - name: created_at
         description: The date and time when the customer was created.
       - name: default_address_id
@@ -39,6 +45,10 @@ models:
         description: The date and time when the customer information was last updated.
       - name: is_verified_email
         description: Whether the customer has verified their email address.
+      - name: lifetime_duration
+        description: The amount of time since the customer was first added to the store.
+      - name: currency 
+        description: The three-letter code (ISO 4217 format) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
 
   - name: stg_shopify__order_line_refund
     description: Each record represents a line item from an order in Shopify.
@@ -126,6 +136,10 @@ models:
         description: "{{ doc('_fivetran_synced') }}"
       - name: app_id
         description: The ID of the app that created the order.
+      - name: checkout_id
+        description: ID of the order's checkout. 
+      - name: order_status_url
+        description: The URL pointing to the order status web page, if applicable.
       - name: billing_address_address_1
         description: The street address of the billing address.
       - name: billing_address_address_2
@@ -260,6 +274,23 @@ models:
         description: The index associated with the order.
       - name: pre_tax_price
         description: The total pre tax price of the order.
+      - name: checkout_token
+        description: A unique value when referencing the checkout that's associated with the order.
+      - name: is_inventory_confirmed
+        description: Whether inventory has been reserved for the order.
+      - name: customer_locale 
+        description: A two-letter or three-letter language code, optionally followed by a region modifier.
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: total_tip_received
+        description: The sum of all the tips in the order in the shop currency.
+      - name: client_details_user_agent
+        description: Details of the browsing client, including software and operating versions.
+      - name: total_tax_set
+      - name: total_shipping_price_set
+      - name: total_discounts_set
+      - name: subtotal_price_set
+      - name: presentment_currency
 
   - name: stg_shopify__product
     description: Each record represents a product in Shopify.
