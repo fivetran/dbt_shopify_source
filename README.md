@@ -66,6 +66,8 @@ vars:
   shopify__using_refund:      false  # true by default
 ```
 
+> By default, if the refunds table does not exist, the package will create an empty `stg_shopify__refunds` model. This can still be overwritten by setting `shopify__using_refund` to `false`. We did this because the refunds table is only created once your Shopify account has processed its first refund, and it is unnecessary overhead to have to monitor this and change your dbt_project accordingly. Thus, we took the approach of having this refund table be one that syncs as empty if it is not populated, then seamlessly switches to the source table once it exists.
+
 ## (Optional) Step 5: Additional configurations
 <details><summary>Expand to view configurations</summary>
     
@@ -84,21 +86,6 @@ vars:
     product_pass_through_columns: []
     product_variant_pass_through_columns: []
 ```
-
-### Disable Models
-This package was designed with the intention that users have all relevant Shopify tables being synced by Fivetran. However, if you are a Shopify user that does not operate on returns or adjustments then you will not have the related source tables. As such, you may use the below variable configurations to disable the respective downstream models. All variables are `true` by default. Only add the below configuration if you are wishing to disable the models:
-
-```yml
-# dbt_project.yml
-
-...
-vars:
-  shopify__using_order_adjustment:  false  # true by default
-  shopify__using_order_line_refund: false  # true by default
-  shopify__using_refund:      false  # true by default
-```
-
-> By default, if the refunds table does not exist, the package will create an empty `stg_shopify__refunds` model. This can still be overwritten by setting `shopify__using_refund` to `false`. We did this because the refunds table is only created once your Shopify account has processed its first refund, and it is unnecessary overhead to have to monitor this and change your dbt_project accordingly. Thus, we took the approach of having this refund table be one that syncs as empty if it is not populated, then seamlessly switches to the source table once it exists.
 
 ### Changing the Build Schema
 By default this package will build the Shopify staging models within a schema titled (<target_schema> + `_stg_shopify`) in your target database. If this is not where you would like your staging Shopify data to be written to, add the following configuration to your `dbt_project.yml` file:
