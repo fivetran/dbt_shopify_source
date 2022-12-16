@@ -54,9 +54,12 @@
 - TODO more stuff - new tables, fields, passthrough columns, timezone etc.
 
 [PR #38](https://github.com/fivetran/dbt_shopify_source/pull/38) includes the following changes:
-- Esnured Postgres compatibility.
+- Ensured Postgres compatibility.
 - README updated for easier package use and navigation.
 - `shopify_<default_source_table_name>_identifier` variables added if an individual source table has a different name than the package expects.
+
+[PR #41](https://github.com/fivetran/dbt_shopify_source/pull/41) includes the following change:
+- Addition of the `shopify_timezone` variable, which converts ALL timestamps included in the package (including `_fivetran_synced`) to a single target timezone (in IANA Database format, ie "America/Los_Angeles").
 
 # dbt_shopify_source v0.6.0
 🎉 dbt v1.0.0 Compatibility 🎉
