@@ -29,8 +29,6 @@ final as (
 
     select 
         id as order_id,
-        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
-        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         user_id,
         total_discounts,
         total_discounts_set,
@@ -54,11 +52,13 @@ final as (
         number,
         order_number,
         cancel_reason,
-        cast(cancelled_at as {{ dbt.type_timestamp() }}) as cancelled_at,
         cart_token,
         checkout_token,
-        cast(closed_at as {{ dbt.type_timestamp() }}) as closed_at,
-        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ dbt_date.convert_timezone(column='cast(cancelled_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as cancelled_at,
+        {{ dbt_date.convert_timezone(column='cast(closed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as closed_at,
+        {{ dbt_date.convert_timezone(column='cast(processed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_at,
+        {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         currency,
         customer_id,
         email,
@@ -82,7 +82,6 @@ final as (
         billing_address_province_code,
         billing_address_zip,
         browser_ip,
-        buyer_accepts_marketing as has_buyer_accepted_marketing,
         total_shipping_price_set,
         shipping_address_address_1,
         shipping_address_address_2,
@@ -99,10 +98,7 @@ final as (
         shipping_address_province,
         shipping_address_province_code,
         shipping_address_zip,
-        test as is_test_order,
         token,
-        _fivetran_synced,
-        _fivetran_deleted,
         app_id,
         checkout_id,
         client_details_user_agent,
@@ -110,12 +106,17 @@ final as (
         device_id,
         order_status_url,
         presentment_currency,
-        confirmed,
+        {# test as is_test_order, #}
+        _fivetran_deleted as is_deleted,
+        buyer_accepts_marketing as has_buyer_accepted_marketing,
+        confirmed as is_confirmed,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('order_pass_through_columns') }}
 
     from fields
+    where not coalesce(test, false)
 )
 
 select * 

@@ -34,9 +34,9 @@ final as (
         lower(coalesce(type, value_type)) as value_type,
         owner_id as owner_resource_id,
         owner_resource,
-        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
-        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
         
     from fields
