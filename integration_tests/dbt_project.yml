@@ -14,7 +14,7 @@ vars:
     shopify_product_variant_identifier:   "shopify_product_variant_data"
     shopify_refund_identifier:            "shopify_refund_data"
     shopify_transaction_identifier:       "shopify_transaction_data"
-    shopify_schema: shopify_source_integration_tests_1
+    shopify_schema: shopify_source_integration_tests_2
 
     abandoned_checkout_source: "{{ ref('shopify_abandoned_checkout_data') }}"
     collection_product_source: "{{ ref('shopify_collection_product_data') }}"
