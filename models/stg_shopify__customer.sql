@@ -45,9 +45,16 @@ final as (
         coalesce(marketing_opt_in_level, email_marketing_consent_opt_in_level) as marketing_opt_in_level,
         lifetime_duration,
         currency,
-        cast( coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as {{ dbt.type_timestamp() }}) as accepts_marketing_updated_at,
-        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+
+
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        {{ dbt_date.convert_timezone(column='created_at', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at_tz,
+        cast( coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as {{ dbt.type_timestamp() }}) as accepts_marketing_updated_at,
+        {{ dbt_date.convert_timezone(column='coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at)', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as accepts_marketing_updated_at_tz,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        {{ dbt_date.convert_timezone(column='updated_at', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at_tz,
+        
+
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
         source_relation
         
