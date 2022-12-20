@@ -41,7 +41,7 @@ final as (
         quantity,
         refund_id,
         restock_type,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('order_line_refund_pass_through_columns') }}

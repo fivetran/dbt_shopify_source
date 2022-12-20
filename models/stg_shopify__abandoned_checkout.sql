@@ -45,8 +45,8 @@ final as (
         billing_address_zip,
         buyer_accepts_marketing as has_buyer_accepted_marketing,
         cart_token,
-        cast(closed_at as {{ dbt.type_timestamp() }}) as closed_at,
-        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ dbt_date.convert_timezone(column='cast(closed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as closed_at,
         currency as shop_currency,
         customer_id,
         customer_locale,
@@ -86,9 +86,9 @@ final as (
         total_price,
         total_tax,
         total_weight,
-        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         user_id,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
         
     from fields

@@ -54,10 +54,10 @@ final as (
         status,
         user_id,
         authorization_code,
-        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
-        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
-        cast(authorization_expires_at as {{ dbt.type_timestamp() }}) as authorization_expires_at,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ dbt_date.convert_timezone(column='cast(processed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_at,
+        {{ dbt_date.convert_timezone(column='cast(authorization_expires_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as authorization_expires_at,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('transaction_pass_through_columns') }}
