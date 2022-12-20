@@ -40,7 +40,7 @@
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
 
-[PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following  breaking changes:
+[PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following breaking changes:
 - In the following tables, `*_timestamp` columns have been renamed to `*_at` for consistency:
   - `stg_shopify__customer`
   - `stg_shopify__order`
