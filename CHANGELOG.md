@@ -41,12 +41,6 @@
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
 
 [PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following breaking changes:
-- In the following tables, `*_timestamp` columns have been renamed to `*_at` for consistency:
-  - `stg_shopify__customer`
-  - `stg_shopify__order`
-  - `stg_shopify__product_variant`
-  - `stg_shopify__product`
-  - `stg_shopify__transaction`
 - The `is_requiring_shipping` field in `stg_shopify__order_line` has been renamed to `is_shipping_required`, just because it sounds better :)
 ## Updates:
 [PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following changes:
