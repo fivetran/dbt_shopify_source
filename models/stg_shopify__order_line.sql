@@ -28,13 +28,12 @@ fields as (
 final as (
     
     select 
-
+        id as order_line_id,
         fulfillable_quantity,
         fulfillment_service,
         fulfillment_status,
         gift_card as is_gift_card,
         grams,
-        id as order_line_id,
         index,
         name,
         order_id,

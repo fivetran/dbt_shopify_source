@@ -60,7 +60,7 @@ final as (
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         currency,
         customer_id,
-        email,
+        lower(email) as email,
         financial_status,
         fulfillment_status,
         processing_method,
@@ -98,7 +98,7 @@ final as (
         shipping_address_province,
         shipping_address_province_code,
         shipping_address_zip,
-        {# test as is_test_order, #}
+        test as is_test_order,
         token,
         _fivetran_deleted as is_deleted,
         app_id,
@@ -114,8 +114,8 @@ final as (
         {{ fivetran_utils.fill_pass_through_columns('order_pass_through_columns') }}
 
     from fields
-    where not coalesce(test, false)
 )
 
 select * 
 from final
+where not coalesce(is_test_order, false)
