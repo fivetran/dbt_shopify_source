@@ -1,4 +1,8 @@
 # dbt_shopify_source v0.6.0
+dbt_utils v1.0.0 Compatibility
+## 🚨 Breaking Changes 🚨
+- Updates to require fivetran_utils [">=0.4.0", "<0.5.0"], which relies on dbt_utils v1.0.0.  
+
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
 - Adjusts the `require-dbt-version` to now be within the range [">=1.0.0", "<2.0.0"]. Additionally, the package has been updated for dbt v1.0.0 compatibility. If you are using a dbt version <1.0.0, you will need to upgrade in order to leverage the latest version of the package.
