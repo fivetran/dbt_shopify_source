@@ -35,7 +35,7 @@ final as (
         orders_count,
         default_address_id,
         phone,
-        state as account_state,
+        lower(state) as account_state,
         tax_exempt as is_tax_exempt,
         total_spent,
         verified_email as is_verified_email,
@@ -50,10 +50,11 @@ final as (
                     else 'not_subscribed (legacy)' end
             else lower(email_marketing_consent_state) end as marketing_consent_state,
         lower(coalesce(email_marketing_consent_opt_in_level, marketing_opt_in_level)) as marketing_opt_in_level,
-        cast( coalesce(email_marketing_consent_consent_updated_at, accepts_marketing_updated_at) as {{ dbt.type_timestamp() }}) as marketing_consent_updated_at,
-        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
-        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced,
+        
+        {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
+        {{ dbt_date.convert_timezone(column='cast(coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as marketing_consent_updated_at,
+        {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_timestamp,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
         
         {{ fivetran_utils.fill_pass_through_columns('customer_pass_through_columns') }}
