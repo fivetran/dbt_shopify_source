@@ -1,5 +1,4 @@
---To disable this model, set the shopify__using_order_line_refund variable within your dbt_project.yml file to False.
-{{ config(enabled=var('shopify__using_order_line_refund', True)) }}
+-- this model will be all NULL until you have made an order line refund in Shopify
 
 {%- set source_relation = adapter.get_relation(
         database=source('shopify', 'order_line_refund').database,

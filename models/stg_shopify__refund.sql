@@ -1,5 +1,4 @@
---To disable this model, set the shopify__using_refund variable within your dbt_project.yml file to False.
-{{ config(enabled=var('shopify__using_refund', True)) }}
+-- this model will be all NULL until you have made a refund in Shopify
 
 with base as (
 

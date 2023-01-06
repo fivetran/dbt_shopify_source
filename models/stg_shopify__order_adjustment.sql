@@ -1,5 +1,4 @@
---To disable this model, set the shopify__using_order_adjustment variable within your dbt_project.yml file to False.
-{{ config(enabled=var('shopify__using_order_adjustment', True)) }}
+-- this model will be all NULL until you have made an order adjustment in Shopify
 
 with base as (
 
