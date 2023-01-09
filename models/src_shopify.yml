@@ -1270,5 +1270,5 @@ sources:
             description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
       
       - name: abandoned_checkout_shipping_line
-        description: Shipping lines associated with abandoned checkouts.
+        description: Shipping lines associated with abandoned checkouts. TODO
         identifier: "{{ var('shopify_abandoned_checkout_shipping_line_identifier', 'abandoned_checkout_shipping_line') }}"

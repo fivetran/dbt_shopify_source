@@ -14,6 +14,12 @@ fields as (
                 staging_columns=get_abandoned_checkout_shipping_line_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='shopify_union_schemas', 
+            union_database_variable='shopify_union_databases') 
+        }}
+        
     from base
 ),
 
