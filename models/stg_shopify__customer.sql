@@ -29,12 +29,7 @@ final as (
 
     select 
         id as customer_id,
-<<<<<<< HEAD
         lower(email) as email,
-        default_address_id,
-=======
-        email,
->>>>>>> d1c1f494e9fe77be75bdaf29bde38582d57302c3
         first_name,
         last_name,
         orders_count,

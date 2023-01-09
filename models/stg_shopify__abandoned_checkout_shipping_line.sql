@@ -20,20 +20,19 @@ fields as (
 final as (
     
     select 
-        _fivetran_synced,
+        id as abandoned_checkout_shipping_line_id,
+        checkout_id,
+        index,
         api_client_id,
         carrier_identifier,
         carrier_service_id,
-        checkout_id,
-        code,
+        code as shipping_code,
         delivery_category,
         delivery_expectation_range,
         delivery_expectation_range_max,
         delivery_expectation_range_min,
         delivery_expectation_type,
         discounted_price,
-        id,
-        index,
         markup,
         original_shop_markup,
         original_shop_price,
@@ -43,7 +42,10 @@ final as (
         requested_fulfillment_service_id,
         source,
         title,
-        validation_context
+        validation_context,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
     from fields
 )
 
