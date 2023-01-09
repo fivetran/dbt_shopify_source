@@ -32,7 +32,7 @@ final as (
         name,
         service,
         shipment_status,
-        status,
+        lower(status) as status,
         tracking_company,
         tracking_number,
         tracking_numbers,

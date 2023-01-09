@@ -61,7 +61,7 @@ final as (
         {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_timestamp,
         currency,
         customer_id,
-        email,
+        lower(email) as email,
         financial_status,
         fulfillment_status,
         processing_method,

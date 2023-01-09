@@ -31,7 +31,7 @@ final as (
         accepts_marketing as has_accepted_marketing,
         email_marketing_consent_state,
         default_address_id,
-        email,
+        lower(email) as email,
         first_name,
         id as customer_id,
         last_name,
