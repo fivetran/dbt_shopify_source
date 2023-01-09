@@ -106,7 +106,7 @@ final as (
         device_id,
         order_status_url,
         presentment_currency,
-        {# test as is_test_order, #}
+        test as is_test_order,
         _fivetran_deleted as is_deleted,
         buyer_accepts_marketing as has_buyer_accepted_marketing,
         confirmed as is_confirmed,
@@ -116,8 +116,8 @@ final as (
         {{ fivetran_utils.fill_pass_through_columns('order_pass_through_columns') }}
 
     from fields
-    where not coalesce(test, false)
 )
 
 select * 
 from final
+where not coalesce(is_test_order, false)

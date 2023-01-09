@@ -38,6 +38,7 @@ vars:
     tender_transaction_source: "{{ ref('shopify_tender_transaction_data') }}"
     abandoned_checkout_discount_code_source: "{{ ref('shopify_abandoned_checkout_discount_code_data') }}"
     order_discount_code_source: "{{ ref('shopify_order_discount_code_data') }}"
+    abandoned_checkout_shipping_line_source: "{{ ref('shopify_abandoned_checkout_shipping_line_data') }}"
 
 dispatch:
   - macro_namespace: dbt_utils
