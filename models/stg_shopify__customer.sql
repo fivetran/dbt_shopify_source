@@ -28,25 +28,31 @@ fields as (
 final as (
 
     select 
-        accepts_marketing as has_accepted_marketing,
-        email_marketing_consent_state,
-        default_address_id,
+        id as customer_id,
         lower(email) as email,
         first_name,
-        id as customer_id,
         last_name,
         orders_count,
+        default_address_id,
         phone,
         lower(state) as account_state,
         tax_exempt as is_tax_exempt,
         total_spent,
         verified_email as is_verified_email,
         note,
-        coalesce(marketing_opt_in_level, email_marketing_consent_opt_in_level) as marketing_opt_in_level,
         lifetime_duration,
         currency,
+        case 
+            when email_marketing_consent_state is null then
+                case 
+                    when accepts_marketing is null then null
+                    when accepts_marketing then 'subscribed (legacy)' 
+                    else 'not_subscribed (legacy)' end
+            else lower(email_marketing_consent_state) end as marketing_consent_state,
+        lower(coalesce(email_marketing_consent_opt_in_level, marketing_opt_in_level)) as marketing_opt_in_level,
+
+        {{ dbt_date.convert_timezone(column='cast(coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as marketing_consent_updated_at,
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
-        {{ dbt_date.convert_timezone(column='cast(coalesce(accepts_marketing_updated_at, email_marketing_consent_consent_updated_at) as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as accepts_marketing_updated_at,
         {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_timestamp,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation

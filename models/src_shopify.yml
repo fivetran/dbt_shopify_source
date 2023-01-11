@@ -143,6 +143,21 @@ sources:
             description: The date and time (ISO 8601 format) when the order was last modified.
           - name: user_id
             description: The ID of the user logged into Shopify POS who processed the order, if applicable.
+          - name: checkout_token
+            description: A unique value when referencing the checkout that's associated with the order.
+          - name: confirmed
+            description: Whether inventory has been reserved for the order.
+          - name: customer_locale 
+            description: A two-letter or three-letter language code, optionally followed by a region modifier.
+          - name: checkout_id
+            description: ID of the order's checkout. 
+          - name: order_status_url
+            description: The URL pointing to the order status web page, if applicable.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: total_tip_received
+            description: The sum of all the tips in the order in the shop currency.
+
       - name: customer
         identifier: "{{ var('shopify_customer_identifier', 'customer') }}"
         description: Each record represents a customer in Shopify.
@@ -150,7 +165,7 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: accepts_marketing
-            description: Whether the customer has consented to receive marketing material via email.
+            description: Whether the customer has consented to receive marketing material via email. Deprecated and will be coalesced with `email_marketing_consent_state`.
           - name: created_at
             description: The date and time when the customer was created.
           - name: default_address_id
@@ -177,6 +192,22 @@ sources:
             description: The date and time when the customer information was last updated.
           - name: verified_email
             description: Whether the customer has verified their email address.
+          - name: email_marketing_consent_state
+            description: The current email marketing state for the customer. New version of `accepts_marketing` field.
+          - name: email_marketing_consent_opt_in_level
+            description: The marketing subscription opt-in level, as described in the M3AAWG Sender Best Common Practices, that the customer gave when they consented to receive marketing material by email. New version of `marketing_opt_in_level` field.
+          - name: email_marketing_consent_consent_updated_at
+            description: The date and time when the customer consented to receive marketing material by email. If no date is provided, then the date and time when the consent information was sent is used. New version of `accepts_marketing_updated_at` field.
+          - name: accepts_marketing_updated_at
+            description: Deprecated. The package will coalesce with `email_marketing_consent_consent_updated_at`. 
+          - name: marketing_opt_in_level
+            description: Deprecated. The package will coalesce with `email_marketing_consent_opt_in_level`.
+          - name: lifetime_duration
+            description: The amount of time since the customer was first added to the store.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: currency 
+            description: The three-letter code (ISO 4217 format) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
       - name: order_line
         identifier: "{{ var('shopify_order_line_identifier', 'order_line') }}"
         description: Each record represents a line item for an order in Shopify.
@@ -446,6 +477,7 @@ sources:
       
       - name: abandoned_checkout
         description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
+        identifier: "{{ var('shopify_abandoned_checkout_identifier', 'abandoned_checkout') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -576,6 +608,7 @@ sources:
 
       - name: collection_product
         description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
+        identifier: "{{ var('shopify_collection_product_identifier', 'collection_product') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -588,6 +621,7 @@ sources:
         description: >
           A collection is a grouping of products that merchants can create to make their stores easier to browse.
           Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included (aka a "smart collection").
+        identifier: "{{ var('shopify_collection_identifier', 'collection') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -630,6 +664,7 @@ sources:
 
       - name: customer_tag
         description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
+        identifier: "{{ var('shopify_customer_tag_identifier', 'customer_tag') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -644,6 +679,7 @@ sources:
         description: >
           Table storing discount codes that enable specific discounts to be redeemed. Merchants can distribute discount codes to their customers using a variety of means, such as an email or URL, 
           and customers can apply these codes at checkout. Each discount code belongs to a price rule, which holds the logic for the discount.
+        identifier: "{{ var('shopify_discount_code_identifier', 'discount_code') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -664,6 +700,7 @@ sources:
         description: >
           A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
           A fulfillment represents work that is completed as part of a fulfillment order and can include one or more items.
+        identifier: "{{ var('shopify_fulfillment_identifier', 'fulfillment') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -719,6 +756,7 @@ sources:
         description: >
           An inventory item represents a physical good. It holds essential information about the physical good, including its SKU and whether its inventory is tracked.
           There is a 1:1 relationship between a product variant and an inventory item.
+        identifier: "{{ var('shopify_inventory_item_identifier', 'inventory_item') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -749,6 +787,7 @@ sources:
 
           Each inventory level belongs to one inventory item and has one location. For every location where an inventory item can be stocked, there's an inventory level that represents 
           the inventory item's quantities relating to that location.
+        identifier: "{{ var('shopify_inventory_level_identifier', 'inventory_level') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -763,6 +802,7 @@ sources:
 
       - name: location
         description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist.
+        identifier: "{{ var('shopify_location_identifier', 'location') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -812,6 +852,7 @@ sources:
         description: >
           Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
           downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
+        identifier: "{{ var('shopify_metafield_identifier', 'metafield') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -840,6 +881,7 @@ sources:
 
       - name: order_note_attribute
         description: Table storing custom attributes placed on orders. 
+        identifier: "{{ var('shopify_order_note_attribute_identifier', 'order_note_attribute') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -852,6 +894,7 @@ sources:
 
       - name: order_shipping_line
         description: Represents the shipping details that the customer chose for their order.
+        identifier: "{{ var('shopify_order_shipping_line_identifier', 'order_shipping_line') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -884,6 +927,7 @@ sources:
 
       - name: order_shipping_tax_line
         description: Represents taxes associated with order shipping lines.
+        identifier: "{{ var('shopify_order_shipping_tax_line_identifier', 'order_shipping_tax_line') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -902,6 +946,7 @@ sources:
 
       - name: order_tag
         description: Tags that the shop owner has attached to the order.
+        identifier: "{{ var('shopify_order_tag_identifier', 'order_tag') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -914,6 +959,7 @@ sources:
 
       - name: order_url_tag
         description: Key-value tags that the shop owner has attached to the order url.
+        identifier: "{{ var('shopify_order_url_tag_identifier', 'order_url_tag') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -928,6 +974,7 @@ sources:
         description: >
           Table storing price rules. You can use price rules to create discounts dependent on conditions. Merchants can distribute the discount codes to their customers. 
           Using price rules, you can create discounts that specify a discount as a percentage, a fixed amount, or free shipping. You use entitlements and prerequisites to dynamically build these discounts.
+        identifier: "{{ var('shopify_price_rule_identifier', 'price_rule') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -990,6 +1037,7 @@ sources:
 
       - name: product_image
         description: Table storing hosted images of products.
+        identifier: "{{ var('shopify_product_image_identifier', 'product_image') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -1016,6 +1064,7 @@ sources:
 
       - name: product_tag
         description: Tags that the shop owner has attached to the product.
+        identifier: "{{ var('shopify_product_tag_identifier', 'product_tag') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -1028,6 +1077,7 @@ sources:
 
       - name: shop
         description: The Shop resource is a collection of general business and store management settings and information about the store.
+        identifier: "{{ var('shopify_shop_identifier', 'shop') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -1145,6 +1195,7 @@ sources:
           Each tender transaction represents money passing between the merchant and a customer. A tender transaction with a positive amount 
           represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
           merchant refunded money back to the customer. Tender transactions represent transactions that modify the shop's balance.
+        identifier: "{{ var('shopify_tender_transaction_identifier', 'tender_transaction') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -1182,6 +1233,7 @@ sources:
 
       - name: abandoned_checkout_discount_code
         description: Abandoned checkouts that applied a discount code. 
+        identifier: "{{ var('shopify_abandoned_checkout_discount_code_identifier', 'abandoned_checkout_discount_code') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -1204,6 +1256,7 @@ sources:
       
       - name: order_discount_code
         description: Discount codes placed on orders.
+        identifier: "{{ var('shopify_order_discount_code_identifier', 'order_discount_code') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -1215,3 +1268,7 @@ sources:
             description: Associated order ID.
           - name: type
             description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
+      
+      - name: abandoned_checkout_shipping_line
+        description: Shipping lines associated with abandoned checkouts. TODO
+        identifier: "{{ var('shopify_abandoned_checkout_shipping_line_identifier', 'abandoned_checkout_shipping_line') }}"

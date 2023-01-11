@@ -1,3 +1,4 @@
+-- this model will be all NULL until you create a discount code in Shopify
 
 with base as (
 
@@ -27,7 +28,7 @@ final as (
     
     select 
         id as discount_code_id,
-        code,
+        upper(code) as code,
         price_rule_id,
         usage_count,
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,

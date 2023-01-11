@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -28,7 +27,7 @@ final as (
     
     select 
         checkout_id,
-        code,
+        upper(code) as code,
         discount_id,
         amount,
         type,

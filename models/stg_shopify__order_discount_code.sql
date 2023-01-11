@@ -27,7 +27,7 @@ final as (
     
     select 
         order_id,
-        code,
+        upper(code) as code,
         type,
         amount,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
