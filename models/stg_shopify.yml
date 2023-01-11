@@ -821,6 +821,8 @@ models:
         tests:
           - accepted_values:
               values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
+              config:
+                severity: warn # we pivot these out in shopify__inventory_levels
       - name: tracking_company
         description: The name of the tracking company. 
       - name: tracking_number
@@ -1174,6 +1176,8 @@ models:
         tests:
           - accepted_values:
               values: ['line_item', 'shipping_line']
+              config:
+                severity: warn # we use these in a JOIN condition in shopify__discounts
       - name: title
         description: >
           The title of the price rule. This is used by the Shopify admin search to retrieve discounts. It is also displayed on the Discounts page of the Shopify admin for bulk discounts. 
