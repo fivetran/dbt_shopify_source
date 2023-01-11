@@ -818,6 +818,9 @@ models:
           - cancelled: The fulfillment was cancelled.
           - error: There was an error with the fulfillment request.
           - failure: The fulfillment request failed.
+        tests:
+          - accepted_values:
+              values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
       - name: tracking_company
         description: The name of the tracking company. 
       - name: tracking_number
@@ -1168,6 +1171,9 @@ models:
           `entitled` (the price rule applies the discount to selected entitlements only).
       - name: target_type
         description: The target type that the price rule applies to. Valid values include `line_item` (the price rule applies to the cart's line items) and `shipping_line` (the price rule applies to the cart's shipping lines).
+        tests:
+          - accepted_values:
+              values: ['line_item', 'shipping_line']
       - name: title
         description: >
           The title of the price rule. This is used by the Shopify admin search to retrieve discounts. It is also displayed on the Discounts page of the Shopify admin for bulk discounts. 
@@ -1184,6 +1190,9 @@ models:
           and `percentage` (applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied).
 
           If `target_type` is `shipping_line`, then only `percentage` is accepted.
+        tests:
+          - accepted_values:
+              values: ['percentage', 'fixed_amount']
 
   - name: stg_shopify__product_image
     description: Table storing hosted images of products.
