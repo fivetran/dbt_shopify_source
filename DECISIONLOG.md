@@ -13,3 +13,12 @@ Thus, the source package will create empty (1 row of all `NULL` fields) staging 
 ## Keeping Deleted Entities 
 
 todo - not filtering out _fivetran_deleted in staging models. when joining these tables together in the transform package, bring in _fivetran_deleted as is_<foreign key table>_deleted
+
+## Accepted Value Test Severity
+
+We test the following columns for accepted values because their values are hard-coded to be pivoted out into columns and/or used as `JOIN` conditions in downstream models.
+- `stg_shopify__price_rule.target_type`: accepted values are `line_item`, `shipping_line`
+- `stg_shopify__price_rule.value_type`: accepted values are `percentage`, `fixed_amount`
+- `stg_shopify__fulfillment.status`: accepted values are `pending`, `open`, `success`, `cancelled`, `error`, `failure`
+
+We have chosen to make the severity of these tests `warn`, as non-accepted values will be filtered out in the transformation models. They will not introduce erroneous data.

@@ -1197,6 +1197,8 @@ models:
         tests:
           - accepted_values:
               values: ['percentage', 'fixed_amount']
+              config:
+                severity: warn # we use these in a JOIN condition in shopify__discounts
 
   - name: stg_shopify__product_image
     description: Table storing hosted images of products.
