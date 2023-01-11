@@ -1,3 +1,4 @@
+-- this model will be all NULL until you create a discount code in Shopify
 
 with base as (
 
