@@ -25,14 +25,15 @@ To use this dbt package, you must have the following:
 - At least one Fivetran Shopify connector syncing data into your destination. 
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
-## Step 2: Install the package
-Include the following shopify_source package version in your `packages.yml` file.
+## Step 2: Install the package (skip if also using the `dbt_shopify` package)
+If you  are **not** using the [Shopify transformation package](https://github.com/fivetran/dbt_shopify), include the following package version in your `packages.yml` file. If you are installing the transform package, the source package is automatically installed as a dependency.
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yml
 packages:
   - package: fivetran/shopify_source
     version: [">=0.7.0", "<0.8.0"]
 ```
+
 ## Step 3: Define database and schema variables
 ### Single connector
 By default, this package runs using your destination and the `shopify` schema. If this is not where your Shopify data is (for example, if your Shopify schema is named `shopify_fivetran` and your `issue` table is named `usa_issue`), add the following configuration to your root `dbt_project.yml` file:
@@ -59,20 +60,31 @@ vars:
 ## (Optional) Step 5: Additional configurations
 <details><summary>Expand to view configurations</summary>
     
-### Add Passthrough Columns - todo, update with new syntax
-This package includes all source columns defined in the [staging_columns.sql](https://github.com/fivetran/dbt_shopify_source/blob/master/macros/staging_columns.sql) macro. To add additional columns to this package, do so using our pass-through column variables in your root `dbt_project.yml`. This is extremely useful if you'd like to include custom fields to the package.
+### Passing Through Additional Fields
+This package includes all source columns defined in the macros folder. You can add more columns using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
 
 ```yml
 # dbt_project.yml
 
 vars:
   shopify_source:
-    customer_pass_through_columns: []
-    order_line_refund_pass_through_columns: []
-    order_line_pass_through_columns: []
-    order_pass_through_columns: []
-    product_pass_through_columns: []
-    product_variant_pass_through_columns: []
+    customer_pass_through_columns:
+      - name: "customer_custom_field"
+        alias: "customer_field"
+    order_line_refund_pass_through_columns:
+      - name: "unique_string_field"
+        alias: "field_id"
+        transform_sql: "cast(field_id as string)"
+    order_line_pass_through_columns:
+      - name: "that_field"
+    order_pass_through_columns:
+      - name: "sub_field"
+        alias: "subsidiary_field"
+    product_pass_through_columns:
+      - name: "this_field"
+    product_variant_pass_through_columns:
+      - name: "new_custom_field"
+        alias: "custom_field"
 ```
 
 ### Changing the Build Schema
