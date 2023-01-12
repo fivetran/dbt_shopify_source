@@ -2,9 +2,7 @@
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "api_client_id", "datatype": dbt.type_int()},
     {"name": "carrier_identifier", "datatype": dbt.type_string()},
-    {"name": "carrier_service_id", "datatype": dbt.type_int()},
     {"name": "checkout_id", "datatype": dbt.type_int()},
     {"name": "code", "datatype": dbt.type_string()},
     {"name": "delivery_category", "datatype": dbt.type_string()},
@@ -15,16 +13,11 @@
     {"name": "discounted_price", "datatype": dbt.type_float()},
     {"name": "id", "datatype": dbt.type_string()},
     {"name": "index", "datatype": dbt.type_int()},
-    {"name": "markup", "datatype": dbt.type_float()},
-    {"name": "original_shop_markup", "datatype": dbt.type_string()},
-    {"name": "original_shop_price", "datatype": dbt.type_string()},
     {"name": "phone", "datatype": dbt.type_string()},
-    {"name": "presentment_title", "datatype": dbt.type_string()},
     {"name": "price", "datatype": dbt.type_float()},
     {"name": "requested_fulfillment_service_id", "datatype": dbt.type_string()},
     {"name": "source", "datatype": dbt.type_string()},
-    {"name": "title", "datatype": dbt.type_string()},
-    {"name": "validation_context", "datatype": dbt.type_string()}
+    {"name": "title", "datatype": dbt.type_string()}
 ] %}
 
 {{ return(columns) }}

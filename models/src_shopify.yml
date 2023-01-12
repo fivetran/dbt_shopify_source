@@ -1270,5 +1270,42 @@ sources:
             description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
       
       - name: abandoned_checkout_shipping_line
-        description: Shipping lines associated with abandoned checkouts. TODO
+        description: Shipping lines associated with abandoned checkouts.
         identifier: "{{ var('shopify_abandoned_checkout_shipping_line_identifier', 'abandoned_checkout_shipping_line') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: carrier_identifier
+            description: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
+          - name: checkout_id
+            description: ID of the checkout that was abandoned.
+          - name: code
+            description: A reference to the shipping method.
+          - name: delivery_category
+            description: The general classification of the delivery method.
+          - name: delivery_expectation_range
+            description: Expected delivery date range.
+          - name: delivery_expectation_range_max
+            description: Latest expected delivery date.
+          - name: delivery_expectation_range_min
+            description: Earliest possible expected delivery date.
+          - name: delivery_expectation_type
+            description: Type of expected delivery.
+          - name: discounted_price
+            description: The pre-tax shipping price with discounts applied.
+          - name: id
+            description: Unique ID of the abandoned checkout shipping line.
+          - name: index
+            description: Index of the line amongst shipping lines for this checkout.
+          - name: original_shop_price
+            description: The pre-tax shipping price without any discounts applied.
+          - name: phone
+            description: The phone number at the shipping address.
+          - name: price
+            description: The price of the shipping method in presentment currency.
+          - name: requested_fulfillment_service_id
+            description: The fulfillment service requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service.
+          - name: source
+            description: The channel where the checkout originated. Example value - shopify.
+          - name: title
+            description: The title of the shipping method. Example value - International Shipping.
