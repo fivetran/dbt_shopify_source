@@ -1,5 +1,4 @@
-[0m23:36:24  Partial parse save file not found. Starting full parse.
-[0m23:36:29  {% macro get_fulfillment_event_columns() %}
+{% macro get_fulfillment_event_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
