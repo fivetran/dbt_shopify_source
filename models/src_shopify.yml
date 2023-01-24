@@ -1272,3 +1272,7 @@ sources:
       - name: abandoned_checkout_shipping_line
         description: Shipping lines associated with abandoned checkouts. TODO
         identifier: "{{ var('shopify_abandoned_checkout_shipping_line_identifier', 'abandoned_checkout_shipping_line') }}"
+      
+      - name: tax_line
+        description: TODO
+        identifier: "{{ var('shopify_tax_line_identifier', 'tax_line') }}"

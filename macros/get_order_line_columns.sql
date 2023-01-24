@@ -33,7 +33,23 @@
     {"name": "variant_title", "datatype": dbt.type_string()},
     {"name": "variant_inventory_management", "datatype": dbt.type_string()},
     {"name": "vendor", "datatype": dbt.type_string()},
-    {"name": "properties", "datatype": dbt.type_string()}
+    {"name": "properties", "datatype": dbt.type_string()},
+    {"name": "destination_location_address_1", "datatype": dbt.type_string()},
+    {"name": "destination_location_address_2", "datatype": dbt.type_string()},
+    {"name": "destination_location_city", "datatype": dbt.type_string()},
+    {"name": "destination_location_country_code", "datatype": dbt.type_string()},
+    {"name": "destination_location_id", "datatype": dbt.type_int()},
+    {"name": "destination_location_name", "datatype": dbt.type_string()},
+    {"name": "destination_location_province_code", "datatype": dbt.type_string()},
+    {"name": "destination_location_zip", "datatype": dbt.type_string()},
+    {"name": "origin_location_address_1", "datatype": dbt.type_string()},
+    {"name": "origin_location_address_2", "datatype": dbt.type_string()},
+    {"name": "origin_location_city", "datatype": dbt.type_string()},
+    {"name": "origin_location_country_code", "datatype": dbt.type_string()},
+    {"name": "origin_location_id", "datatype": dbt.type_int()},
+    {"name": "origin_location_name", "datatype": dbt.type_string()},
+    {"name": "origin_location_province_code", "datatype": dbt.type_string()},
+    {"name": "origin_location_zip", "datatype": dbt.type_string()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('order_line_pass_through_columns')) }}
