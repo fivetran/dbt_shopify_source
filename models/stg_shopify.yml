@@ -985,6 +985,10 @@ models:
         description: The date and time (ISO 8601 format) when the metafield was last updated.
       - name: value
         description: The data to store in the metafield. The value is always stored as a string, regardless of the metafield's type.
+      - name: metafield_reference
+        description: Combination of the namespace and key columns. This field is key for metafield mapping in downstream models.
+      - name: is_most_recent_record
+        description: Boolean indicating the most up to date record identified by the most recent updated_at field.
 
   - name: stg_shopify__order_note_attribute
     description: Table storing custom attributes placed on orders. 
