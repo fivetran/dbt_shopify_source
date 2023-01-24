@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify__using_fulfillment_event', True)) }}
+{{ config(enabled=var('shopify_using_fulfillment_event', false)) }}
 
 {{
     fivetran_utils.union_data(
