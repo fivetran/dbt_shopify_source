@@ -1311,5 +1311,76 @@ sources:
             description: The title of the shipping method. Example value - International Shipping.
 
       - name: fulfillment_event
-        description: TODO
+        description: >
+          The FulfillmentEvent resource represents tracking events that belong to a fulfillment of one or more items in an order. 
+          Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
         identifier: "{{ var('shopify_fulfillment_event_identifier', 'fulfillment_event') }}"
+        columns:
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: address_1
+            description: The street address where the fulfillment event occurred.
+          - name: city
+            description: The city where the fulfillment event occurred.
+          - name: country
+            description: The country where the fulfillment event occurred.
+          - name: created_at
+            description: The date and time (ISO 8601 format) when the fulfillment event was created.
+          - name: estimated_delivery_at
+            description: >
+              The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
+              Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
+          - name: fulfillment_id
+            description: An ID for the fulfillment that's associated with the fulfillment event.
+          - name: happened_at
+            description: The date and time (ISO 8601 format) when the fulfillment event occurred.
+          - name: id
+            description: An ID for the fulfillment event.
+          - name: latitude
+            description: A geographic coordinate specifying the latitude of the fulfillment event.
+          - name: longitude
+            description: A geographic coordinate specifying the longitude of the fulfillment event.
+          - name: message
+            description: An arbitrary message describing the status. Can be provided by a shipping carrier.
+          - name: order_id
+            description: The ID of the order that's associated with the fulfillment event.
+          - name: province
+            description: The province where the fulfillment event occurred.
+          - name: shop_id
+            description: An ID for the shop that's associated with the fulfillment event.
+          - name: status
+            description: >
+              The status of the fulfillment event. Valid values:
+              - label_printed: A label for the shipment was purchased and printed.
+              - label_purchased: A label for the shipment was purchased, but not printed.
+              - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
+              - ready_for_pickup: The shipment is ready for pickup at a shipping depot.
+              - picked_up: The fulfillment was successfully picked up.
+              - confirmed: The carrier is aware of the shipment, but hasn't received it yet.
+              - in_transit: The shipment is being transported between shipping facilities on the way to its destination.
+              - out_for_delivery: The shipment is being delivered to its final destination.
+              - delivered: The shipment was successfully delivered.
+              - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+          - name: updated_at
+            description: The date and time (ISO 8601 format) when the fulfillment event was updated.
+          - name: zip
+            description: The zip code of the location where the fulfillment event occurred.
+            
+      - name: tax_line
+        description: 
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: index
+            description: The index of the tax line.
+          - name: order_line_id
+            description: The order line that this tax line is associated with. 
+          - name: price
+            description: The amount of tax, in shop currency, after discounts and before returns. 
+          - name: price_set
+            description: The amount of tax, in shop and presentment currencies, after discounts and before returns.
+          - name: rate
+            description: The proportion of the line item price that the tax represents as a decimal.
+          - name: title
+            description: The name of the tax.

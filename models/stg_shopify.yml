@@ -49,6 +49,8 @@ models:
         description: The amount of time since the customer was first added to the store.
       - name: currency 
         description: The three-letter code (ISO 4217 format) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_line_refund
     description: Each record represents a line item from an order in Shopify.
@@ -76,6 +78,8 @@ models:
         description: Subtotal amount of the order line refund
       - name: total_tax
         description: The total tax applied to the refund.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_line
     description: Each record represents a line item from an order in Shopify.
@@ -123,6 +127,8 @@ models:
         description: The ID of the product variant.
       - name: vendor
         description: The name of the item's supplier.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order
     description: Each record represents an order in Shopify.
@@ -291,6 +297,8 @@ models:
       - name: total_discounts_set
       - name: subtotal_price_set
       - name: presentment_currency
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__product
     description: Each record represents a product in Shopify.
@@ -322,6 +330,8 @@ models:
         description: The date and time when the product was last modified.
       - name: vendor
         description: The name of the product's vendor.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__product_variant
     description: Each record represents a product variant in Shopify
@@ -383,6 +393,8 @@ models:
         description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb."
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__transaction
     description: Each record represents a transaction in Shopify.
@@ -454,6 +466,8 @@ models:
         description: The ID for the user who was logged into the Shopify POS device when the order was processed, if applicable.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__refund
     description: Each record represents a refund within Shopify.
@@ -481,6 +495,8 @@ models:
         description: Record representing total duties set for the refund.
       - name: order_id
         description: Reference to the order which the refund is associated.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_adjustment
     description: Each record represents and adjustment to and order within Shopify.
@@ -510,6 +526,8 @@ models:
         description: Tax amount set towards the order adjustment.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__abandoned_checkout
     description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
@@ -646,7 +664,9 @@ models:
         description: The date and time (ISO 8601 format) when the checkout was last modified.
       - name: user_id
         description: The ID of the user who created the checkout.
-
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+        
   - name: stg_shopify__collection_product
     description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
     tests:
@@ -666,6 +686,8 @@ models:
         description: ID referencing the `product`.
         tests:
           - not_null
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__collection
     description: >
@@ -717,6 +739,8 @@ models:
         description: The name of the collection
       - name: updated_at
         description: The date and time (ISO 8601 format) when the collection was last modified.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__customer_tag
     description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
@@ -739,7 +763,9 @@ models:
           - not_null
       - name: value
         description: Value of the tag.
-      
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
   - name: stg_shopify__discount_code
     description: >
       Table storing discount codes that enable specific discounts to be redeemed. Merchants can distribute discount codes to their customers using a variety of means, such as an email or URL, 
@@ -766,6 +792,8 @@ models:
         description: The date and time (ISO 8601 format) when the discount code was updated.
       - name: usage_count
         description: The number of times that the discount code has been redeemed.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__fulfillment
     description: >
@@ -833,6 +861,8 @@ models:
         description: The URLs of tracking pages for the fulfillment.
       - name: updated_at
         description: The date and time (ISO 8601 format) when the fulfillment was last modified.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__inventory_item
     description: >
@@ -868,6 +898,8 @@ models:
         description: Boolean representing whether inventory levels are tracked for the item. If true, then the inventory quantity changes are tracked by Shopify.
       - name: updated_at
         description: The date and time (ISO 8601 format) when the inventory item was last modified.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__inventory_level
     description: >
@@ -896,6 +928,8 @@ models:
           - not_null
       - name: updated_at
         description: The date and time (ISO 8601 format) when the inventory level was last modified.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__location
     description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist.
@@ -950,6 +984,8 @@ models:
         description: The date and time (ISO 8601 format) when the location was last updated.
       - name: zip
         description: The zip or postal code.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__metafield
     description: >
@@ -989,6 +1025,8 @@ models:
         description: Combination of the namespace and key columns. This field is key for metafield mapping in downstream models.
       - name: is_most_recent_record
         description: Boolean indicating the most up to date record identified by the most recent updated_at field.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_note_attribute
     description: Table storing custom attributes placed on orders. 
@@ -1011,6 +1049,8 @@ models:
           - not_null
       - name: value
         description: Value of the attribute.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_shipping_line
     description: Represents the shipping details that the customer chose for their order.
@@ -1050,6 +1090,8 @@ models:
         description: Returns the rate source for the shipping line.
       - name: title
         description: Returns the title of the shipping line.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_shipping_tax_line
     description: Represents taxes associated with order shipping lines.
@@ -1078,6 +1120,8 @@ models:
         description: The proportion of the line item price that the tax represents as a decimal.
       - name: title
         description: The name of the tax.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_tag
     description: Tags that the shop owner has attached to the order.
@@ -1100,6 +1144,8 @@ models:
           - not_null
       - name: value
         description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__order_url_tag
     description: Key-value tags that the shop owner has attached to the order url.
@@ -1122,6 +1168,8 @@ models:
           - not_null
       - name: value
         description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__price_rule
     description: >
@@ -1203,6 +1251,8 @@ models:
               values: ['percentage', 'fixed_amount']
               config:
                 severity: warn # we use these in a JOIN condition in shopify__discounts
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__product_image
     description: Table storing hosted images of products.
@@ -1234,6 +1284,8 @@ models:
         description: An array of variant ids associated with the image.
       - name: width
         description: Width dimension of the image which is determined on upload.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__product_tag
     description: Tags that the shop owner has attached to the product.
@@ -1256,6 +1308,10 @@ models:
           - not_null
       - name: value
         description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__shop
     description: The Shop resource is a collection of general business and store management settings and information about the store.
@@ -1371,6 +1427,8 @@ models:
         description: The default unit of weight measurement for the shop.
       - name: zip
         description: The shop's zip or postal code.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__tender_transaction
     description: >
@@ -1416,6 +1474,8 @@ models:
         description: The remote (gateway) reference associated with the tender.
       - name: user_id
         description: The ID of the user logged into the Shopify POS device that processed the tender transaction, if applicable.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__abandoned_checkout_discount_code
     description: Abandoned checkouts that applied a discount code. 
@@ -1445,7 +1505,9 @@ models:
         description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
       - name: updated_at
         description: When the checkout's discount was last updated
-  
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
   - name: stg_shopify__order_discount_code
     description: Discount codes placed on orders.
     tests:
@@ -1469,13 +1531,16 @@ models:
           - not_null
       - name: type
         description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__abandoned_checkout_shipping_line
     description: Shipping lines associated with abandoned checkouts.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - abandoned_checkout_shipping_line_id
+            - checkout_id
+            - index
             - source_relation
     columns:
       - name: _fivetran_synced
@@ -1514,3 +1579,72 @@ models:
         description: The channel where the checkout originated. Example value - shopify.
       - name: title
         description: The title of the shipping method. Example value - International Shipping.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__fulfillment_event
+    description: >
+      The FulfillmentEvent resource represents tracking events that belong to a fulfillment of one or more items in an order. 
+      Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_event_id
+            - source_relation    
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: address_1
+        description: The street address where the fulfillment event occurred.
+      - name: city
+        description: The city where the fulfillment event occurred.
+      - name: country
+        description: The country where the fulfillment event occurred.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the fulfillment event was created.
+      - name: estimated_delivery_at
+        description: >
+          The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
+          Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
+      - name: fulfillment_id
+        description: An ID for the fulfillment that's associated with the fulfillment event.
+      - name: happened_at
+        description: The date and time (ISO 8601 format) when the fulfillment event occurred.
+      - name: fulfillment_event_id
+        description: An ID for the fulfillment event.
+      - name: latitude
+        description: A geographic coordinate specifying the latitude of the fulfillment event.
+      - name: longitude
+        description: A geographic coordinate specifying the longitude of the fulfillment event.
+      - name: message
+        description: An arbitrary message describing the status. Can be provided by a shipping carrier.
+      - name: order_id
+        description: The ID of the order that's associated with the fulfillment event.
+      - name: province
+        description: The province where the fulfillment event occurred.
+      - name: shop_id
+        description: An ID for the shop that's associated with the fulfillment event.
+      - name: status
+        description: >
+          The status of the fulfillment event. Valid values:
+          - label_printed: A label for the shipment was purchased and printed.
+          - label_purchased: A label for the shipment was purchased, but not printed.
+          - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
+          - ready_for_pickup: The shipment is ready for pickup at a shipping depot.
+          - picked_up: The fulfillment was successfully picked up.
+          - confirmed: The carrier is aware of the shipment, but hasn't received it yet.
+          - in_transit: The shipment is being transported between shipping facilities on the way to its destination.
+          - out_for_delivery: The shipment is being delivered to its final destination.
+          - delivered: The shipment was successfully delivered.
+          - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+        tests:
+          - accepted_values:
+              values:  ['attempted_delivery', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
+              config:
+                severity: warn # we pivot these out in shopify__daily_shop
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the fulfillment event was updated.
+      - name: zip
+        description: The zip code of the location where the fulfillment event occurred.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"

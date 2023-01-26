@@ -4,45 +4,45 @@
 - Included `shopify_[source_table_name]_identifier` variable for additional flexibility within the package when source tables are named differently.
 - The following fields have been added to (➕) or removed from (➖) their respective staging models:
   - `stg_shopify__order`:
-    - ➕ `total_discounts_set`
-    - ➕ `total_line_items_price_set`
-    - ➕ `total_price_usd`
-    - ➕ `total_price_set`
-    - ➕ `total_tax_set`
-    - ➕ `total_tip_received`
-    - ➕ `is_deleted`
-    - ➕ `app_id`
-    - ➕ `checkout_id`
-    - ➕ `client_details_user_agent`
-    - ➕ `customer_locale`
-    - ➕ `order_status_url`
-    - ➕ `presentment_currency`
-    - ➕ `is_inventory_confirmed`
+    ➕ `total_discounts_set`
+    ➕ `total_line_items_price_set`
+    ➕ `total_price_usd`
+    ➕ `total_price_set`
+    ➕ `total_tax_set`
+    ➕ `total_tip_received`
+    ➕ `is_deleted`
+    ➕ `app_id`
+    ➕ `checkout_id`
+    ➕ `client_details_user_agent`
+    ➕ `customer_locale`
+    ➕ `order_status_url`
+    ➕ `presentment_currency`
+    ➕ `is_inventory_confirmed`
   - `stg_shopify__customer`:
-    - ➕ `note`
-    - ➕ `lifetime_duration`
-    - ➕ `currency`
-    - ➕ `marketing_consent_state` (coalescing of `email_marketing_consent_state` and deprecated `accepts_marketing` field)
-    - ➕ `marketing_opt_in_level` (coalescing of `email_marketing_consent_opt_in_level` and deprecated `marketing_opt_in_level` field)
-    - ➕ `marketing_consent_updated_at` (coalescing of `email_marketing_consent_consent_updated_at` and deprecated `accepts_marketing_updated_at` field)
-    - ➖ `accepts_marketing`/`has_accepted_marketing`
-    - ➖ `accepts_marketing_updated_at`
-    - ➖ `marketing_opt_in_level`
+    ➕ `note`
+    ➕ `lifetime_duration`
+    ➕ `currency`
+    ➕ `marketing_consent_state` (coalescing of `email_marketing_consent_state` and deprecated `accepts_marketing` field)
+    ➕ `marketing_opt_in_level` (coalescing of `email_marketing_consent_opt_in_level` and deprecated `marketing_opt_in_level` field)
+    ➕ `marketing_consent_updated_at` (coalescing of `email_marketing_consent_consent_updated_at` and deprecated `accepts_marketing_updated_at` field)
+    ➖ `accepts_marketing`/`has_accepted_marketing`
+    ➖ `accepts_marketing_updated_at`
+    ➖ `marketing_opt_in_level`
   - `stg_shopify__order_line_refund`:
-    - ➕ `subtotal_set`
-    - ➕ `total_tax_set`
+    ➕ `subtotal_set`
+    ➕ `total_tax_set`
   - `stg_shopify__order_line`:
-    - ➕ `pre_tax_price_set`
-    - ➕ `price_set`
-    - ➕ `tax_code`
-    - ➕ `total_discount_set`
-    - ➕ `variant_title`
-    - ➕ `variant_inventory_management`
-    - ➕ `properties`
+    ➕ `pre_tax_price_set`
+    ➕ `price_set`
+    ➕ `tax_code`
+    ➕ `total_discount_set`
+    ➕ `variant_title`
+    ➕ `variant_inventory_management`
+    ➕ `properties`
   - `stg_shopify__product`:
-    - ➕ `status`
+    ➕ `status`
   - `stg_shopify__product_variant`
-    - ➖ `old_inventory_quantity`
+    ➖ `old_inventory_quantity`
 
 ## 🚨 Breaking Changes 🚨:
 [PR #36](https://github.com/fivetran/dbt_shopify_source/pull/36) includes the following breaking changes:
