@@ -206,6 +206,8 @@ sources:
             description: The amount of time since the customer was first added to the store.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
+          - name: note
+            description: A note about the customer.
           - name: currency 
             description: The three-letter code (ISO 4217 format) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
       - name: order_line
@@ -250,6 +252,24 @@ sources:
             description: The ID of the product variant.
           - name: vendor
             description: The name of the item's supplier.
+          - name: index
+            description: Index of the order line.
+          - name: pre_tax_price
+            description: The pre tax preice of the line item in shop currency.
+          - name: pre_tax_price_set
+            description: he pre tax preice of the line item in shop currency and presentment currency.
+          - name: price_set
+            description: The price of the line item in shop and presentment currencies.
+          - name: tax_code
+            descripton: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
+          - name: total_discount_set
+            description: The total amount allocated to the line item in the presentment currency.
+          - name: variant_title
+            description: The title of the product variant.
+          - name: variant_inventory_management
+            description: The fulfillment service that tracks the number of items in stock for the product variant.
+          - name: properties
+            description: Line item properties.
       - name: order_line_refund
         identifier: "{{ var('shopify_order_line_refund_identifier', 'order_line_refund') }}"
         description: Each record represents a line item refund in Shopify.
@@ -272,6 +292,11 @@ sources:
             description: Subtotal amount of the order line refund
           - name: total_tax
             description: The total tax applied to the refund.
+          - name: subtotal_set 
+            description: The subtotal of the refund line item in shop and presentment currencies.
+          - name: total_tax_set 
+            description: The total tax of the line item in shop and presentment currencies.
+
       - name: product
         identifier: "{{ var('shopify_product_identifier', 'product') }}"
         description: Each record represents a product in Shopify.
@@ -1369,7 +1394,8 @@ sources:
             description: The zip code of the location where the fulfillment event occurred.
             
       - name: tax_line
-        description: 
+        description: Represents a single tax applied to the associated line item.
+        columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: index
