@@ -132,6 +132,9 @@ seeds:
       +column_types:
         discounted_price: float
         price: float
+    shopify_tax_line_data:
+      +column_types:
+        price: float
     shopify_price_rule_data:
       +column_types:
         prerequisite_subtotal_range: float
