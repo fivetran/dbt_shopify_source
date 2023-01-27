@@ -153,7 +153,39 @@ models:
         description: The fulfillment service that tracks the number of items in stock for the product variant.
       - name: properties
         description: Line item properties.
-## TODO add desintation location and origion location columns
+      - name: destination_location_address_1
+        description: The street address of the assigned location.
+      - name: destination_location_address_2
+        description: An optional additional field for the street address of the assigned location.
+      - name: destination_location_city
+        description: City of the destination where the items should be sent.
+      - name: destination_location_country_code
+        description: Two-letter country code (ISO 3166-1 format) of the destination where the items should be sent.
+      - name: destination_location_id
+        description: ID of the destination where the items should be sent.
+      - name: destination_location_name
+        description: Name of the destination where the items should be sent.
+      - name: destination_location_province_code
+        description: Two-letter province code of the destination where the items should be sent.
+      - name: destination_location_zip
+        description: Zip code of the destination where the items should be sent.
+      - name: origin_location_address_1
+        description: The street address of the item's supplier.
+      - name: origin_location_address_2
+        description: The suite number of the item's supplier.
+      - name: origin_location_city
+        description: The city of the item's supplier.
+      - name: origin_location_country_code
+        description: The two-letter code (ISO 3166-1 format) for the country of the item's supplier.
+      - name: origin_location_id
+        description: The location ID of the line item’s fulfillment origin. Used by Shopify to calculate applicable taxes. This is not the ID of the location where the order was placed. You can use the FulfillmentOrder resource to determine the location an item will be sourced from.
+      - name: origin_location_name
+        description: The name of the item's supplier.
+      - name: origin_location_province_code
+        description: The two-letter abbreviation for the region of the item's supplier.
+      - name: origin_location_zip
+        description: The zip of the item's supplier.
+
   - name: stg_shopify__order
     description: Each record represents an order in Shopify.
     tests:
