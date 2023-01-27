@@ -1,7 +1,32 @@
-# dbt_shopify_source v0.7.0
+# dbt_shopify_source v0.8.0
+
+Lots of new features ahead!! We've revamped the package to keep up-to-date with new additions to the Shopify connector and feedback from the community. 
+
 ## 🎉 Documentation and Feature Updates
-- Updated README documentation updates for easier navigation and setup of the dbt package
-- Included `shopify_[source_table_name]_identifier` variable for additional flexibility within the package when source tables are named differently.
+[PR #41](https://github.com/fivetran/dbt_shopify_source/pull/41) includes the following change:
+- Addition of the `shopify_timezone` variable, which converts ALL timestamps included in the package (including `_fivetran_synced`) to a single target timezone (in IANA Database format, ie "America/Los_Angeles").
+
+[PR #38](https://github.com/fivetran/dbt_shopify_source/pull/38) includes the following changes:
+- Ensured Postgres compatibility.
+- README updated for easier package use and navigation.
+- `shopify_<default_source_table_name>_identifier` variables added if an individual source table has a different name than the package expects.
+
+[PR #45](https://github.com/fivetran/dbt_shopify_source/pull/45) includes the following changes:
+- Gets rid of the `shopify__using_order_adjustment`, `shopify__using_order_line_refund`, and `shopify__using_refund` variables. Instead, the package will automatically create empty versions of the related models until the source `refund`, `order_line_refund`, and `order_adjustment` tables exist in your schema. See DECISIONLOG for more.
+- Creates the [DECISIONLOG](https://github.com/fivetran/dbt_shopify/blob/main/DECISIONLOG.md)!
+
+[PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following change:
+- The declaration of passthrough variables within your root `dbt_project.yml` has changed. To allow for more flexibility and better tracking of passthrough columns, you will now want to define passthrough columns in the following format:
+> This applies to all passthrough columns within the `dbt_shopify_source` package and not just the `customers_pass_through_columns` example. See the README for which models have passthrough columns.
+```yml
+vars:
+  customer_pass_through_columns:
+    - name: "my_field_to_include" # Required: Name of the field within the source.
+      alias: "field_alias" # Optional: If you wish to alias the field within the staging model.
+      transform_sql: "cast(field_alias as string)" # Optional: If you wish to define the datatype or apply a light transformation.
+```
+
+[PR #39](https://github.com/fivetran/dbt_shopify_source/pull/39) and [PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) include the following changes:
 - The following fields have been added to (➕) or removed from (➖) their respective staging models:
   - `stg_shopify__order`:
     ➕ `total_discounts_set`
@@ -39,11 +64,40 @@
     ➕ `variant_title`
     ➕ `variant_inventory_management`
     ➕ `properties`
+    ( ) `is_requiring_shipping` is renamed to `is_shipping_required`
   - `stg_shopify__product`:
     ➕ `status`
   - `stg_shopify__product_variant`
-    ➖ `old_inventory_quantity`
+    ➖ `old_inventory_quantity` -> coalesced with `inventory_quantity`
+    ➕ `inventory_quantity` -> coalesced with `old_inventory_quantity`
+- The following source tables have been added to the package with respective staging models:
+  - `abandoned_checkout`
+  - `collection_product`
+  - `collection`
+  - `customer_tag`
+  - `discount_code` -> if the table does not exist in your schema, the package will create an empty staging model and reference that ([PR #47](https://github.com/fivetran/dbt_shopify_source/pull/47/files), see [DECISIONLOG](https://github.com/fivetran/dbt_shopify/blob/main/DECISIONLOG.md))
+  - `fulfillment`
+  - `inventory_item`
+  - `inventory_level`
+  - `location`
+  - `metafield` ([#PR 49](https://github.com/fivetran/dbt_shopify_source/pull/49) as well)
+  - `order_note_attribute`
+  - `order_shipping_line`
+  - `order_shipping_tax_line`
+  - `order_tag`
+  - `order_url_tag`
+  - `price_rule`
+  - `product_image`
+  - `product_tag`
+  - `shop`
+  - `tender_transaction`
+  - `abandoned_checkout_discount_code`
+  - `order_discount_code`
+  - `abandoned_checkout_shipping_line` ([(PR #47)](https://github.com/fivetran/dbt_shopify_source/pull/47) as well)
+  - `fulfillment_event` -> This is NOT included by default. To include fulfillment events (used in the `shopify__daily_shop` model), set the `shopify_using_fulfillment_event` variable to `true` [(PR #48)](https://github.com/fivetran/dbt_shopify_source/pull/48)
+- Adjusts the organization of the `get_<table>_columns()` macros.
 
+# dbt_shopify_source v0.7.0
 ## 🚨 Breaking Changes 🚨:
 [PR #36](https://github.com/fivetran/dbt_shopify_source/pull/36) includes the following breaking changes:
 - Dispatch update for dbt-utils to dbt-core cross-db macros migration. Specifically `{{ dbt_utils.<macro> }}` have been updated to `{{ dbt.<macro> }}` for the below macros:
@@ -80,25 +134,6 @@
     - `dbt.current_timestamp_backcompat`
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
-- The following fields have been removed as they have been deprecated:
-  - 
-
-[PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following breaking changes:
-- The `is_requiring_shipping` field in `stg_shopify__order_line` has been renamed to `is_shipping_required`, just because it sounds better :)
-
-- TODO
-## Updates:
-[PR #40](https://github.com/fivetran/dbt_shopify_source/pull/40) includes the following changes:
-- By default, if the refunds table does not exist, the package will create an empty `stg_shopify__refunds` model. This can still be overwritten by setting `shopify__using_refund` to `false`. We did this because the refunds table is only created once your Shopify account has processed its first refund, and it is unnecessary overhead to have to monitor this and change your dbt_project accordingly. Thus, we took the approach of having this refund table be one that syncs as empty if it is not populated, then seamlessly switches to the source table once it exists.
-- TODO more stuff - new tables, fields, passthrough columns, timezone etc.
-
-[PR #38](https://github.com/fivetran/dbt_shopify_source/pull/38) includes the following changes:
-- Ensured Postgres compatibility.
-- README updated for easier package use and navigation.
-- `shopify_<default_source_table_name>_identifier` variables added if an individual source table has a different name than the package expects.
-
-[PR #41](https://github.com/fivetran/dbt_shopify_source/pull/41) includes the following change:
-- Addition of the `shopify_timezone` variable, which converts ALL timestamps included in the package (including `_fivetran_synced`) to a single target timezone (in IANA Database format, ie "America/Los_Angeles").
 
 # dbt_shopify_source v0.6.0
 🎉 dbt v1.0.0 Compatibility 🎉
