@@ -122,7 +122,7 @@ sources:
           - name: source_name
             description: Where the order originated. Can be set only during order creation, and is not writeable afterwards.
           - name: subtotal_price
-            description: The price of the order in the shop currency after discounts but before shipping, taxes, and tips.
+            description: The price of the order in the shop currency after discounts but before shipping, taxes, and tips in the shop currency.
           - name: taxes_included
             description: Whether taxes are included in the order subtotal.
           - name: test
@@ -136,7 +136,7 @@ sources:
           - name: total_price
             description: The sum of all line item prices, discounts, shipping, taxes, and tips in the shop currency. Must be positive.
           - name: total_tax
-            description: The sum of all the taxes applied to the order in th shop currency. Must be positive).
+            description: The sum of all the taxes applied to the order in th shop currency. Must be positive.
           - name: total_weight
             description: The sum of all line item weights in grams.
           - name: updated_at
@@ -321,17 +321,15 @@ sources:
           - name: restock_type
             description: How this refund line item affects inventory levels.
           - name: subtotal
-            description: Subtotal amount of the order line refund
+            description: Subtotal amount of the order line refund in shop currency.
           - name: total_tax
-            description: The total tax applied to the refund.
+            description: The total tax applied to the refund in shop currency.
           - name: subtotal_set 
             description: The subtotal of the refund line item in shop and presentment currencies.
           - name: total_tax_set 
             description: The total tax of the line item in shop and presentment currencies.
           - name: subtotal_set 
             description: The subtotal of the refund line item in shop and presentment currencies.
-          - name: total_tax_set 
-            description: The total tax of the line item in shop and presentment currencies.
 
       - name: product
         identifier: "{{ var('shopify_product_identifier', 'product') }}"
@@ -373,7 +371,7 @@ sources:
           - name: barcode
             description: The barcode, UPC, or ISBN number for the product.
           - name: compare_at_price
-            description: The original price of the item before an adjustment or a sale.
+            description: The original price of the item before an adjustment or a sale in shop currency.
           - name: created_at
             description: The date and time (ISO 8601 format) when the product variant was created.
           - name: fulfillment_service
@@ -403,7 +401,7 @@ sources:
           - name: position
             description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
           - name: price
-            description: The price of the product variant.
+            description: The price of the product variant in shop currency.
           - name: product_id
             description: The unique numeric identifier for the product.
           - name: requires_shipping
@@ -527,15 +525,15 @@ sources:
           - name: amount
             description: Amount of the adjustment.
           - name: tax_amount
-            description: Tax amount applied to the order adjustment.
+            description: Tax amount applied to the order adjustment in shop currency.
           - name: kind
             description: The kind of order adjustment (eg. refund, restock, etc.).
           - name: reason
             description: The reason for the order adjustment.
           - name: amount_set
-            description: Amount set towards the order adjustment
+            description: Amount set towards the order adjustment in shop and presentment currencies.
           - name: tax_amount_set
-            description: Tax amount set towards the order adjustment.
+            description: Tax amount set towards the order adjustment in shop and presentment currencies.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
       
@@ -648,7 +646,7 @@ sources:
           - name: source_name
             description: Where the checkout originated. Valid values include `web`, `pos`, `iphone`, `android`.
           - name: subtotal_price
-            description: The price of the checkout in presentment currency before shipping and taxes.
+            description: The price of the checkout in _presentment_ (customer) currency before shipping and taxes.
           - name: taxes_included
             description: Boolean representing whether taxes are included in the price.
           - name: token
@@ -658,11 +656,11 @@ sources:
           - name: total_duties
             description: The total duties of the checkout in presentment currency.
           - name: total_line_items_price
-            description: The sum of the prices of all line items in the checkout in presentment currency.
+            description: The sum of the prices of all line items in the checkout in _presentment_ (customer) currency.
           - name: total_price
-            description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in presentment currency.
+            description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in _presentment_ (customer) currency.
           - name: total_tax
-            description: The sum of all the taxes applied to the checkout in presentment currency.
+            description: The sum of all the taxes applied to the checkout in _presentment_ (customer) currency.
           - name: total_weight
             description: The sum of all the weights in grams of the line items in the checkout.
           - name: updated_at
@@ -969,9 +967,9 @@ sources:
           - name: delivery_category
             description: The general classification of the delivery method.
           - name: discounted_price
-            description: The pre-tax shipping price with discounts applied.
+            description: The pre-tax shipping price with discounts applied in the shop currency.
           - name: discounted_price_set
-            description: The pre-tax shipping price with discounts applied (JSON).
+            description: The pre-tax shipping price with discounts applied (JSON) in presentment and shop currencies.
           - name: id
             description: A globally-unique identifier.
           - name: order_id
@@ -979,9 +977,9 @@ sources:
           - name: phone
             description: The phone number at the shipping address.
           - name: price
-            description: Returns the price of the shipping line.
+            description: Returns the price of the shipping line in shop currency.
           - name: price_set
-            description: Returns the price of the shipping line (JSON).
+            description: Returns the price of the shipping line (JSON) in presentment and shop currencies.
           - name: requested_fulfillment_service_id
             description: The fulfillment service requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service.
           - name: source
@@ -1356,13 +1354,13 @@ sources:
           - name: delivery_expectation_type
             description: Type of expected delivery.
           - name: discounted_price
-            description: The pre-tax shipping price with discounts applied.
+            description: The pre-tax shipping price with discounts applied in _presentment_ (customer) currency.
           - name: id
             description: Unique ID of the abandoned checkout shipping line.
           - name: index
             description: Index of the line amongst shipping lines for this checkout.
           - name: original_shop_price
-            description: The pre-tax shipping price without any discounts applied.
+            description: The pre-tax shipping price without any discounts applied in _presentment_ (customer) currency.
           - name: phone
             description: The phone number at the shipping address.
           - name: price

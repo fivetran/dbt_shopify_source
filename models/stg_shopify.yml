@@ -77,9 +77,9 @@ models:
       - name: restock_type
         description: How this refund line item affects inventory levels.
       - name: subtotal
-        description: Subtotal amount of the order line refund
+        description: Subtotal amount of the order line refund in shop currency.
       - name: total_tax
-        description: The total tax applied to the refund.
+        description: The total tax applied to the refund in the shop currency.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: subtotal_set 
@@ -331,11 +331,11 @@ models:
       - name: user_id
         description: The ID of the user logged into Shopify POS who processed the order, if applicable.
       - name: total_shipping_price_set
-        description: The total shipping price set for the order.
+        description: The total shipping price set for the order in presentment and shop currencies.
       - name: index
         description: The index associated with the order.
       - name: pre_tax_price
-        description: The total pre tax price of the order.
+        description: The total pre tax price of the order in shop currency. 
       - name: checkout_token
         description: A unique value when referencing the checkout that's associated with the order.
       - name: is_inventory_confirmed
@@ -424,7 +424,7 @@ models:
       - name: barcode
         description: The barcode, UPC, or ISBN number for the product.
       - name: compare_at_price
-        description: The original price of the item before an adjustment or a sale.
+        description: The original price of the item before an adjustment or a sale in shop currency
       - name: created_timestamp
         description: The date and time (ISO 8601 format) when the product variant was created.
       - name: fulfillment_service
@@ -595,15 +595,15 @@ models:
       - name: amount
         description: Amount of the adjustment.
       - name: tax_amount
-        description: Tax amount applied to the order adjustment.
+        description: Tax amount applied to the order adjustment in the shop currency.
       - name: kind
         description: The kind of order adjustment (eg. refund, restock, etc.).
       - name: reason
         description: The reason for the order adjustment.
       - name: amount_set
-        description: Amount set towards the order adjustment
+        description: Amount set towards the order adjustment in presentment and shop currencies.
       - name: tax_amount_set
-        description: Tax amount set towards the order adjustment.
+        description: Tax amount set towards the order adjustment in the shop and presentment currencies.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: source_relation
@@ -723,7 +723,7 @@ models:
       - name: source_name
         description: Where the checkout originated. Valid values include `web`, `pos`, `iphone`, `android`.
       - name: subtotal_price
-        description: The price of the checkout in presentment currency before shipping and taxes.
+        description: The price of the checkout in _presentment_ (customer) currency before shipping and taxes.
       - name: has_taxes_included
         description: Boolean representing whether taxes are included in the price.
       - name: token
@@ -733,11 +733,11 @@ models:
       - name: total_duties
         description: The total duties of the checkout in presentment currency.
       - name: total_line_items_price
-        description: The sum of the prices of all line items in the checkout in presentment currency.
+        description: The sum of the prices of all line items in the checkout in _presentment_ (customer) currency.
       - name: total_price
-        description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in presentment currency.
+        description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in _presentment_ (customer) currency.
       - name: total_tax
-        description: The sum of all the taxes applied to the checkout in presentment currency.
+        description: The sum of all the taxes applied to the checkout in _presentment_ (customer) currency.
       - name: total_weight
         description: The sum of all the weights in grams of the line items in the checkout.
       - name: updated_at
@@ -1147,9 +1147,9 @@ models:
       - name: delivery_category
         description: The general classification of the delivery method.
       - name: discounted_price
-        description: The pre-tax shipping price with discounts applied.
+        description: The pre-tax shipping price with discounts applied in shop currency.
       - name: discounted_price_set
-        description: The pre-tax shipping price with discounts applied (JSON).
+        description: The pre-tax shipping price with discounts applied (JSON) in presentment and shop currencies.
       - name: order_shipping_line_id
         description: A globally-unique identifier.
         tests:
@@ -1159,9 +1159,9 @@ models:
       - name: phone
         description: The phone number at the shipping address.
       - name: price
-        description: Returns the price of the shipping line.
+        description: Returns the price of the shipping line in shop currency.
       - name: price_set
-        description: Returns the price of the shipping line (JSON).
+        description: Returns the price of the shipping line (JSON) in shop and presentment currencies.
       - name: is_third_party_required
         description: The fulfillment service requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service.
       - name: source
@@ -1640,7 +1640,7 @@ models:
       - name: delivery_expectation_type
         description: Type of expected delivery.
       - name: discounted_price
-        description: The pre-tax shipping price with discounts applied.
+        description: The pre-tax shipping price with discounts applied in _presentment_ (customer) currency.
       - name: abandoned_checkout_shipping_line_id
         description: Unique ID of the abandoned checkout shipping line.
       - name: index
