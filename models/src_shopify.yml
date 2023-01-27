@@ -270,6 +270,7 @@ sources:
             description: The fulfillment service that tracks the number of items in stock for the product variant.
           - name: properties
             description: Line item properties.
+## TODO add desintation location and origion location columns
       - name: order_line_refund
         identifier: "{{ var('shopify_order_line_refund_identifier', 'order_line_refund') }}"
         description: Each record represents a line item refund in Shopify.
@@ -292,6 +293,10 @@ sources:
             description: Subtotal amount of the order line refund
           - name: total_tax
             description: The total tax applied to the refund.
+          - name: subtotal_set 
+            description: The subtotal of the refund line item in shop and presentment currencies.
+          - name: total_tax_set 
+            description: The total tax of the line item in shop and presentment currencies.
           - name: subtotal_set 
             description: The subtotal of the refund line item in shop and presentment currencies.
           - name: total_tax_set 
@@ -323,6 +328,13 @@ sources:
             description: The date and time when the product was last modified.
           - name: vendor
             description: The name of the product's vendor.
+          - name: status
+            description: >
+              The status of the product. Valid values:
+              - active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
+              - archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
+              - draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.
+
       - name: product_variant
         identifier: "{{ var('shopify_product_variant_identifier', 'product_variant') }}"
         description: Each record represents a product variant in Shopify
@@ -379,19 +391,13 @@ sources:
             description: The weight of the product variant in the unit system specified with weight_unit.
           - name: weight_unit
             description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb."
-          - name: total_shipping_price_set
-            description: The total shipping price set for the order.
-          - name: index
-            description: The index associated with the order.
-          - name: pre_tax_price
-            description: The total pre tax price of the order.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
       - name: transaction
         identifier: "{{ var('shopify_transaction_identifier', 'transaction') }}"
         description: Each record represents a transaction in Shopify.
         columns:
-          - name: transaction_id
+          - name: id
             description: The ID for the transaction.
           - name: order_id
             description: The ID for the order that the transaction is associated with.
@@ -401,9 +407,9 @@ sources:
             description: The amount of money included in the transaction.
           - name: authorization
             description: The authorization code associated with the transaction.
-          - name: created_timestamp
+          - name: created_at
             description: The date and time when the transaction was created.
-          - name: processed_timestamp
+          - name: processed_at
             description: The date and time when a transaction was processed.
           - name: device_id
             description: The ID for the device.
@@ -453,6 +459,8 @@ sources:
             description: The ID for the user who was logged into the Shopify POS device when the order was processed, if applicable.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
+          - name: authorization_expires_at
+            description: The date and time (ISO 8601 format) when the Shopify Payments authorization expires.      
       - name: refund
         identifier: "{{ var('shopify_refund_identifier', 'refund') }}"
         description: Each record represents a refund within Shopify.
