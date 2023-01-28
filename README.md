@@ -31,7 +31,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.8.0", "<0.9.0"]
+    version: [">=0.8.0", "<0.9.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ## Step 3: Define database and schema variables
@@ -57,7 +57,9 @@ vars:
 
 ## Step 4: Enable `fulfillment_event` data
 
-The package takes into consideration that not every Shopify connector may have `fulfillment_event` data enabled. However, this table does hold valuable information that is leveraged in the `shopify__daily_shop` model in the transformation package. `fulfillment_event` data is **disabled by default**. Add the following variable to your `dbt_project.yml` file to enable modelling of fulfillment events: 
+The package takes into consideration that not every Shopify connector may have `fulfillment_event` data enabled. However, this table does hold valuable information that is leveraged in the `shopify__daily_shop` model in the transformation package. `fulfillment_event` data is **disabled by default**. 
+
+Add the following variable to your `dbt_project.yml` file to enable the modeling of fulfillment events: 
 ```yml
 # dbt_project.yml
 
@@ -68,7 +70,7 @@ vars:
 ## Step 5: Setting your timezone
 By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation. 
 
-To convert the timezone of **all** timestamps in the package, update the `shopify_timezone` variable to your target zone in IANA Database format:
+To convert the timezone of **all** timestamps in the package, update the `shopify_timezone` variable to your target zone in [IANA tz Database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones):
 ```yml
 # dbt_project.yml
 
