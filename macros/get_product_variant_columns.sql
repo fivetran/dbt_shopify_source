@@ -19,6 +19,7 @@
     {"name": "taxable", "datatype": "boolean"},
     {"name": "barcode", "datatype": dbt.type_string()},
     {"name": "grams", "datatype": dbt.type_float()},
+    {"name": "old_inventory_quantity", "datatype": dbt.type_numeric()},
     {"name": "inventory_quantity", "datatype": dbt.type_numeric()},
     {"name": "weight", "datatype": dbt.type_float()},
     {"name": "weight_unit", "datatype": dbt.type_string()},
