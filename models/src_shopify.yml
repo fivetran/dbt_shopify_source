@@ -1432,6 +1432,7 @@ sources:
             
       - name: tax_line
         description: Represents a single tax applied to the associated line item.
+        identifier: "{{ var('shopify_tax_line_identifier', 'tax_line') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
