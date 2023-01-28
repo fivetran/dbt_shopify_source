@@ -7,9 +7,9 @@ sources:
     tables:
       - name: order
         description: Each record represents an order in Shopify.
-        identifier: "{%- if target.type == 'snowflake' -%} ORDER {%- else -%} order {%- endif -%}"
-        quoting:
-          identifier: true
+        identifier: >
+          {% if target.type == 'snowflake' %}{{ var('shopify_order_identifier', '"ORDER"') }}
+          {% else %}{{ var('shopify_order_identifier', 'order') }}{% endif %}
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
