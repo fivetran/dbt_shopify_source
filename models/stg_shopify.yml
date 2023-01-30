@@ -140,7 +140,7 @@ models:
       - name: pre_tax_price
         description: The pre tax preice of the line item in shop currency.
       - name: pre_tax_price_set
-        description: he pre tax preice of the line item in shop currency and presentment currency.
+        description: The pre tax preice of the line item in shop currency and presentment currency.
       - name: price_set
         description: The price of the line item in shop and presentment currencies.
       - name: tax_code
@@ -332,14 +332,8 @@ models:
         description: The ID of the user logged into Shopify POS who processed the order, if applicable.
       - name: total_shipping_price_set
         description: The total shipping price set for the order in presentment and shop currencies.
-      - name: index
-        description: The index associated with the order.
-      - name: pre_tax_price
-        description: The total pre tax price of the order in shop currency. 
       - name: checkout_token
         description: A unique value when referencing the checkout that's associated with the order.
-      - name: is_inventory_confirmed
-        description: Whether inventory has been reserved for the order.
       - name: customer_locale 
         description: A two-letter or three-letter language code, optionally followed by a region modifier.
       - name: is_deleted
@@ -354,8 +348,6 @@ models:
         description: The total shipping price of the order, excluding discounts and returns, in shop and presentment currencies. If taxes_included is set to true, then total_shipping_price_set includes taxes.
       - name: total_discounts_set
         description: The total discounts applied to the price of the order in shop and presentment currencies.
-      - name: subtotal_price_set
-        description: The subtotal of the order in shop and presentment currencies after discounts but before shipping, duties, taxes, and tips.
       - name: presentment_currency
         description: The presentment currency that was used to display prices to the customer.
       - name: source_relation
@@ -1645,8 +1637,6 @@ models:
         description: Unique ID of the abandoned checkout shipping line.
       - name: index
         description: Index of the line amongst shipping lines for this checkout.
-      - name: original_shop_price
-        description: The pre-tax shipping price without any discounts applied.
       - name: phone
         description: The phone number at the shipping address.
       - name: price

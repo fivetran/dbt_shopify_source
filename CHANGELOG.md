@@ -38,7 +38,7 @@ vars:
     ➕ `customer_locale`
     ➕ `order_status_url`
     ➕ `presentment_currency`
-    ➕ `is_inventory_confirmed`
+    ➕ `is_confirmed`
   - `stg_shopify__customer`:
     ➕ `note`
     ➕ `lifetime_duration`
@@ -89,6 +89,7 @@ vars:
   - `tender_transaction`
   - `abandoned_checkout_discount_code`
   - `order_discount_code`
+  - `tax_line`
   - `abandoned_checkout_shipping_line` ([(PR #47)](https://github.com/fivetran/dbt_shopify_source/pull/47) as well)
   - `fulfillment_event` -> This is NOT included by default. To include fulfillment events (used in the `shopify__daily_shop` model), set the `shopify_using_fulfillment_event` variable to `true` [(PR #48)](https://github.com/fivetran/dbt_shopify_source/pull/48)
 
