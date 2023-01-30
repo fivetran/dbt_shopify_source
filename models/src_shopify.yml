@@ -8,10 +8,10 @@ sources:
       - name: order
         description: Each record represents an order in Shopify.
         identifier: >
-          {% if target.type == 'snowflake' %}{{ var('shopify_order_identifier', 'ORDER') }}
+          {% if target.type == 'snowflake' %}{{ var('shopify_order_identifier', '"ORDER"') }}
           {%- else %}{{ var('shopify_order_identifier', 'order') }}{% endif %}
         quoting:
-          identifier: true
+          identifier: "{% false if target.type == 'snowflake' else true %}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
