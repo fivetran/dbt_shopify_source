@@ -44,6 +44,7 @@ vars:
     order_discount_code_source: "{{ source('shopify','order_discount_code') }}" 
     abandoned_checkout_shipping_line_source: "{{ source('shopify', 'abandoned_checkout_shipping_line') }}"
     fulfillment_event_source: "{{ source('shopify', 'fulfillment_event') }}"
+    tax_line_source: "{{ source('shopify', 'tax_line') }}"
 
     customer_pass_through_columns: []
     order_line_refund_pass_through_columns: []
