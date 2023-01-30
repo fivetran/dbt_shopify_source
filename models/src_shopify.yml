@@ -11,7 +11,7 @@ sources:
           {% if target.type == 'snowflake' %}{{ var('shopify_order_identifier', '"ORDER"') }}
           {%- else %}{{ var('shopify_order_identifier', 'order') }}{% endif %}
         quoting:
-          identifier: "{% false if target.type == 'snowflake' else true %}"
+          identifier: "{{ false if target.type == 'snowflake' else true }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
