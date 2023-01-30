@@ -60,7 +60,7 @@ vars:
     - ➕ `variant_title`
     - ➕ `variant_inventory_management`
     - ➕ `properties`
-    ( ) `is_requiring_shipping` is renamed to `is_shipping_required`
+    - ( ) `is_requiring_shipping` is renamed to `is_shipping_required`
   - `stg_shopify__product`:
     - ➕ `status`
   - `stg_shopify__product_variant`
@@ -91,7 +91,7 @@ vars:
   - `order_discount_code`
   - `tax_line`
   - `abandoned_checkout_shipping_line` ([(PR #47)](https://github.com/fivetran/dbt_shopify_source/pull/47) as well)
-  - `fulfillment_event` -> This is NOT included by default. To include fulfillment events (used in the `shopify__daily_shop` model), set the `shopify_using_fulfillment_event` variable to `true` [(PR #48)](https://github.com/fivetran/dbt_shopify_source/pull/48)
+  - `fulfillment_event` -> This is NOT included by default. To include fulfillment events (used in the `shopify__daily_shop` model), set the `shopify_using_fulfillment_event` variable to `true` ([PR #48](https://github.com/fivetran/dbt_shopify_source/pull/48))
 
 # dbt_shopify_source v0.7.0
 ## 🚨 Breaking Changes 🚨:
