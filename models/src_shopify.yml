@@ -159,7 +159,33 @@ sources:
             description: "{{ doc('_fivetran_deleted') }}"
           - name: total_tip_received
             description: The sum of all the tips in the order in the shop currency.
-
+          - name: device_id
+            description: The ID for the device.
+          - name: presentment_currency
+            description: The presentment currency that was used to display prices to the customer.
+          - name: total_shipping_price_set
+            description: The total shipping price set for the order in presentment and shop currencies.
+          - name: client_details_user_agent
+            description: Details of the browsing client, including software and operating versions.
+          - name: total_tax_set
+            description: The total tax applied to the order in shop and presentment currencies.
+          - name: total_shipping_price_set
+            description: The total shipping price of the order, excluding discounts and returns, in shop and presentment currencies. If taxes_included is set to true, then total_shipping_price_set includes taxes.
+          - name: total_discounts_set
+            description: The total discounts applied to the price of the order in shop and presentment currencies.
+          - name: total_line_items_price_set
+            description: The total of all line item prices in shop and presentment currencies.
+          - name: total_price_set
+            description: The total price of the order in shop and presentment currencies.
+          - name: total_price_usd
+            description: The sum of all line item prices, discounts, shipping, taxes, and tips in USD. Must be positive.
+          - name: is_confirmed
+            description: Whether the order is confirmed.
+          - name: current_total_price
+            description: The current total price of the order in the shop currency. The value of this field reflects order edits, returns, and refunds.
+          - name: source_identifier
+            description: The ID of the order placed on the originating platform. This value doesn't correspond to the Shopify ID that's generated from a completed draft.
+      
       - name: customer
         identifier: "{{ var('shopify_customer_identifier', 'customer') }}"
         description: Each record represents a customer in Shopify.
@@ -212,6 +238,7 @@ sources:
             description: A note about the customer.
           - name: currency 
             description: The three-letter code (ISO 4217 format) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
+      
       - name: order_line
         identifier: "{{ var('shopify_order_line_identifier', 'order_line') }}"
         description: Each record represents a line item for an order in Shopify.
@@ -304,6 +331,9 @@ sources:
             description: The two-letter abbreviation for the region of the item's supplier.
           - name: origin_location_zip
             description: The zip of the item's supplier.
+          - name: tax_code
+            descripton: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
+
       - name: order_line_refund
         identifier: "{{ var('shopify_order_line_refund_identifier', 'order_line_refund') }}"
         description: Each record represents a line item refund in Shopify.
