@@ -1,14 +1,13 @@
---To disable this model, set the shopify__using_order_adjustment variable within your dbt_project.yml file to False.
-{{ config(enabled=var('shopify__using_order_adjustment', True)) }}
+-- this model will be all NULL until you have made an order adjustment in Shopify
 
-with source as (
+with base as (
 
     select * 
     from {{ ref('stg_shopify__order_adjustment_tmp') }}
 
 ),
 
-renamed as (
+fields as (
 
     select
         {{
@@ -23,7 +22,26 @@ renamed as (
             union_database_variable='shopify_union_databases') 
         }}
         
-    from source
+    from base
+),
+
+final as (
+
+    select
+        id as order_adjustment_id,
+        order_id,
+        refund_id,
+        amount,
+        amount_set,
+        tax_amount,
+        tax_amount_set,
+        kind,
+        reason,
+        {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+    from fields
 )
 
-select * from renamed
+select * 
+from final
