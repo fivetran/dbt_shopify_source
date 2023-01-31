@@ -12,7 +12,7 @@ Thus, the source package will create empty (1 row of all `NULL` fields) staging 
 
 ## Keeping Deleted Entities 
 
-todo - not filtering out _fivetran_deleted in staging models. when joining these tables together in the transform package, bring in _fivetran_deleted as is_<foreign key table>_deleted
+Instead of automatically filtering out records where `_fivetran_deleted` is `true`, the package keeps these soft-deleted records, as they may persist as foreign keys in other tables. The package merely renames the deleted-flag to `is_deleted`, which you can filter out if you choose.
 
 ## Accepted Value Test Severity
 

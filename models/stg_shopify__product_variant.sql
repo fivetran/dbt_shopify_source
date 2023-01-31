@@ -43,7 +43,7 @@ final as (
         taxable as is_taxable,
         barcode,
         grams,
-        inventory_quantity,
+        coalesce(inventory_quantity, old_inventory_quantity) as inventory_quantity,
         weight,
         weight_unit,
         option_1,

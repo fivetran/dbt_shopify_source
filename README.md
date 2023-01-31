@@ -25,13 +25,13 @@ To use this dbt package, you must have the following:
 - At least one Fivetran Shopify connector syncing data into your destination. 
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
-## Step 2: Install the package (skip if also using the `dbt_shopify` package)
+## Step 2: Install the package (skip if also using the `shopify` transformation package)
 If you  are **not** using the [Shopify transformation package](https://github.com/fivetran/dbt_shopify), include the following package version in your `packages.yml` file. If you are installing the transform package, the source package is automatically installed as a dependency.
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.7.0", "<0.8.0"]
+    version: [">=0.8.0", "<0.9.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ## Step 3: Define database and schema variables
@@ -55,9 +55,30 @@ vars:
     shopify_union_databases: ['shopify_usa','shopify_canada'] # use this if the data is in different databases/projects but uses the same schema name
 ```
 
-## Step 4: TODO - timezone converting, maybe should be optional
+## Step 4: Enable `fulfillment_event` data
 
-## (Optional) Step 5: Additional configurations
+The package takes into consideration that not every Shopify connector may have `fulfillment_event` data enabled. However, this table does hold valuable information that is leveraged in the `shopify__daily_shop` model in the transformation package. `fulfillment_event` data is **disabled by default**. 
+
+Add the following variable to your `dbt_project.yml` file to enable the modeling of fulfillment events: 
+```yml
+# dbt_project.yml
+
+vars:
+    shopify_using_fulfillment_event: true # false by default
+```
+
+## Step 5: Setting your timezone
+By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation. 
+
+To convert the timezone of **all** timestamps in the package, update the `shopify_timezone` variable to your target zone in [IANA tz Database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones):
+```yml
+# dbt_project.yml
+
+vars:
+    shopify_timezone: "America/New_York" # Replace with your timezone
+```
+
+## (Optional) Step 6: Additional configurations
 <details><summary>Expand to view configurations</summary>
     
 ### Passing Through Additional Fields
@@ -110,7 +131,7 @@ vars:
 
 </details>
 
-## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand to view details</summary>
 <br>
     
