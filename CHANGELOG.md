@@ -2,6 +2,8 @@
 
 Lots of new features ahead!! We've revamped the package to keep up-to-date with new additions to the Shopify connector and feedback from the community. 
 
+This release does include 🚨 **Breaking Changes** 🚨.
+
 ## Documentation
 - Created the [DECISIONLOG](https://github.com/fivetran/dbt_shopify_source/blob/main/DECISIONLOG.md) to log discussions and opinionated stances we took in designing the package ([PR #45](https://github.com/fivetran/dbt_shopify_source/pull/45)).
 - README updated for easier package use and navigation ([PR #38](https://github.com/fivetran/dbt_shopify_source/pull/38)).
