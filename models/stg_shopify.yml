@@ -699,7 +699,7 @@ models:
         description: >
           An array of rules that define what products go into the smart collection. Each rule (`column` -- `relation` --> `condition`) has these properties:
           - `column`: the property of a product being used to populate the smart collection. Ex: 'tag', 'type', 'vendor', 'variant_price', etc.
-          - `relation`: The comparitive relationship between the column choice, and the condition ('equals', 'contains', 'greater_than', etc.)
+          - `relation`: The comparative relationship between the column choice, and the condition ('equals', 'contains', 'greater_than', etc.)
           - condition: Select products for a smart collection using a condition. Values are either strings or numbers, depending on the relation value.
           See the [Shopify docs](https://shopify.dev/api/admin-rest/2022-10/resources/smartcollection#resource-object) for more.
       - name: sort_order
