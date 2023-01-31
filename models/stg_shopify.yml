@@ -704,7 +704,7 @@ models:
           See the [Shopify docs](https://shopify.dev/api/admin-rest/2022-10/resources/smartcollection#resource-object) for more.
       - name: sort_order
         description: >
-          The order of the products in the collection. Valid values inclide
+          The order of the products in the collection. Valid values incline
           - `alpha-asc`: The products are sorted alphabetically from A to Z.
           - `alpha-des`: The products are sorted alphabetically from Z to A.
           - `best-selling`: The products are sorted by number of sales.
