@@ -1067,7 +1067,7 @@ models:
         tests:
           - not_null
       - name: order_shipping_line_id
-        description: ID of the order shipping line this recod is associated with.
+        description: ID of the order shipping line this record is associated with.
         tests:
           - not_null
       - name: price
