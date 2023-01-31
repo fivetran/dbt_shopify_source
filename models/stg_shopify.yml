@@ -144,7 +144,7 @@ models:
       - name: price_set
         description: The price of the line item in shop and presentment currencies.
       - name: tax_code
-        descripton: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
+        description: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
       - name: total_discount_set
         description: The total amount allocated to the line item in the presentment currency.
       - name: variant_title
