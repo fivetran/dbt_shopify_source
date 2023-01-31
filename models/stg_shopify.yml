@@ -1344,7 +1344,7 @@ models:
       - name: plan_name
         description: The name of the Shopify plan the shop is on.
       - name: is_pre_launch_enabled
-        description: Boolen representing whether the pre-launch page is enabled on the shop's online store.
+        description: Boolean representing whether the pre-launch page is enabled on the shop's online store.
       - name: primary_locale
         description: The shop's primary locale, as configured in the language settings of the shop's theme.
       - name: province
