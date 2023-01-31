@@ -682,7 +682,7 @@ models:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: rule_logic
-        description: Whether the `rules` are disjuctive (logical `OR`) or conjunctive (logical `AND`)
+        description: Whether the `rules` are disjunctive (logical `OR`) or conjunctive (logical `AND`)
       - name: handle
         description: A unique, human-readable string for the collection automatically generated from its title. This is used in themes by the Liquid templating language to refer to the collection.
       - name: collection_id
