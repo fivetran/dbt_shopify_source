@@ -807,7 +807,7 @@ models:
           - confirmed: The carrier is aware of the shipment, but hasn't received it yet.
           - in_transit: The shipment is being transported between shipping facilities on the way to its destination.
           - out_for_delivery: The shipment is being delivered to its final destination.
-          - delivered: The shipment was succesfully delivered.
+          - delivered: The shipment was successfully delivered.
           - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
       - name: status
         description: >
