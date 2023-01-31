@@ -25,6 +25,14 @@ To use this dbt package, you must have the following:
 - At least one Fivetran Shopify connector syncing data into your destination. 
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
+### Databricks dispatch configuration
+If you are using a Databricks destination with this package, you must add the following (or a variation of the following) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
+```yml
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
+```
+
 ## Step 2: Install the package (skip if also using the `shopify` transformation package)
 If you  are **not** using the [Shopify transformation package](https://github.com/fivetran/dbt_shopify), include the following package version in your `packages.yml` file. If you are installing the transform package, the source package is automatically installed as a dependency.
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
@@ -154,6 +162,9 @@ packages:
 
     - package: calogica/dbt_date
       version: [">=0.7.0", "<0.8.0"]
+      
+    - package: dbt-labs/spark_utils
+      version: [">=0.3.0", "<0.4.0"]
 ```
           
 # 🙌 How is this package maintained and can I contribute?
