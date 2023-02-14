@@ -8,7 +8,7 @@
 
 {% set table_exists=source_relation is not none  %}
 
-{% if table_exists %}
+{% if (table_exists or var('shopify_union_schemas',[]) != [] or var('shopify_union_databases',[]) != []) and var('shopify__using_refund', True) %}
 
 {{
     fivetran_utils.union_data(
