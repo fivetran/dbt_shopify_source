@@ -6,7 +6,6 @@
     {"name": "checkout_id", "datatype": dbt.type_int()},
     {"name": "code", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
-    {"name": "discount_id", "datatype": dbt.type_int()},
     {"name": "index", "datatype": dbt.type_int()},
     {"name": "type", "datatype": dbt.type_string()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()}

@@ -27,7 +27,6 @@ final as (
     select 
         checkout_id,
         upper(code) as code,
-        discount_id,
         amount,
         type,
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
