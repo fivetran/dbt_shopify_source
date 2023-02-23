@@ -1340,7 +1340,7 @@ sources:
           - name: created_at
             description: When the checkout discount application was created.
           - name: discount_id
-            description: ID of the discount.
+            description: ID of the discount. Deprecated, use `code` instead.
           - name: index
             description: Index (from 1) representing the application of the discount to the checkout. Use the latest (highest index)
           - name: type

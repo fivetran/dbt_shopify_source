@@ -1554,7 +1554,6 @@ models:
           combination_of_columns:
             - checkout_id
             - code
-            - discount_id
             - source_relation
     columns:
       - name: _fivetran_synced
@@ -1570,7 +1569,7 @@ models:
       - name: created_at
         description: When the checkout discount application was created.
       - name: discount_id
-        description: ID of the discount.
+        description: ID of the discount. Deprecated, use `code` instead.
       - name: type
         description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
       - name: updated_at

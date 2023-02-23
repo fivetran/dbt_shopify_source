@@ -1,3 +1,8 @@
+# dbt_shopify_source v0.8.1
+
+## Bug Fixes
+- Addresses [Issue #54](https://github.com/fivetran/dbt_shopify_source/issues/54), in which the deprecated `discount_id` field was used instead of `code` in `stg_shopify__abandoned_checkout_discount__code` ([PR #56](https://github.com/fivetran/dbt_shopify_source/pull/56)).
+
 # dbt_shopify_source v0.8.0
 
 Lots of new features ahead!! We've revamped the package to keep up-to-date with new additions to the Shopify connector and feedback from the community. 

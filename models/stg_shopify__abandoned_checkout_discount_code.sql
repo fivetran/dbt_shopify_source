@@ -13,7 +13,6 @@ fields as (
                 staging_columns=get_abandoned_checkout_discount_code_columns()
             )
         }}
-        , row_number() over(partition by checkout_id, discount_id order by index desc) as n
 
         {{ fivetran_utils.source_relation(
             union_schema_variable='shopify_union_schemas', 
@@ -34,11 +33,13 @@ final as (
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
         {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation, 
+        row_number() over(partition by checkout_id, upper(code) order by index desc) as index
 
     from fields
-    where n = 1
+    
 )
 
 select *
 from final
+where index = 1
