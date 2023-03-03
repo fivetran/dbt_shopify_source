@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: shopify
+  - name: shopify # only if you're using a singular connector
     schema: "{{ var('shopify_schema', 'shopify') }}"
     database: "{% if target.type != 'spark'%}{{ var('shopify_database', target.database) }}{% endif %}"
     tables:
