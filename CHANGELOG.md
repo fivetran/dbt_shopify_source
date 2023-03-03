@@ -1,3 +1,11 @@
+# dbt_shopify_source v0.8.2
+
+## Bug Fixes
+- The fivetan_utils.union_data macro has been expanded to handle cases where none of the provided Shopify schemas or databases contain an expected source table. 
+
+## Contributors
+- @dfagnan - https://github.com/fivetran/dbt_shopify_source/issues/57
+
 # dbt_shopify_source v0.8.1
 
 ## Bug Fixes
