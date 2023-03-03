@@ -1,7 +1,7 @@
 # dbt_shopify_source v0.8.2
 
 ## Bug Fixes
-- The fivetan_utils.union_data macro has been expanded to handle cases where none of the provided Shopify schemas or databases contain an expected source table. 
+- The `fivetan_utils.union_data` [macro](https://github.com/fivetran/dbt_fivetran_utils/pull/100) has been expanded to handle checking if a source table exists. Previously in the Shopify source package, this check happened outside of the macro and depended on the user having a defined shopify `source`. If the package anticipates a table that you do not have in any schema or database, it will create an all-null version of the staging model.
 
 ## Contributors
 - @dfagnan - https://github.com/fivetran/dbt_shopify_source/issues/57
