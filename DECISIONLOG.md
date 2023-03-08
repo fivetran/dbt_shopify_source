@@ -2,7 +2,7 @@
 
 In creating this package, which is meant for a wide range of use cases, we had to take opinionated stances on a few different questions we came across during development. We've consolidated significant choices we made here, and will continue to update as the package evolves. 
 
-## Creating Empty Tables for Refunds, Order Line Refunds, and Order Adjustments -- todo: update this after confirming the plan forward
+## Creating Empty Tables for Refunds, Order Line Refunds, and Order Adjustments
 
 Source tables related to `refunds`, `order_line_refunds`, and `order_adjustments` are created in the Shopify schema dyanmically. For example, if your shop has not incurred any refunds, you will not have a `refund` table yet until you do refund an order. 
 

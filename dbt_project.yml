@@ -53,6 +53,3 @@ vars:
     product_pass_through_columns: []
     product_variant_pass_through_columns: []
     transaction_pass_through_columns: []
-
-    shopify_union_databases: []
-    shopify_union_schemas: []

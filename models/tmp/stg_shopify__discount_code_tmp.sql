@@ -8,7 +8,6 @@
         default_database=target.database,
         default_schema='shopify',
         default_variable='discount_code_source',
-        column_macro=get_discount_code_columns(),
         union_schema_variable='shopify_union_schemas',
         union_database_variable='shopify_union_databases'
     )
