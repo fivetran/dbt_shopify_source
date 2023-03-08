@@ -8,7 +8,6 @@
         default_database=target.database,
         default_schema='shopify',
         default_variable='order_line_refund_source',
-        column_macro=get_order_line_refund_columns(),
         union_schema_variable='shopify_union_schemas',
         union_database_variable='shopify_union_databases'
     )
