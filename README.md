@@ -128,7 +128,7 @@ models:
   shopify_source:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
-### Change the source table references
+### Change the source table references (not available if unioning multiple Shopify connectors)
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 > IMPORTANT: See this project's [`src_shopify.yml`](https://github.com/fivetran/dbt_shopify_source/blob/main/models/src_shopify.yml) for the default names.
     
@@ -138,6 +138,8 @@ If an individual source table has a different name than the package expects, add
 vars:
     shopify_<default_source_table_name>_identifier: your_table_name 
 ```
+
+If you are making use of the `shopify_union_schemas` or `shopify_union_databases` variables, the package will assume individual tables to have their default names.
 
 </details>
 
