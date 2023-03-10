@@ -1,7 +1,8 @@
 # dbt_shopify_source v0.8.2
 
 ## Bug Fixes
-- The `fivetan_utils.union_data` [macro](https://github.com/fivetran/dbt_fivetran_utils/pull/100) has been expanded to handle checking if a source table exists. Previously in the Shopify source package, this check happened outside of the macro and depended on the user having a defined shopify `source`. If the package anticipates a table that you do not have in any schema or database, it will return a **completely** empty table (ie `limit 0`) with just one string column (`_dbt_source_relation`). ([PR #59](https://github.com/fivetran/dbt_shopify_source/pull/59)).
+- The `fivetan_utils.union_data` [macro](https://github.com/fivetran/dbt_fivetran_utils/pull/100) has been expanded to handle checking if a source table exists. Previously in the Shopify source package, this check happened outside of the macro and depended on the user having a defined shopify `source`. If the package anticipates a table that you do not have in any schema or database, it will return a **completely** empty table (ie `limit 0`) that will work seamlessly with downstream transformations ([PR #59](https://github.com/fivetran/dbt_shopify_source/pull/59)).
+  - A [dbt_expectations](https://github.com/calogica/dbt-expectations#expect_table_row_count_to_be_between) test has been placed on each staging model to raise a **warning** when it is completely empty.
 
 ## Contributors
 - [@dfagnan](https://github.com/dfagnan) (Issue https://github.com/fivetran/dbt_shopify_source/issues/57)

@@ -8,6 +8,11 @@ models:
           combination_of_columns:
             - customer_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -61,6 +66,11 @@ models:
           combination_of_columns:
             - order_line_refund_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -94,6 +104,11 @@ models:
           combination_of_columns:
             - order_line_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -193,6 +208,11 @@ models:
           combination_of_columns:
             - order_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -372,6 +392,11 @@ models:
           combination_of_columns:
             - product_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: is_deleted
         description: Whether the record has been deleted in the source system.
@@ -412,6 +437,11 @@ models:
           combination_of_columns:
             - variant_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: barcode
         description: The barcode, UPC, or ISBN number for the product.
@@ -473,6 +503,11 @@ models:
           combination_of_columns:
             - transaction_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: transaction_id
         description: The ID for the transaction.
@@ -548,6 +583,11 @@ models:
           combination_of_columns:
             - refund_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: refund_id
         description: The unique numeric identifier for the refund.
@@ -577,6 +617,11 @@ models:
           combination_of_columns:
             - order_adjustment_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: order_adjustment_id
         description: The unique numeric identifier for the order adjustment.
@@ -608,6 +653,11 @@ models:
           combination_of_columns:
             - checkout_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -748,6 +798,11 @@ models:
             - collection_id
             - product_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -771,6 +826,11 @@ models:
           combination_of_columns:
             - collection_id
             - source_relation    
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -823,6 +883,11 @@ models:
             - customer_id
             - index    
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -848,6 +913,11 @@ models:
           combination_of_columns:
             - discount_code_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -876,7 +946,12 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - fulfillment_id
-            - source_relation    
+            - source_relation   
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -944,6 +1019,11 @@ models:
           combination_of_columns:
             - inventory_item_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -984,6 +1064,11 @@ models:
             - inventory_item_id
             - location_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1009,6 +1094,11 @@ models:
           combination_of_columns:
             - location_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -1067,6 +1157,11 @@ models:
           combination_of_columns:
             - metafield_id
             - source_relation    
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1107,6 +1202,11 @@ models:
             - order_id
             - name
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1130,6 +1230,11 @@ models:
           combination_of_columns:
             - order_shipping_line_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1172,6 +1277,11 @@ models:
             - order_shipping_line_id
             - index
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1202,6 +1312,11 @@ models:
             - order_id
             - index
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1226,6 +1341,11 @@ models:
             - order_id
             - key
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1250,7 +1370,12 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - price_rule_id
-            - source_relation    
+            - source_relation   
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn  
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1332,6 +1457,11 @@ models:
           combination_of_columns:
             - product_image_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1366,6 +1496,11 @@ models:
             - product_id
             - index
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1391,6 +1526,11 @@ models:
           combination_of_columns:
             - shop_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -1511,6 +1651,11 @@ models:
           combination_of_columns:
             - transaction_id
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1556,6 +1701,11 @@ models:
             - checkout_id
             - code
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1587,6 +1737,11 @@ models:
             - order_id
             - code
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1613,6 +1768,11 @@ models:
             - checkout_id
             - index
             - source_relation
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1660,6 +1820,11 @@ models:
           combination_of_columns:
             - fulfillment_event_id
             - source_relation    
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1720,6 +1885,17 @@ models:
 
   - name: stg_shopify__tax_line
     description: Represents a single tax applied to the associated line item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_id
+            - index
+            - source_relation    
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          strictly: false # inclusive
+          config:
+            severity: warn 
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
