@@ -1564,8 +1564,7 @@ models:
       - name: checkout_id
         description: ID of the checkout. 
         tests:
-          - dbt_expectations.expect_column_values_to_not_be_null:
-              row_condition: "source_relation is not null" # source_relation is null when the source table doesn't exist (so we made an empty model)
+          - not_null
       - name: code
         description: The discount code.
       - name: created_at
