@@ -8,6 +8,8 @@ Empty source tables are created in the Shopify schema dyanmically if they do not
 
 Thus, the source package will will return **completely** empty staging models (ie `limit 0`) if these source tables do not exist in your Shopify schema yet, and the transform package will work seamlessly with these empty models. Once an anticipated source table exists in your schema, the source and transform packages will automatically reference the new populated table(s). ([example](https://github.com/fivetran/dbt_shopify_source/blob/main/models/tmp/stg_shopify__refund_tmp.sql)). 
 
+A [dbt_expectations](https://github.com/calogica/dbt-expectations#expect_table_row_count_to_be_between) test has been placed on each staging model to raise a **warning** when it is completely empty.
+
 > In previous versions of the package, you had to manually enable or disable transforms of `refund`, `order_line_refund`, or `order_adjustment` through variables. Because this required you to monitor your Shopify account/schema and update the variable(s) accordingly, we decided to pursue a more automated solution that works for all tables.
 
 ## Keeping Deleted Entities 
