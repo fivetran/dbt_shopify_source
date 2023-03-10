@@ -141,6 +141,21 @@ vars:
 
 If you are making use of the `shopify_union_schemas` or `shopify_union_databases` variables, the package will assume individual tables to have their default names.
 
+### Turn off compiler warnings for empty staging models
+
+Empty source tables are created in the Shopify schema dyanmically if they do not exist in your raw source schema. For example, if your shop has not incurred any refunds, you will not have a `refund` table yet until you do refund an order. 
+
+Thus, the source package will will return **completely** empty staging models (ie `limit 0`) if these source tables do not exist in your Shopify schema yet, and the transform package will work seamlessly with these empty models. Once an anticipated source table exists in your schema, the source and transform packages will automatically reference the new populated table(s). ([example](https://github.com/fivetran/dbt_shopify_source/blob/main/models/tmp/stg_shopify__refund_tmp.sql)). 
+
+The package will raise a compiler warning that the respective staging model is empty. The compiler warning can be turned off by the end user by setting the global `remove_empty_table_warnings` variable to `True`.
+
+```yml
+# dbt_project.yml
+
+vars:
+    remove_empty_table_warnings: true # default = false 
+```
+
 </details>
 
 ## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™
