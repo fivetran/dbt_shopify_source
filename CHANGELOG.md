@@ -1,3 +1,8 @@
+# dbt_shopify_source v0.8.2
+
+## Bug Fixes
+- Adjusts the test not_null_stg_shopify__discount_code_discount_code_id to warn instead of fail. If the source table discount_code does not exist the staging temp file creates a record and puts the discount_code_id as null. Doing so would cause the test to fail until a record is in that table.
+
 # dbt_shopify_source v0.8.1
 
 ## Bug Fixes
