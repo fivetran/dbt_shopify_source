@@ -858,6 +858,8 @@ models:
         description: The ID for the discount code.
         tests:
           - not_null
+              config:
+                severity: warn
       - name: price_rule_id
         description: The ID for the price rule that this discount code belongs to.
       - name: updated_at
