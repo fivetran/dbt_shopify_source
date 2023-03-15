@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: shopify # This source will only be used if you are using a single Shopify source connector. If multiple sources are being unioned, their tables will be directly referenced via adatper.get_relation
     schema: "{{ var('shopify_schema', 'shopify') }}"
-    database: "{% if target.type != 'spark'%}{{ var('shopify_database', target.database) }}{% endif %}"
+    database: "{% if target.type not in ['spark', 'databricks'] %}{{ var('shopify_database', target.database) }}{% endif %}"
     tables:
       - name: order
         description: Each record represents an order in Shopify.
