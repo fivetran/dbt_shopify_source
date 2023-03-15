@@ -3,7 +3,7 @@
 ## Bug Fixes
 [PR #59](https://github.com/fivetran/dbt_shopify_source/pull/59) introduces the following changes:
 - The `fivetan_utils.union_data` [macro](https://github.com/fivetran/dbt_fivetran_utils/pull/100) has been expanded to handle checking if a source table exists. Previously in the Shopify source package, this check happened outside of the macro and depended on the user having a defined shopify `source`. If the package anticipates a table that you do not have in any schema or database, it will return a **completely** empty table (ie `limit 0`) that will work seamlessly with downstream transformations.
-  - A compilation message will be raised when a staging model is completely empty. This compiler warning can be turned off by the end user by setting the global `remove_empty_table_warnings` variable to `True`.
+  - A compilation message will be raised when a staging model is completely empty. This compiler warning can be turned off by the end user by setting the `fivetran__remove_empty_table_warnings` variable to `True`.
 - A uniqueness test has been placed on the `order_line_id`, `index`, and `source_relation` columns in `stg_shopify__tax_line`, as it was previously missing a uniqueness test.
 
 ## Contributors
