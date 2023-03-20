@@ -1,10 +1,10 @@
 name: 'shopify_source_integration_tests'
-version: '0.8.1'
+version: '0.8.2'
 profile: 'integration_tests'
 config-version: 2
 
 vars:
-  shopify_schema: shopify_source_integration_tests_5
+  shopify_schema: shopify_source_integration_tests_6
   shopify_source:
     shopify_customer_identifier:          "shopify_customer_data"
     shopify_order_line_refund_identifier: "shopify_order_line_refund_data"
@@ -136,6 +136,7 @@ seeds:
     shopify_tax_line_data:
       +column_types:
         price: float
+        rate: float
     shopify_price_rule_data:
       +column_types:
         prerequisite_subtotal_range: float
@@ -167,7 +168,3 @@ seeds:
         price: float
         original_shop_markup: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
         original_shop_price: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
-    shopify_tax_line_data:
-      +column_types:
-        price: float
-        rate: float

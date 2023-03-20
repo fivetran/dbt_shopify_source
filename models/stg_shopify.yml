@@ -667,6 +667,7 @@ models:
         description: The payment gateway used by the checkout.
       - name: checkout_id
         description: The ID for the checkout.
+        tests:
           - not_null
       - name: landing_site_base_url
         description: The URL for the page where the customer entered the shop.
@@ -875,7 +876,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - fulfillment_id
-            - source_relation    
+            - source_relation   
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1230,7 +1231,7 @@ models:
         description: "{{ doc('_fivetran_synced') }}"
       - name: key
         description: Key of the tag pair.
-        tests:  
+        tests:
           - not_null
       - name: order_id
         description: ID of the order url being tagged.
@@ -1249,7 +1250,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - price_rule_id
-            - source_relation    
+            - source_relation   
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1718,6 +1719,12 @@ models:
 
   - name: stg_shopify__tax_line
     description: Represents a single tax applied to the associated line item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_id
+            - index
+            - source_relation    
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"

@@ -133,7 +133,7 @@ models:
   shopify_source:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
-### Change the source table references
+### Change the source table references (not available if unioning multiple Shopify connectors)
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 > IMPORTANT: See this project's [`src_shopify.yml`](https://github.com/fivetran/dbt_shopify_source/blob/main/models/src_shopify.yml) for the default names.
     
@@ -142,6 +142,23 @@ If an individual source table has a different name than the package expects, add
 
 vars:
     shopify_<default_source_table_name>_identifier: your_table_name 
+```
+
+If you are making use of the `shopify_union_schemas` or `shopify_union_databases` variables, the package will assume individual tables to have their default names.
+
+### Disable Compiler Warnings for Empty Tables
+
+Empty staging models are created in the Shopify schema dyanmically if the respective source tables do not exist in your raw source schema. For example, if your shop has not incurred any refunds, you will not have a `refund` table yet until you do refund an order, and the package will create an empty `stg_shopify__refund` model.
+
+The source package will will return **completely** empty staging models (ie `limit 0`) if these source tables do not exist in your Shopify schema yet, and the transform package will work seamlessly with these empty models. Once an anticipated source table exists in your schema, the source and transform packages will automatically reference the new populated table(s). ([example](https://github.com/fivetran/dbt_shopify_source/blob/main/models/tmp/stg_shopify__refund_tmp.sql)). 
+
+The package will raise a compiler warning message that the respective staging model is empty. The compiler warning can be turned off by the end user by setting the `fivetran__remove_empty_table_warnings` variable to `True`.
+
+```yml
+# dbt_project.yml
+
+vars:
+    fivetran__remove_empty_table_warnings: true # default = false 
 ```
 
 </details>
