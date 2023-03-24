@@ -21,4 +21,4 @@ dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{shopify_timezone: "America/New_York", shopify_using_fulfillment_event: true}' --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run-operation fivetran_utils.drop_schemas --args "{schema_suffixes: ['_stg_shopify']}"
+dbt run-operation fivetran_utils.drop_schemas --args "{schema_suffixes: ['_stg_shopify']}" --target "$db"
