@@ -1,4 +1,4 @@
-# dbt_shopify_source v0.8.2
+# dbt_shopify_source v0.8.2 
 
 ## Bug Fixes
 [PR #59](https://github.com/fivetran/dbt_shopify_source/pull/59) introduces the following changes:
