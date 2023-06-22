@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: shopify # This source will only be used if you are using a single Shopify source connector. If multiple sources are being unioned, their tables will be directly referenced via adatper.get_relation
     schema: "{{ var('shopify_schema', 'shopify') }}"
-    database: "{% if target.type not in ('spark', 'databricks') %}{{ var('shopify_database', target.database) }}{% endif %}"
+    database: "{% if target.type not in ('spark') %}{{ var('shopify_database', target.database) }}{% endif %}"
     tables:
       - name: order
         description: Each record represents an order in Shopify.
@@ -87,8 +87,6 @@ sources:
             description: The order 's position in the shop's count of orders starting at 1001. Order numbers are sequential and start at 1001.
           - name: processed_at
             description: The date and time when an order was processed. This value is the date that appears on your orders and that's used in the analytic reports.
-          - name: processing_method
-            description: How the payment was processed.
           - name: referring_site
             description: The website where the customer clicked a link to the shop.
           - name: shipping_address_address_1
@@ -177,12 +175,8 @@ sources:
             description: The total of all line item prices in shop and presentment currencies.
           - name: total_price_set
             description: The total price of the order in shop and presentment currencies.
-          - name: total_price_usd
-            description: The sum of all line item prices, discounts, shipping, taxes, and tips in USD. Must be positive.
           - name: is_confirmed
             description: Whether the order is confirmed.
-          - name: current_total_price
-            description: The current total price of the order in the shop currency. The value of this field reflects order edits, returns, and refunds.
           - name: source_identifier
             description: The ID of the order placed on the originating platform. This value doesn't correspond to the Shopify ID that's generated from a completed draft.
       
@@ -230,8 +224,6 @@ sources:
             description: Deprecated. The package will coalesce with `email_marketing_consent_consent_updated_at`. 
           - name: marketing_opt_in_level
             description: Deprecated. The package will coalesce with `email_marketing_consent_opt_in_level`.
-          - name: lifetime_duration
-            description: The amount of time since the customer was first added to the store.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
           - name: note
@@ -247,8 +239,6 @@ sources:
             description: "{{ doc('_fivetran_synced') }}"
           - name: fulfillable_quantity
             description: "The amount available to fulfill, calculated as follows: quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity"
-          - name: fulfillment_service
-            description: The service provider that's fulfilling the item.
           - name: fulfillment_status
             description: How far along an order is in terms line items fulfilled.
           - name: gift_card
@@ -284,13 +274,13 @@ sources:
           - name: index
             description: Index of the order line.
           - name: pre_tax_price
-            description: The pre tax preice of the line item in shop currency.
+            description: The pre tax price of the line item in shop currency.
           - name: pre_tax_price_set
-            description: he pre tax preice of the line item in shop currency and presentment currency.
+            description: he pre tax price of the line item in shop currency and presentment currency.
           - name: price_set
             description: The price of the line item in shop and presentment currencies.
           - name: tax_code
-            descripton: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
+            description: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
           - name: total_discount_set
             description: The total amount allocated to the line item in the presentment currency.
           - name: variant_title
@@ -299,40 +289,8 @@ sources:
             description: The fulfillment service that tracks the number of items in stock for the product variant.
           - name: properties
             description: Line item properties.
-          - name: destination_location_address_1
-            description: The street address of the assigned location.
-          - name: destination_location_address_2
-            description: An optional additional field for the street address of the assigned location.
-          - name: destination_location_city
-            description: City of the destination where the items should be sent.
-          - name: destination_location_country_code
-            description: Two-letter country code (ISO 3166-1 format) of the destination where the items should be sent.
-          - name: destination_location_id
-            description: ID of the destination where the items should be sent.
-          - name: destination_location_name
-            description: Name of the destination where the items should be sent.
-          - name: destination_location_province_code
-            description: Two-letter province code of the destination where the items should be sent.
-          - name: destination_location_zip
-            description: Zip code of the destination where the items should be sent.
-          - name: origin_location_address_1
-            description: The street address of the item's supplier.
-          - name: origin_location_address_2
-            description: The suite number of the item's supplier.
-          - name: origin_location_city
-            description: The city of the item's supplier.
-          - name: origin_location_country_code
-            description: The two-letter code (ISO 3166-1 format) for the country of the item's supplier.
-          - name: origin_location_id
-            description: The location ID of the line item’s fulfillment origin. Used by Shopify to calculate applicable taxes. This is not the ID of the location where the order was placed. You can use the FulfillmentOrder resource to determine the location an item will be sourced from.
-          - name: origin_location_name
-            description: The name of the item's supplier.
-          - name: origin_location_province_code
-            description: The two-letter abbreviation for the region of the item's supplier.
-          - name: origin_location_zip
-            description: The zip of the item's supplier.
           - name: tax_code
-            descripton: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
+            description: Tax code applied to the line item. As multiple taxes can apply to a line item, we recommend referring to `stg_shopify__tax_line`.
 
       - name: order_line_refund
         identifier: "{{ var('shopify_order_line_refund_identifier', 'order_line_refund') }}"
