@@ -11,10 +11,14 @@
 | [stg_shopify__order](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order) | `total_price_usd` |
 | [stg_shopify__order](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order) | `processing_method` |
 
-## Under the Hood:
+## Under the Hood
 - Removed `databricks` from the shopify_database configuration in the src_shopify.yml to allow Databricks Unity catalog users to define a unity Catalog as a database. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65))
 - Updated the pull request templates. ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65))
+
+## Documentation Updates
+- The `shopify_using_shop_metafields` variable was added to the Adding Metafields of the README. It was erroneously omitted in a previous release. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
+- Documentation provided in the README for how to connect sources when leveraging the union schema/database feature. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
 
 # dbt_shopify_source v0.8.2
 
