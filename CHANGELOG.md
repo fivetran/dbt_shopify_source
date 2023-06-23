@@ -1,6 +1,6 @@
 # dbt_shopify_source v0.8.3
 
-## Bug Fixes
+## Bug Fixes 🐛 🪛 
 [PR #69](https://github.com/fivetran/dbt_shopify_source/pull/69) includes the following fixes:
 - Lower casing `metafield_reference` field in `stg_shopify__metafield` to fix metafield table breakages upstream when the `key` field has different casing for otherwise identical strings. 
 - Lower casing `owner_resource` field in `stg_shopify__metafield` to ensure identical `value` fields with different casing are then correctly pivoted together upstream in the shopify transformation package `get_metafields` macro. 
