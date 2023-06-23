@@ -6,7 +6,7 @@
 - Lower casing `owner_resource` field in `stg_shopify__metafield` to ensure identical `value` fields with different casing are then correctly pivoted together upstream in the shopify transformation package `get_metafields` macro. 
  
 ## Contributors
-- @ZCrookston & @FridayPush ([Issue #64](https://github.com/fivetran/dbt_shopify_source/issues/64))
+- [@ZCrookston](https://github.com/ZCrookston) & [@FridayPush](https://github.com/FridayPush) ([Issue #64](https://github.com/fivetran/dbt_shopify_source/issues/64))
 
 ## Under the Hood:
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
