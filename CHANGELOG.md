@@ -2,15 +2,15 @@
 
 ## Bug Fixes 🐛 🪛 
 [PR #69](https://github.com/fivetran/dbt_shopify_source/pull/69) includes the following fixes:
-- Lower casing `metafield_reference` field in `stg_shopify__metafield` to fix metafield table breakages upstream when the `key` field has different casing for otherwise identical strings. 
+- Lower casing `metafield_reference` field in `stg_shopify__metafield` to fix metafield table breakages upstream when the `key` field has different casing for otherwise identical strings.
 - Lower casing `owner_resource` field in `stg_shopify__metafield` to ensure identical `value` fields with different casing are then correctly pivoted together upstream in the shopify transformation package `get_metafields` macro. 
  
 ## Contributors
 - [@ZCrookston](https://github.com/ZCrookston) & [@FridayPush](https://github.com/FridayPush) ([Issue #64](https://github.com/fivetran/dbt_shopify_source/issues/64))
 
 ## Under the Hood:
-- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
-- Updated the pull request [templates](/.github).
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. [PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files)
+- Updated the pull request [templates](/.github). [PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files)
 
 # dbt_shopify_source v0.8.2
 
