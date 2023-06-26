@@ -9,8 +9,8 @@
 - [@ZCrookston](https://github.com/ZCrookston) & [@FridayPush](https://github.com/FridayPush) ([Issue #64](https://github.com/fivetran/dbt_shopify_source/issues/64))
 
 ## Under the Hood:
-- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. [PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files)
-- Updated the pull request [templates](/.github). [PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files)
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files))
+- Updated the pull request [templates](/.github). ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files))
 
 # dbt_shopify_source v0.8.2
 
