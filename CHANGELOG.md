@@ -17,8 +17,20 @@
 - Updated the pull request templates. ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65))
 
 ## Documentation Updates
-- The `shopify_using_shop_metafields` variable was added to the Adding Metafields of the README. It was erroneously omitted in a previous release. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
 - Documentation provided in the README for how to connect sources when leveraging the union schema/database feature. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
+# dbt_shopify_source v0.8.3
+
+## Bug Fixes 🐛 🪛 
+[PR #69](https://github.com/fivetran/dbt_shopify_source/pull/69) includes the following fixes:
+- Lower casing `metafield_reference` field in `stg_shopify__metafield` to fix metafield table breakages upstream when the `key` field has different casing for otherwise identical strings.
+- Lower casing `owner_resource` field in `stg_shopify__metafield` to ensure identical `value` fields with different casing are then correctly pivoted together upstream in the shopify transformation package `get_metafields` macro. 
+ 
+## Contributors
+- [@ZCrookston](https://github.com/ZCrookston) & [@FridayPush](https://github.com/FridayPush) ([Issue #64](https://github.com/fivetran/dbt_shopify_source/issues/64))
+
+## Under the Hood:
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files))
+- Updated the pull request [templates](/.github). ([PR #65](https://github.com/fivetran/dbt_shopify_source/pull/65/files))
 
 # dbt_shopify_source v0.8.2
 
