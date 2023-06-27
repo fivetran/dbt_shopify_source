@@ -276,7 +276,7 @@ sources:
           - name: pre_tax_price
             description: The pre tax price of the line item in shop currency.
           - name: pre_tax_price_set
-            description: he pre tax price of the line item in shop currency and presentment currency.
+            description: The pre tax price of the line item in shop currency and presentment currency.
           - name: price_set
             description: The price of the line item in shop and presentment currencies.
           - name: tax_code
