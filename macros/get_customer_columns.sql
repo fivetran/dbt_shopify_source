@@ -22,7 +22,6 @@
     {"name": "note", "datatype": dbt.type_string()},
     {"name": "accepts_marketing_updated_at", "datatype": dbt.type_timestamp()},
     {"name": "marketing_opt_in_level", "datatype": dbt.type_string()},
-    {"name": "lifetime_duration", "datatype": dbt.type_string()},
     {"name": "currency", "datatype": dbt.type_string()}
 ] %}
 

@@ -40,7 +40,6 @@ final as (
         total_spent,
         verified_email as is_verified_email,
         note,
-        lifetime_duration,
         currency,
         case 
             when email_marketing_consent_state is null then

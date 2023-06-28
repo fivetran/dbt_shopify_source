@@ -1,3 +1,22 @@
+# dbt_shopify_source v0.9.0
+## Breaking Changes
+- In [June 2023](https://fivetran.com/docs/applications/shopify/changelog#june2023) the Shopify connector received an update which upgraded the connector to be compatible with the new [2023-04 Shopify API](https://shopify.dev/docs/api). As a result, the following fields have been removed as they were deprecated in the API upgrade: ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
+
+| **model** | **field removed** |
+|-------|--------------|
+| [stg_shopify__customer](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__customer) | `lifetime_duration` |
+| [stg_shopify__order_line](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order_line) | `fulfillment_service` |
+| [stg_shopify__order_line](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order_line) | `destination_location_*` fields |
+| [stg_shopify__order_line](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order_line) | `origin_location_*` fields |
+| [stg_shopify__order](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order) | `total_price_usd` |
+| [stg_shopify__order](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify_source.stg_shopify__order) | `processing_method` |
+
+## Under the Hood
+- Removed `databricks` from the shopify_database configuration in the `src_shopify.yml` to allow Databricks Unity catalog users to define a unity Catalog as a database. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
+
+## Documentation Updates
+- Documentation provided in the README for how to connect sources when leveraging the union schema/database feature. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
+
 # dbt_shopify_source v0.8.3
 
 ## Bug Fixes 🐛 🪛 
