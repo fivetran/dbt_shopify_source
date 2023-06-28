@@ -18,6 +18,7 @@
 
 ## Documentation Updates
 - Documentation provided in the README for how to connect sources when leveraging the union schema/database feature. ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))
+
 # dbt_shopify_source v0.8.3
 
 ## Bug Fixes 🐛 🪛 
