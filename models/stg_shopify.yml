@@ -1698,3 +1698,9 @@ models:
         description: The proportion of the line item price that the tax represents as a decimal.
       - name: title
         description: The name of the tax.
+
+  - name: stg_shopify__discount_allocation
+    description: discount_allocation
+    columns:
+      - name: order_line_id
+      - name: amount
