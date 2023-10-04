@@ -185,11 +185,8 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 
-    - package: calogica/dbt_expectations
-      version: [">=0.10.0", "<0.11.0"]
-
     - package: calogica/dbt_date
-      version: [">=0.9.0", "<0.10.0"]
+      version: [">=0.9.0", "<1.0.0"]
       
     - package: dbt-labs/spark_utils
       version: [">=0.3.0", "<0.4.0"]
