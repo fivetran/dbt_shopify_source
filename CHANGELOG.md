@@ -1,4 +1,6 @@
 # dbt_shopify_source v0.10.0
+## 🚨 Breaking Changes 🚨
+- This release will be a breaking change due to the removal of below dependencies.
 ## Dependency Updates
 - Removes the dependency on [dbt-expectations](https://github.com/calogica/dbt-expectations/releases) and updates the [dbt-date](https://github.com/calogica/dbt-date/releases) dependency to the latest version. ([PR #75](https://github.com/fivetran/dbt_shopify_source/pull/75))
 
