@@ -1,3 +1,9 @@
+# dbt_shopify_source v0.10.0
+## 🚨 Breaking Changes 🚨
+- This release will be a breaking change due to the removal of below dependencies.
+## Dependency Updates
+- Removes the dependency on [dbt-expectations](https://github.com/calogica/dbt-expectations/releases) and updates the [dbt-date](https://github.com/calogica/dbt-date/releases) dependency to the latest version. ([PR #75](https://github.com/fivetran/dbt_shopify_source/pull/75))
+
 # dbt_shopify_source v0.9.0
 ## Breaking Changes
 - In [June 2023](https://fivetran.com/docs/applications/shopify/changelog#june2023) the Shopify connector received an update which upgraded the connector to be compatible with the new [2023-04 Shopify API](https://shopify.dev/docs/api). As a result, the following fields have been removed as they were deprecated in the API upgrade: ([PR #70](https://github.com/fivetran/dbt_shopify_source/pull/70))

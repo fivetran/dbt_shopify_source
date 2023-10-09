@@ -44,7 +44,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.10.0", "<0.11.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ## Step 3: Define database and schema variables
@@ -185,11 +185,8 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 
-    - package: calogica/dbt_expectations
-      version: [">=0.8.0", "<0.9.0"]
-
     - package: calogica/dbt_date
-      version: [">=0.7.0", "<0.8.0"]
+      version: [">=0.9.0", "<1.0.0"]
       
     - package: dbt-labs/spark_utils
       version: [">=0.3.0", "<0.4.0"]
