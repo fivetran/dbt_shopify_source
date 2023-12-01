@@ -34,7 +34,7 @@ final as (
             else 'conjunctive' end as rule_logic,
         handle,
         published_scope,
-        rules,
+        TO_JSON_STRING(rules) as rules,
         sort_order,
         title,
         {{ dbt_date.convert_timezone(column='cast(published_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as published_at,
