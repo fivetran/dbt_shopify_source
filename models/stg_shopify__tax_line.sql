@@ -29,7 +29,7 @@ final as (
         index,
         order_line_id,
         price,
-        price_set,
+        TO_JSON_STRING(price_set) as price_set,
         rate,
         title,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
