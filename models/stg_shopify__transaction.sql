@@ -44,7 +44,7 @@ final as (
         payment_credit_card_number,
         payment_credit_card_company,
         kind,
-        receipt,
+        TO_JSON_STRING(receipt) as receipt,
         currency_exchange_id,
         currency_exchange_adjustment,
         currency_exchange_original_amount,
