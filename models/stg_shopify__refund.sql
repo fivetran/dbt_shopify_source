@@ -32,7 +32,7 @@ final as (
         note,
         order_id,
         restock,
-        total_duties_set,
+        TO_JSON_STRING(total_duties_set) as total_duties_set,
         user_id,
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
         {{ dbt_date.convert_timezone(column='cast(processed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_at,
