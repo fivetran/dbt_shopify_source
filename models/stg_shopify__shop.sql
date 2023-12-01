@@ -42,7 +42,7 @@ final as (
         longitude,
         case when county_taxes is null then false else county_taxes end as has_county_taxes,
         currency,
-        enabled_presentment_currencies,
+        TO_JSON_STRING(enabled_presentment_currencies) as enabled_presentment_currencies,
         customer_email,
         email,
         domain,
