@@ -1,9 +1,11 @@
 # dbt_shopify_source v0.10.1
 [PR #77](https://github.com/fivetran/dbt_shopify_source/pull/77) introduces the following changes: 
-## Bug Fixes 🐛 🪛 
+
+## 🐛 Bug Fixes 🪛 
 - Added `source_relation` to the `partition_by` clauses that determine the `is_most_recent_record` in the `stg_shopify__metafield` and `stg_shopify__abandoned_checkout_discount_code` tables.
 - Additionally updated partition logic in `stg_shopify__metafield` and `stg_shopify__abandoned_checkout_discount_code` to account for null table Redshift errors when handling null field cases. 
-## Under The Hood
+
+## 🚘 Under The Hood 🚘
 - Included auto-releaser GitHub Actions workflow to automate future releases.
 - Added additional casting in seed dependencies for above models `integration_tests/dbt_project.yml` to ensure local testing passed on null cases.
 
