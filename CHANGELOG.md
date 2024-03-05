@@ -1,5 +1,5 @@
 # dbt_shopify_source v0.10.1
-[PR #77](https://github.com/fivetran/dbt_shopify_source/pull/77) introduces the following changes: 
+[PR #78](https://github.com/fivetran/dbt_shopify_source/pull/78) introduces the following changes: 
 
 ## 🐛 Bug Fixes 🪛 
 - Added `source_relation` to the `partition_by` clauses that determine the `is_most_recent_record` in the `stg_shopify__metafield` and `stg_shopify__abandoned_checkout_discount_code` tables.
