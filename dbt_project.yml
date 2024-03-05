@@ -1,5 +1,5 @@
 name: 'shopify_source'
-version: '0.10.1'
+version: '0.11.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -7,7 +7,7 @@ models:
     +schema: stg_shopify
     +materialized: table
     tmp:
-      +materialized: table
+      +materialized: view
 vars:
   shopify_source:
     customer_source: "{{ source('shopify','customer') }}"

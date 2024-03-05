@@ -7,7 +7,9 @@ sources:
     tables:
       - name: order
         description: Each record represents an order in Shopify.
-        identifier: shopify_order_data
+        identifier: >
+          {% if target.type == 'snowflake' %}{{ var('shopify_order_identifier', '"ORDER"') }}
+          {%- else %}{{ var('shopify_order_identifier', 'order') }}{% endif %}
         quoting:
           identifier: "{{ false if target.type == 'snowflake' else true }}"
         columns:
