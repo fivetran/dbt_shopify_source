@@ -7,7 +7,7 @@ models:
     +schema: stg_shopify
     +materialized: table
     tmp:
-      +materialized: view
+      +materialized: table
 vars:
   shopify_source:
     customer_source: "{{ source('shopify','customer') }}"
