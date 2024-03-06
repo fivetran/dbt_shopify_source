@@ -2,7 +2,9 @@
 [PR #78](https://github.com/fivetran/dbt_shopify_source/pull/78) introduces the following changes: 
 
 ## 🚨 Breaking Changes 🚨
-- Added `source_relation` to the `partition_by` clauses that determine the `is_most_recent_record` in the `stg_shopify__metafield` and `stg_shopify__abandoned_checkout_discount_code` tables. If the user is leveraging the union feature, this could change data values.
+- Added `source_relation` to the `partition_by` clauses that determine the `is_most_recent_record` in the `stg_shopify__metafield` table.
+- Added `source_relation` to the `partition_by` clauses that determines the `index` in the `stg_shopify__abandoned_checkout_discount_code` table. 
+- If the user is leveraging the union feature, this could change data values.
 
 ## 🐛 Bug Fixes 🪛 
 - Updated partition logic in `stg_shopify__metafield` and `stg_shopify__abandoned_checkout_discount_code` to account for null table Redshift errors when handling null field cases. 
