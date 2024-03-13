@@ -5,13 +5,7 @@ require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
   shopify_source:
     +schema: stg_shopify
-    +materialized: ephemeral
-    stg_shopify__metafield:
-      +materialized: view
-    stg_shopify__order_note_attribute:
-      +materialized: view
-    tmp:
-      +materialized: view
+    +materialized: view
 vars:
   shopify_source:
     customer_source: "{{ source('shopify','customer') }}"

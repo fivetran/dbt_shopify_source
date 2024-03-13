@@ -6,15 +6,15 @@ config-version: 2
 vars:
   shopify_schema: shopify_source_integration_tests_9
   shopify_source:
-    shopify_customer_identifier:          "shopify_customer_data"
+    shopify_customer_identifier: "shopify_customer_data"
     shopify_order_line_refund_identifier: "shopify_order_line_refund_data"
-    shopify_order_line_identifier:        "shopify_order_line_data"
-    shopify_order_identifier:             "shopify_order_data"
-    shopify_product_identifier:           "shopify_product_data"
-    shopify_order_adjustment_identifier:  "shopify_order_adjustment_data"
-    shopify_product_variant_identifier:   "shopify_product_variant_data"
-    shopify_refund_identifier:            "shopify_refund_data"
-    shopify_transaction_identifier:       "shopify_transaction_data"
+    shopify_order_line_identifier: "shopify_order_line_data"
+    shopify_order_identifier: "shopify_order_data"
+    shopify_product_identifier: "shopify_product_data"
+    shopify_order_adjustment_identifier: "shopify_order_adjustment_data"
+    shopify_product_variant_identifier: "shopify_product_variant_data"
+    shopify_refund_identifier: "shopify_refund_data"
+    shopify_transaction_identifier: "shopify_transaction_data"
     shopify_abandoned_checkout_identifier: "shopify_abandoned_checkout_data"
     shopify_collection_product_identifier: "shopify_collection_product_data"
     shopify_collection_identifier: "shopify_collection_data"
