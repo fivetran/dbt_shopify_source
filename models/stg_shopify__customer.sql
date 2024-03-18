@@ -1,3 +1,5 @@
+{{ config(materialzied='view') }} --so we can use dbt_utils.star downstream
+
 with base as (
 
     select * 
