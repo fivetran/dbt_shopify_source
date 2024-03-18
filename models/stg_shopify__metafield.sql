@@ -43,7 +43,7 @@ final as (
             else row_number() over(partition by id, source_relation order by updated_at desc) = 1
         end as is_most_recent_record,
         source_relation,
-        {{ dbt_utils.generate_surrogate_key(['metafield_id', 'source_relation'])}} as metafield_unique_id
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation'])}} as metafield_unique_id
         
     from fields
 )
