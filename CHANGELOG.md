@@ -1,3 +1,10 @@
+# dbt_shopify_source v0.12.0
+[PR #79](https://github.com/fivetran/dbt_shopify_source/pull/79) introduces the following changes: 
+## 🚨 Breaking Changes 🚨
+- Updated default materialization of non-tmp staging models to ephemeral, except for the following models and materializations. These changes were made to avoid redundancies and reduce storage.
+  - `stg_shopify__customer` - view
+  - `stg_shopify__metafield` - table
+
 # dbt_shopify_source v0.11.0
 [PR #78](https://github.com/fivetran/dbt_shopify_source/pull/78) introduces the following changes: 
 
