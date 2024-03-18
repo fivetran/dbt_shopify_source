@@ -6,6 +6,8 @@ models:
   shopify_source:
     +schema: stg_shopify
     +materialized: ephemeral
+    stg_shopify__customer:
+      +materialized: view
     tmp:
       +materialized: view
 vars:
