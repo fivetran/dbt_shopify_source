@@ -1020,12 +1020,11 @@ models:
     description: >
       Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
       downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - metafield_id
-            - source_relation    
     columns:
+      - name: metafield_unique_id
+        description: Surrogate key hashed on fields `source_relation` and `metafield_id`.
+        tests:
+          - unique
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: created_at
