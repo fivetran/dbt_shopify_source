@@ -8,6 +8,8 @@ models:
     +materialized: ephemeral
     stg_shopify__customer:
       +materialized: view
+    stg_shopify__metafield:
+      +materialized: table
     tmp:
       +materialized: view
 vars:
