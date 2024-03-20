@@ -7,7 +7,7 @@ models:
     +schema: stg_shopify
     +materialized: view
     stg_shopify__metafield:
-      +materialized: table
+      +materialized: "{%- if var('shopify_using_all_metafields', false) -%} table {%- else -%} view {%- endif -%}"
 
 vars:
   shopify_source:
