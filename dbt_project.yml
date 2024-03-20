@@ -7,7 +7,7 @@ models:
     +schema: stg_shopify
     +materialized: view
     stg_shopify__metafield:
-      +materialized: "{%- if var('shopify_using_all_metafields', false) -%} table {%- else -%} view {%- endif -%}"
+      +materialized: "{%- if var('shopify_using_all_metafields', false) or target.type == 'redshift' -%} table {%- else -%} view {%- endif -%}"
 
 vars:
   shopify_source:

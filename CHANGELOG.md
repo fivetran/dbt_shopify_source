@@ -2,7 +2,7 @@
 [PR #79](https://github.com/fivetran/dbt_shopify_source/pull/79) introduces the following changes: 
 ## 🚨 Breaking Changes 🚨
 - To reduce storage, updated default materialization of staging models to views. 
-  - `stg_shopify__metafield` will be materialized as a table aid performance if `shopify_using_all_metafields` is true, otherwise it will be materialized as a view.
+  - `stg_shopify__metafield` will be materialized as a table to aid performance if `shopify_using_all_metafields` is true or for Redshift destinations, otherwise it will be materialized as a view.
 >  ⚠️ Running a `--full-refresh` will be required if you have previously run these staging models as tables and get the following error: 
 > ```
 > Trying to create view <model path> but it currently exists as a table. Either drop <model path> manually, or run dbt with `--full-refresh` and dbt will drop it for you.
