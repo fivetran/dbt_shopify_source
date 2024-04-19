@@ -10,6 +10,7 @@
 
 ## Under the Hood
 - Updated the maintainer PR template to the current format.
+- Added integration testing pipeline for Databricks SQL Warehouse.
 
 # dbt_shopify_source v0.11.0
 [PR #78](https://github.com/fivetran/dbt_shopify_source/pull/78) introduces the following changes: 
