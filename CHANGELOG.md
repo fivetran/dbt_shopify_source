@@ -1,3 +1,12 @@
+# dbt_shopify_source v0.12.0
+## 🪲 Bug Fixes 🪛
+- Removed the `index` filter in `stg_shopify__order_discount_code`, as we were erroneously filtering out multiple discounts for an order since `index` is meant to pair with `order_id` as the unique identifier for this source. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
+- Added `index` as a field in `stg_shopify__order_discount_code`, as it is part of the primary key. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
+
+## 📝 Documentation Updates 📝
+- Added `index` documentation to our `src_shopify.yml` and `stg_shopify.yml`. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
+- Updated the `unique_combination_of_columns` test to correctly check on `index` with `order_id` and `source_relation`. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
+
 # dbt_shopify_source v0.11.0
 [PR #78](https://github.com/fivetran/dbt_shopify_source/pull/78) introduces the following changes: 
 
