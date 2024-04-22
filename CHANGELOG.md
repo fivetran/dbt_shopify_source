@@ -5,7 +5,7 @@
 
 ## 📝 Documentation Updates 📝
 - Added `index` documentation to our `src_shopify.yml` and `stg_shopify.yml`. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
-- Updated the `unique_combination_of_columns` test to correctly check on `index` with `order_id` and `source_relation`. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
+- Updated the `unique_combination_of_columns` test on `stg_shopify__order_discount_code` to correctly check on `index` with `order_id` and `source_relation` rather than `code`. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
 
 ## 🔧 Under the Hood 🔩
 - Updated the pull request templates. [PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80)
