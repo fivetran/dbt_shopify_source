@@ -1320,6 +1320,8 @@ sources:
             description: Associated order ID.
           - name: type
             description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
+          - name: index
+            description: Pairs with `order_id` to provide unique identifier for order discount code.
       
       - name: abandoned_checkout_shipping_line
         description: Shipping lines associated with abandoned checkouts.
