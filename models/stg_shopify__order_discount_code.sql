@@ -27,6 +27,7 @@ final as (
     
     select 
         order_id,
+        index,
         upper(code) as code,
         type,
         amount,
@@ -34,7 +35,6 @@ final as (
         source_relation
 
     from fields
-    where index = 1 -- Sanity check. index should not > 1 but open an issue if that's not the case in your data
 )
 
 select *
