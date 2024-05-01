@@ -13,7 +13,7 @@
 - Updated the maintainer PR template to the current format.
 - Added integration testing pipeline for Databricks SQL Warehouse.
 
-[PR #80](https://github.com/fivetran/dbt_shopify_source/pull/80) introduces the following changes: 
+[PR #81](https://github.com/fivetran/dbt_shopify_source/pull/81) introduces the following changes: 
 ## 🪲 Bug Fixes 🪛
 - Removed the `index` filter in `stg_shopify__order_discount_code`, as we were erroneously filtering out multiple discounts for an order since `index` is meant to pair with `order_id` as the unique identifier for this source.
 - Added `index` as a field in `stg_shopify__order_discount_code`, as it is part of the primary key.
