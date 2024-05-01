@@ -1542,7 +1542,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - order_id
-            - code
+            - index
             - source_relation
     columns:
       - name: _fivetran_synced
@@ -1561,6 +1561,9 @@ models:
         description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+      - name: index
+        description: Pairs with `order_id` to provide unique identifier for order discount code.
+      
 
   - name: stg_shopify__abandoned_checkout_shipping_line
     description: Shipping lines associated with abandoned checkouts.

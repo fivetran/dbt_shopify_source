@@ -1,3 +1,30 @@
+# dbt_shopify_source v0.12.0
+
+[PR #79](https://github.com/fivetran/dbt_shopify_source/pull/79) introduces the following changes: 
+## 🚨 Breaking Changes 🚨
+- To reduce storage, updated default materialization of staging models from tables to views. 
+  - Note that `stg_shopify__metafield` will still be materialized as a table for downstream use.
+>  ⚠️ Running a `--full-refresh` will be required if you have previously run these staging models as tables and get the following error: 
+> ```
+> Trying to create view <model path> but it currently exists as a table. Either drop <model path> manually, or run dbt with `--full-refresh` and dbt will drop it for you.
+> ```
+
+## Under the Hood
+- Updated the maintainer PR template to the current format.
+- Added integration testing pipeline for Databricks SQL Warehouse.
+
+[PR #81](https://github.com/fivetran/dbt_shopify_source/pull/81) introduces the following changes: 
+## 🪲 Bug Fixes 🪛
+- Removed the `index` filter in `stg_shopify__order_discount_code`, as we were erroneously filtering out multiple discounts for an order since `index` is meant to pair with `order_id` as the unique identifier for this source.
+- Added `index` as a field in `stg_shopify__order_discount_code`, as it is part of the primary key.
+
+## 📝 Documentation Updates 📝
+- Added `index` documentation to our `src_shopify.yml` and `stg_shopify.yml`.
+- Updated the `unique_combination_of_columns` test on `stg_shopify__order_discount_code` to correctly check on `index` with `order_id` and `source_relation` rather than `code`.
+
+## 🔧 Under the Hood 🔩
+- Updated the pull request templates.
+
 # dbt_shopify_source v0.11.0
 [PR #78](https://github.com/fivetran/dbt_shopify_source/pull/78) introduces the following changes: 
 
