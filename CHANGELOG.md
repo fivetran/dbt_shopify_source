@@ -1,6 +1,6 @@
 # dbt_shopify_source v0.12.1
 
-[PR #](https://github.com/fivetran/dbt_shopify_source/pull/) introduces the following changes: 
+[PR #84](https://github.com/fivetran/dbt_shopify_source/pull/84) introduces the following changes: 
 
 ## 🪲 Bug Fixes 🪛
 - Added support for a new 'delayed' fulfillment event status from Shopify.
