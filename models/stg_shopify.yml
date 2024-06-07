@@ -1668,7 +1668,7 @@ models:
           - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
         tests:
           - accepted_values:
-              values:  ['attempted_delivery', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
+              values:  ['attempted_delivery', 'delayed', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
               config:
                 severity: warn # we pivot these out in shopify__daily_shop
       - name: updated_at
