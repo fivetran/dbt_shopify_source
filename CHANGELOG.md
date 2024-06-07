@@ -7,6 +7,11 @@
 
 # dbt_shopify_source v0.12.0
 
+[PR #86](https://github.com/fivetran/dbt_shopify_source/pull/86) introduces the following changes: 
+
+## 🪲 Bug Fixes 🪛
+- Added product_id to the unique combination_of_columns test for the stg_shopify__product_image model.
+
 [PR #79](https://github.com/fivetran/dbt_shopify_source/pull/79) introduces the following changes: 
 ## 🚨 Breaking Changes 🚨
 - To reduce storage, updated default materialization of staging models from tables to views. 

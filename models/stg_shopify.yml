@@ -1289,6 +1289,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - product_image_id
+            - product_id
             - source_relation
     columns:
       - name: _fivetran_synced
