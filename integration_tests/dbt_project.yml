@@ -4,7 +4,7 @@ profile: 'integration_tests'
 config-version: 2
 
 vars:
-  shopify_schema: "{%- if target.type == 'databricks-sql' -%} shopify_source_integrations_tests_sqlw {%- else -%} shopify_source_integration_tests_10 {%- endif -%}"
+  shopify_schema: "{{ shopify_source_integration_tests_10 if target.type != 'databricks-sql' else shopify_source_integrations_tests_sqlw }}"
   # shopify_using_fulfillment_event: true # enable when regenerating docs
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
