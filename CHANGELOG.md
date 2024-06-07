@@ -1,16 +1,14 @@
 # dbt_shopify_source v0.12.1
 
-[PR #84](https://github.com/fivetran/dbt_shopify_source/pull/84) introduces the following changes: 
-
 ## 🪲 Bug Fixes 🪛
-- Added support for a new 'delayed' fulfillment event status from Shopify.
+- Added support for a new `delayed` fulfillment event status from Shopify. `delayed` has been added to the `accepted_values` test on `stg_shopify__fulfillment_event` ([PR #84](https://github.com/fivetran/dbt_shopify_source/pull/84)).
+- Added `product_id` to the unique `combination_of_columns` test for the `stg_shopify__product_image` model ([PR #86](https://github.com/fivetran/dbt_shopify_source/pull/86)).
+
+## Contributors
+- [@ryan-brainforge](https://github.com/ryan-brainforge) ([PR #86](https://github.com/fivetran/dbt_shopify_source/pull/86))
+- [@shreveasaurus](https://github.com/shreveasaurus) ([PR #84](https://github.com/fivetran/dbt_shopify_source/pull/84))
 
 # dbt_shopify_source v0.12.0
-
-[PR #86](https://github.com/fivetran/dbt_shopify_source/pull/86) introduces the following changes: 
-
-## 🪲 Bug Fixes 🪛
-- Added product_id to the unique combination_of_columns test for the stg_shopify__product_image model.
 
 [PR #79](https://github.com/fivetran/dbt_shopify_source/pull/79) introduces the following changes: 
 ## 🚨 Breaking Changes 🚨
