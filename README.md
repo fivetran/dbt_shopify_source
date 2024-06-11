@@ -98,7 +98,7 @@ vars:
 > **Note**: This will only **numerically** convert timestamps to your target timezone. They will however have a "UTC" appended to them. This is a current limitation of the dbt-date `convert_timezone` [macro](https://github.com/calogica/dbt-date#convert_timezone-column-target_tznone-source_tznone) we leverage. 
 
 ## (Optional) Step 6: Additional configurations
-<details><summary>Expand to view configurations</summary>
+<details open><summary>Expand/Collapse configurations</summary>
     
 ### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. You can add more columns using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
@@ -122,6 +122,7 @@ vars:
         alias: "subsidiary_field"
     product_pass_through_columns:
       - name: "this_field"
+        transform_sql: "cast(this_field as string)"
     product_variant_pass_through_columns:
       - name: "new_custom_field"
         alias: "custom_field"
@@ -137,6 +138,7 @@ models:
   shopify_source:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
+
 ### Change the source table references (not available if unioning multiple Shopify connectors)
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 > IMPORTANT: See this project's [`src_shopify.yml`](https://github.com/fivetran/dbt_shopify_source/blob/main/models/src_shopify.yml) for the default names.
