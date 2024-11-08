@@ -8,6 +8,8 @@ models:
     +materialized: view
     stg_shopify__metafield:
       +materialized: table
+    stg_shopify__abandoned_checkout_discount_code:
+      +materialized: table
 
 vars:
   shopify_source:
