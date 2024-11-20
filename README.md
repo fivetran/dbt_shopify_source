@@ -44,7 +44,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.12.0", "<0.13.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.13.0", "<0.14.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -84,7 +84,18 @@ vars:
     shopify_using_fulfillment_event: true # false by default
 ```
 
-### Step 5: Setting your timezone
+### Step 6: Disable models for non-existent sources
+This package considers that not every Shopify connector uses the `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`). This package allows you to disable the corresponding functionality. By default, all variables' values are assumed to be `true`. To disable the `abandoned_checkout` tables, add the following variables:
+
+```yml
+# dbt_project.yml
+
+...
+vars:
+    shopify_using_abandoned_checkout: False  #True by default
+```
+
+### Step 7: Setting your timezone
 By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation.
 
 To convert the timezone of **all** timestamps in the package, update the `shopify_timezone` variable to your target zone in [IANA tz Database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones):
@@ -97,7 +108,7 @@ vars:
 
 > **Note**: This will only **numerically** convert timestamps to your target timezone. They will however have a "UTC" appended to them. This is a current limitation of the dbt-date `convert_timezone` [macro](https://github.com/calogica/dbt-date#convert_timezone-column-target_tznone-source_tznone) we leverage.
 
-### (Optional) Step 6: Additional configurations
+### (Optional) Step 8: Additional configurations
 <details open><summary>Expand/Collapse configurations</summary>
     
 #### Passing Through Additional Fields
