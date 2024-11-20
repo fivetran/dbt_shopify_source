@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_using_all_metafields', False) or var('shopify_using_collection_metafields', False) or var('shopify_using_customer_metafields', False) or var('shopify_using_order_metafields', False) or var('shopify_using_product_metafields', False) or var('shopify_using_product_image_metafields', False) or var('shopify_using_product_variant_metafields', False) or var('shopify_using_shop_metafields', False)) }}
 
 with base as (
 
@@ -21,12 +22,6 @@ fields as (
         }}
 
     from base
-
-    {{ shopify_source.result_if_table_exists(
-        table_ref=ref('stg_shopify__abandoned_checkout_discount_code_tmp'),
-        result_statement="",
-        if_empty="limit 0")
-    }}
 ),
 
 final as (

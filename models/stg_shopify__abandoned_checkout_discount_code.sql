@@ -1,4 +1,4 @@
-
+{{ config(enabled=var('shopify_using_abandoned_checkout', True)) }}
 
 with base as (
 
@@ -23,11 +23,6 @@ fields as (
 
     from base
 
-    {{ shopify_source.result_if_table_exists(
-        table_ref=ref('stg_shopify__abandoned_checkout_discount_code_tmp'),
-        result_statement="",
-        if_empty="limit 0")
-    }}
 ),
 
 final as (
@@ -47,12 +42,6 @@ final as (
 
     from fields
 
-    {{ shopify_source.result_if_table_exists(
-        table_ref=ref('stg_shopify__abandoned_checkout_discount_code_tmp'),
-        result_statement="",
-        if_empty="limit 0")
-    }}
-    
 )
 
 select *

@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_using_abandoned_checkout', True)) }}
+
 {{
     fivetran_utils.union_data(
         table_identifier='abandoned_checkout', 
