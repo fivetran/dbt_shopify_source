@@ -1,3 +1,9 @@
+# dbt_shopify_source v0.13.0
+
+## Under the Hood
+- Adds enable config for the `metadata` staging model.
+- Adds disable config for the `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`). 
+
 # dbt_shopify_source v0.12.1
 
 ## 🪲 Bug Fixes 🪛
