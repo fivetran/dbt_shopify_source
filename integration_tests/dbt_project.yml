@@ -4,7 +4,7 @@ profile: 'integration_tests'
 config-version: 2
 
 vars:
-  shopify_schema: shopify_source_integration_tests_11
+  shopify_schema: shopify_source_integration_tests_12
   # shopify_using_fulfillment_event: true # enable when regenerating docs
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
