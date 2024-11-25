@@ -72,11 +72,12 @@ vars:
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
-### Step 4: Enable `fulfillment_event` data
+### Step 4: Disable models for non-existent sources
 
-The package takes into consideration that not every Shopify connector may have `fulfillment_event` data enabled. However, this table does hold valuable information that is leveraged in the `shopify__daily_shop` model in the transformation package. `fulfillment_event` data is **disabled by default**.
+The package takes into consideration that not every Shopify connector may have the `fulfillment_event` or `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`) and allows you to enable or disable the corresponding functionality.
 
-Add the following variable to your `dbt_project.yml` file to enable the modeling of fulfillment events:
+The `fulfillment_event` table is **disabled by default** but does hold valuable information that is leveraged in the `shopify__daily_shop` model in the transformation package. If you would like to enable the modeling of fulfillment events downstream, add the following variable to your `dbt_project.yml` file:
+
 ```yml
 # dbt_project.yml
 
@@ -84,18 +85,17 @@ vars:
     shopify_using_fulfillment_event: true # false by default
 ```
 
-### Step 6: Disable models for non-existent sources
-This package considers that not every Shopify connector uses the `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`). This package allows you to disable the corresponding functionality. By default, all variables' values are assumed to be `true`. To disable the `abandoned_checkout` tables, add the following variables:
+The `abandoned_checkout` tables (including `abandoned_checkout` in addition to the `abandoned_checkout_discount_code` and `abandoned_checkout_shipping_line` child tables) are **enabled by default**. To disable the `abandoned_checkout` tables, add the following variable to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
 
 ...
 vars:
-    shopify_using_abandoned_checkout: False  #True by default
+    shopify_using_abandoned_checkout: false  #true by default
 ```
 
-### Step 7: Setting your timezone
+### Step 5: Setting your timezone
 By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation.
 
 To convert the timezone of **all** timestamps in the package, update the `shopify_timezone` variable to your target zone in [IANA tz Database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones):
@@ -108,7 +108,7 @@ vars:
 
 > **Note**: This will only **numerically** convert timestamps to your target timezone. They will however have a "UTC" appended to them. This is a current limitation of the dbt-date `convert_timezone` [macro](https://github.com/calogica/dbt-date#convert_timezone-column-target_tznone-source_tznone) we leverage.
 
-### (Optional) Step 8: Additional configurations
+### (Optional) Step 6: Additional configurations
 <details open><summary>Expand/Collapse configurations</summary>
     
 #### Passing Through Additional Fields
