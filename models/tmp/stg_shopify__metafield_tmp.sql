@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_using_all_metafields', False) or var('shopify_using_collection_metafields', False) or var('shopify_using_customer_metafields', False) or var('shopify_using_order_metafields', False) or var('shopify_using_product_metafields', False) or var('shopify_using_product_image_metafields', False) or var('shopify_using_product_variant_metafields', False) or var('shopify_using_shop_metafields', False)) }}
+{{ config(enabled=var('shopify_using_metafield', True)) }}
 
 {{
     fivetran_utils.union_data(
