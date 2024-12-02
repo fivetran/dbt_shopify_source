@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_using_metafield', True)) }}
+
 {{
     fivetran_utils.union_data(
         table_identifier='metafield', 

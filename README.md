@@ -1,4 +1,6 @@
-<p align="center">
+# Shopify Source dbt Package ([Docs](https://fivetran.github.io/dbt_shopify_source/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_shopify_source/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -13,7 +15,6 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Shopify Source dbt Package ([Docs](https://fivetran.github.io/dbt_shopify_source/))
 ## What does this dbt package do?
 <!--section="shopify_source_model"-->
 - Materializes [Shopify staging tables](https://fivetran.github.io/dbt_shopify_source/#!/overview/github_source/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/shopify/#schemainformation). These staging tables clean, test, and prepare your Shopify data from [Fivetran's connector](https://fivetran.com/docs/applications/shopify) for analysis by doing the following:
@@ -44,7 +45,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.12.0", "<0.13.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.13.0", "<0.14.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -72,17 +73,19 @@ vars:
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
-### Step 4: Enable `fulfillment_event` data
+### Step 4: Disable models for non-existent sources
 
-The package takes into consideration that not every Shopify connector may have `fulfillment_event` data enabled. However, this table does hold valuable information that is leveraged in the `shopify__daily_shop` model in the transformation package. `fulfillment_event` data is **disabled by default**.
+The package takes into consideration that not every Shopify connector may have the `fulfillment_event`, `metadata`, or `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
 
-Add the following variable to your `dbt_project.yml` file to enable the modeling of fulfillment events:
 ```yml
 # dbt_project.yml
 
 vars:
-    shopify_using_fulfillment_event: true # false by default
+    shopify_using_fulfillment_event: true # false by default. 
+    shopify_using_metafield: false  #true by default
+    shopify_using_abandoned_checkout: false # true by default. Setting to false will disable `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`.
 ```
+
 
 ### Step 5: Setting your timezone
 By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation.

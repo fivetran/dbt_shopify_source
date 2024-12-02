@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_using_abandoned_checkout', True)) }}
+
 with base as (
 
     select * 
@@ -20,6 +22,7 @@ fields as (
         }}
 
     from base
+
 ),
 
 final as (
@@ -34,13 +37,11 @@ final as (
         {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation, 
-        case when checkout_id is null and code is null and index is null
-            then row_number() over(partition by source_relation order by source_relation)
-            else row_number() over(partition by checkout_id, upper(code), source_relation order by index desc)
-        end as index
+        row_number() over(partition by checkout_id, upper(code), source_relation order by index desc) as index
+
 
     from fields
-    
+
 )
 
 select *

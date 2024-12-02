@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_using_abandoned_checkout', True)) }}
 
 with base as (
 
