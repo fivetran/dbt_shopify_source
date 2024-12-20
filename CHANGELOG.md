@@ -10,20 +10,20 @@
     - `measurement_id`
     - `measurement_weight_value`
     - `measurement_weight_unit`
-    - `tracked_editable_locked`
+    - `is_tracked_editable_locked`
     - `tracked_editable_reason`
     - `unit_cost_amount`
     - `unit_cost_currency_code`
   - `inventory_level`:
-    - `id`
+    - `inventory_level_id`
     - `can_deactivate`
     - `created_at`
     - `deactivation_alert`
   - `product_variant`:
-    - `available_for_sale`
+    - `is_available_for_sale`
     - `display_name`
     - `legacy_resource_id`
-    - `requires_components`
+    - `has_components_required`
     - `sellable_online_quantity`
   - `product_image`:
     - `media_id`
