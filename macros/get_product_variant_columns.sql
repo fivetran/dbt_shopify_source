@@ -22,11 +22,16 @@
     {"name": "product_id", "datatype": dbt.type_numeric()},
     {"name": "sku", "datatype": dbt.type_string()},
     {"name": "tax_code", "datatype": dbt.type_string()},
-    {"name": "taxable", "datatype": "boolean"},
+    {"name": "taxable", "datatype": dbt.type_boolean()},
     {"name": "title", "datatype": dbt.type_string()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "weight", "datatype": dbt.type_float()},
-    {"name": "weight_unit", "datatype": dbt.type_string()}
+    {"name": "weight_unit", "datatype": dbt.type_string()},
+    {"name": "available_for_sale", "datatype": dbt.type_boolean()},
+    {"name": "display_name", "datatype": dbt.type_string()},
+    {"name": "legacy_resource_id", "datatype": dbt.type_bigint()},
+    {"name": "requires_components", "datatype": dbt.type_boolean()},
+    {"name": "sellable_online_quantity", "datatype": dbt.type_int()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('product_variant_pass_through_columns')) }}

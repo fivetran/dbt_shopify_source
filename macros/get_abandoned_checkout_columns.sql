@@ -1,7 +1,7 @@
 {% macro get_abandoned_checkout_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "abandoned_checkout_url", "datatype": dbt.type_string()},
     {"name": "billing_address_address_1", "datatype": dbt.type_string()},
@@ -19,7 +19,7 @@
     {"name": "billing_address_province", "datatype": dbt.type_string()},
     {"name": "billing_address_province_code", "datatype": dbt.type_string()},
     {"name": "billing_address_zip", "datatype": dbt.type_string()},
-    {"name": "buyer_accepts_marketing", "datatype": "boolean"},
+    {"name": "buyer_accepts_marketing", "datatype": dbt.type_boolean()},
     {"name": "cart_token", "datatype": dbt.type_string()},
     {"name": "closed_at", "datatype": dbt.type_timestamp()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
@@ -54,7 +54,7 @@
     {"name": "shipping_address_zip", "datatype": dbt.type_string()},
     {"name": "source_name", "datatype": dbt.type_string()},
     {"name": "subtotal_price", "datatype": dbt.type_float()},
-    {"name": "taxes_included", "datatype": "boolean"},
+    {"name": "taxes_included", "datatype": dbt.type_boolean()},
     {"name": "token", "datatype": dbt.type_string()},
     {"name": "total_discounts", "datatype": dbt.type_float()},
     {"name": "total_duties", "datatype": dbt.type_string()},

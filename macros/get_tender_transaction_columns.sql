@@ -9,7 +9,7 @@
     {"name": "payment_method", "datatype": dbt.type_string()},
     {"name": "processed_at", "datatype": dbt.type_timestamp()},
     {"name": "remote_reference", "datatype": dbt.type_string()},
-    {"name": "test", "datatype": "boolean"},
+    {"name": "test", "datatype": dbt.type_boolean()},
     {"name": "user_id", "datatype": dbt.type_int()}
 ] %}
 
