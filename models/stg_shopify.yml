@@ -955,7 +955,7 @@ models:
         description: The weight value of the inventory item's measurement.
       - name: measurement_weight_unit
         description: The unit of measurement for the inventory item's weight.
-      - name: tracked_editable_locked
+      - name: is_tracked_editable_locked
         description: Indicates whether the 'tracked' field for the inventory item is locked from editing.
       - name: tracked_editable_reason
         description: Provides the reason why the 'tracked' field for the inventory item is locked from editing.
