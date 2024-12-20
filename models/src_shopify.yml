@@ -830,8 +830,6 @@ sources:
             description: "{{ doc('_fivetran_deleted') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
-          - name: cost
-            description: (DEPRECATED 2025-01-06) The unit cost of the inventory item. The shop's default currency is used.
           - name: country_code_of_origin
             description: The country code (ISO 3166-1 alpha-2) of where the item came from.
           - name: created_at

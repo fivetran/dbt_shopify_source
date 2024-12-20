@@ -921,8 +921,6 @@ models:
         description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
-      - name: cost
-        description: (DEPRECATED 2025-01-06) The unit cost of the inventory item. The shop's default currency is used.
       - name: country_code_of_origin
         description: The country code (ISO 3166-1 alpha-2) of where the item came from.
       - name: created_at
@@ -960,7 +958,7 @@ models:
       - name: tracked_editable_reason
         description: Provides the reason why the 'tracked' field for the inventory item is locked from editing.
       - name: unit_cost_amount
-        description: The unit cost associated with the inventory item.
+        description: The unit cost associated with the inventory item. Coalesced with the deprecated `cost` field.
       - name: unit_cost_currency_code
         description: Currency of the unit cost associated with the inventory item. 
       - name: source_relation
@@ -1360,7 +1358,7 @@ models:
       - name: status
         description: The status of the product image, indicating its availability or processing state.
       - name: url
-        description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image. Coalesced with the `src` field deprecated on 2025-01-06.
+        description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image. Coalesced with the deprecated `src` field.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 

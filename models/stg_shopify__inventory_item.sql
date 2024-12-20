@@ -29,8 +29,7 @@ final as (
         id as inventory_item_id,
         sku,
         _fivetran_deleted as is_deleted, -- won't filter out for now
-        cost,
-        unit_cost_amount,
+        coalesce(unit_cost_amount, cost) as unit_cost_amount,
         unit_cost_currency_code,
         country_code_of_origin,
         province_code_of_origin,
