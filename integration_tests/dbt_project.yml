@@ -1,13 +1,13 @@
 name: 'shopify_source_integration_tests'
-version: '0.13.0'
+version: '0.14.0'
 profile: 'integration_tests'
 config-version: 2
 
 vars:
   # Enable when regenerating docs
-  shopify_using_fulfillment_event: true
+  # shopify_using_fulfillment_event: true
 
-  shopify_schema: zz_shopify #shopify_source_integration_tests_12
+  shopify_schema: shopify_source_integration_tests_12
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
     shopify_order_line_refund_identifier: "shopify_order_line_refund_data"

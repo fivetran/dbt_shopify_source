@@ -425,13 +425,13 @@ models:
           (DEPRECATED 2025-01-06) The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
-      - name: available_for_sale
+      - name: is_available_for_sale
         description: Indicates whether the product variant is available for sale.
       - name: display_name
         description: The display name of the variant, based on the product's title and variant's title. 
       - name: legacy_resource_id
         description: The ID of the corresponding resource in the REST Admin API. 
-      - name: requires_components
+      - name: has_components_required
         description: Indicates whether a product variant requires components. 
       - name: sellable_online_quantity
         description: The total sellable quantity of the variant for online channels. 
