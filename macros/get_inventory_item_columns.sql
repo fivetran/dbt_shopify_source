@@ -3,7 +3,6 @@
 {% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "cost", "datatype": dbt.type_float()},
     {"name": "country_code_of_origin", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "id", "datatype": dbt.type_int()},
@@ -11,6 +10,7 @@
     {"name": "requires_shipping", "datatype": "boolean"},
     {"name": "sku", "datatype": dbt.type_string()},
     {"name": "tracked", "datatype": "boolean"},
+    {"name": "unit_cost_amount", "datatype": dbt.type_float()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()}
 ] %}
 
