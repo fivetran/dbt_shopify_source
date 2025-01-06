@@ -1,9 +1,9 @@
 {% macro get_inventory_item_columns() %}
 
+{# Columns below line 26 to be deprecated. #}
 {% set columns = [
     {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "cost", "datatype": dbt.type_float()},
     {"name": "country_code_of_origin", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "id", "datatype": dbt.type_bigint()},
@@ -23,6 +23,8 @@
     {"name": "tracked_editable_reason", "datatype": dbt.type_string()},
     {"name": "unit_cost_amount", "datatype": dbt.type_float()},
     {"name": "unit_cost_currency_code", "datatype": dbt.type_string()}
+    ,
+    {"name": "cost", "datatype": dbt.type_float()}
 ] %}
 
 {{ return(columns) }}
