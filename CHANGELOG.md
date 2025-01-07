@@ -36,7 +36,7 @@
   - `product_image`:
     - The deprecated `src` column is coalesced with the new column `url` as `url`.
 
-- Marked the following columns as deprecated in the documentation. These will be removed in a future release:
+- Marked the following columns as deprecated in the documentation. These columns will return `null` values following the connector update, and customers should expect this behavior until the columns are fully removed in a future release.
   - `inventory_level`:
     - `available`
   - `product_variant`:
