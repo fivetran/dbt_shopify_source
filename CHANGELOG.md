@@ -30,7 +30,7 @@
     - `status`
     - `url`
 
-- For backward compatibility, the following columns were coalesced to combine values from the old column name with the new column name, with the resulting column retaining the new name:
+- For backward compatibility, the following columns in these `stg_shopify__*` were coalesced to combine values from the old column name with the new column name, with the resulting column retaining the new name:
   - `inventory_item`:
     - The deprecated `cost` column is coalesced with the new column `unit_cost_amount` as `unit_cost_amount`.
   - `product_image`:
