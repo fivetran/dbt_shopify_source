@@ -1,7 +1,7 @@
 {% macro get_product_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "handle", "datatype": dbt.type_string()},

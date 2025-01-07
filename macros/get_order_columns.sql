@@ -15,7 +15,7 @@
     {"name": "total_tax", "datatype": dbt.type_float()},
     {"name": "source_name", "datatype": dbt.type_string()},
     {"name": "subtotal_price", "datatype": dbt.type_float()},
-    {"name": "taxes_included", "datatype": "boolean"},
+    {"name": "taxes_included", "datatype": dbt.type_boolean()},
     {"name": "total_weight", "datatype": dbt.type_numeric()},
     {"name": "total_tip_received", "datatype": dbt.type_float()},
     {"name": "landing_site_base_url", "datatype": dbt.type_string()},
@@ -52,7 +52,7 @@
     {"name": "billing_address_province_code", "datatype": dbt.type_string()},
     {"name": "billing_address_zip", "datatype": dbt.type_string()},
     {"name": "browser_ip", "datatype": dbt.type_string()},
-    {"name": "buyer_accepts_marketing", "datatype": "boolean"},
+    {"name": "buyer_accepts_marketing", "datatype": dbt.type_boolean()},
     {"name": "total_shipping_price_set", "datatype": dbt.type_string()},
     {"name": "shipping_address_address_1", "datatype": dbt.type_string()},
     {"name": "shipping_address_address_2", "datatype": dbt.type_string()},
@@ -69,17 +69,17 @@
     {"name": "shipping_address_province", "datatype": dbt.type_string()},
     {"name": "shipping_address_province_code", "datatype": dbt.type_string()},
     {"name": "shipping_address_zip", "datatype": dbt.type_string()},
-    {"name": "test", "datatype": "boolean"},
+    {"name": "test", "datatype": dbt.type_boolean()},
     {"name": "token", "datatype": dbt.type_string()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "app_id", "datatype": dbt.type_int()},
     {"name": "checkout_id", "datatype": dbt.type_int()},
     {"name": "client_details_user_agent", "datatype": dbt.type_string()},
     {"name": "customer_locale", "datatype": dbt.type_string()},
     {"name": "order_status_url", "datatype": dbt.type_string()},
     {"name": "presentment_currency", "datatype": dbt.type_string()},
-    {"name": "confirmed", "datatype": "boolean"}
+    {"name": "confirmed", "datatype": dbt.type_boolean()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('order_pass_through_columns')) }}

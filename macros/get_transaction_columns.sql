@@ -28,7 +28,7 @@
     {"name": "currency_exchange_currency", "datatype": dbt.type_string()},
     {"name": "error_code", "datatype": dbt.type_string()},
     {"name": "status", "datatype": dbt.type_string()},
-    {"name": "test", "datatype": "boolean"},
+    {"name": "test", "datatype": dbt.type_boolean()},
     {"name": "user_id", "datatype": dbt.type_numeric()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "authorization_expires_at", "datatype": dbt.type_timestamp()}

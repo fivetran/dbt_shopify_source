@@ -8,7 +8,7 @@
     {"name": "customer_selection", "datatype": dbt.type_string()},
     {"name": "ends_at", "datatype": dbt.type_timestamp()},
     {"name": "id", "datatype": dbt.type_int()},
-    {"name": "once_per_customer", "datatype": "boolean"},
+    {"name": "once_per_customer", "datatype": dbt.type_boolean()},
     {"name": "prerequisite_quantity_range", "datatype": dbt.type_float()},
     {"name": "prerequisite_shipping_price_range", "datatype": dbt.type_float()},
     {"name": "prerequisite_subtotal_range", "datatype": dbt.type_float()},

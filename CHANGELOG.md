@@ -1,3 +1,68 @@
+# dbt_shopify_source v0.14.0
+[PR #93](https://github.com/fivetran/dbt_shopify_source/pull/93) includes the following changes:
+
+## Breaking Changes
+- Updated for connector changes released on January 6, 2025. See the [release notes](https://fivetran.com/docs/connectors/applications/shopify/changelog#january2025) for more details. Added the following columns to the `stg_shopify__*` staging tables:
+  - `inventory_item`:
+    - `duplicate_sku_count`
+    - `harmonized_system_code`
+    - `inventory_history_url`
+    - `legacy_resource_id`
+    - `measurement_id`
+    - `measurement_weight_value`
+    - `measurement_weight_unit`
+    - `is_tracked_editable_locked`
+    - `tracked_editable_reason`
+    - `unit_cost_amount`
+    - `unit_cost_currency_code`
+  - `inventory_level`:
+    - `inventory_level_id`
+    - `can_deactivate`
+    - `created_at`
+    - `deactivation_alert`
+  - `product_variant`:
+    - `is_available_for_sale`
+    - `display_name`
+    - `legacy_resource_id`
+    - `has_components_required`
+    - `sellable_online_quantity`
+  - `product_image`:
+    - `media_id`
+    - `status`
+    - `url`
+
+- For backward compatibility, the following columns were coalesced to combine values from the old column name with the new column name, with the resulting column retaining the new name:
+  - `inventory_item`:
+    - The deprecated `cost` column is coalesced with the new column `unit_cost_amount` as `unit_cost_amount`.
+  - `product_image`:
+    - The deprecated `src` column is coalesced with the new column `url` as `url`.
+
+- Marked the following columns as deprecated in the documentation. These columns will return `null` values following the connector update, and customers should expect this behavior until the columns are fully removed in a future release.
+  - `inventory_level`:
+    - `available_quantity`
+  - `product_variant`:
+    - `fulfillment_service`
+    - `grams`
+    - `inventory_management`
+    - `requires_shipping`
+    - `weight`
+    - `weight_unit`
+    - `option_*`
+  - `product_image`:
+    - `position`
+    - `created_at`
+    - `updated_at`
+    - `variant_ids`
+
+## Under the Hood
+- Updated `shopify_*_data` seed data and `get_*_columns` macros to include new columns for the following tables:
+  - `inventory_item`
+  - `inventory_level`
+  - `product_image`
+  - `product_variant`
+- Standardized boolean casting by updating `get_*_columns` to use `dbt.type_boolean()` for consistency.
+
+
 # dbt_shopify_source v0.13.0
 
 [PR #91](https://github.com/fivetran/dbt_shopify_source/pull/91) includes the following changes:
