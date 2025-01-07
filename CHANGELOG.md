@@ -4,6 +4,7 @@
 ## Breaking Changes
 - Updated for connector changes released on January 6, 2025. See the [release notes](https://fivetran.com/docs/connectors/applications/shopify/changelog#january2025) for more details. Added the following columns to the `stg_shopify__*` staging tables:
   - `inventory_item`:
+    - `duplicate_sku_count`
     - `harmonized_system_code`
     - `inventory_history_url`
     - `legacy_resource_id`
@@ -30,7 +31,7 @@
     - `status`
     - `url`
 
-- For backward compatibility, the following columns in these `stg_shopify__*` were coalesced to combine values from the old column name with the new column name, with the resulting column retaining the new name:
+- For backward compatibility, the following columns were coalesced to combine values from the old column name with the new column name, with the resulting column retaining the new name:
   - `inventory_item`:
     - The deprecated `cost` column is coalesced with the new column `unit_cost_amount` as `unit_cost_amount`.
   - `product_image`:
@@ -38,7 +39,7 @@
 
 - Marked the following columns as deprecated in the documentation. These columns will return `null` values following the connector update, and customers should expect this behavior until the columns are fully removed in a future release.
   - `inventory_level`:
-    - `available`
+    - `available_quantity`
   - `product_variant`:
     - `fulfillment_service`
     - `grams`
