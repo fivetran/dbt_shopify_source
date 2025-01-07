@@ -36,7 +36,6 @@
   - `product_image`:
     - The deprecated `src` column is coalesced with the new column `url` as `url`.
 
-## Documentation
 - Marked the following columns as deprecated in the documentation. These will be removed in a future release:
   - `inventory_level`:
     - `available`
