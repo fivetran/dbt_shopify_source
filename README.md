@@ -28,7 +28,7 @@
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
-- At least one Fivetran Shopify connector syncing data into your destination.
+- At least one Fivetran Shopify connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
 #### Databricks dispatch configuration
@@ -49,7 +49,7 @@ packages:
 ```
 
 ### Step 3: Define database and schema variables
-#### Single connector
+#### Single connection
 By default, this package runs using your destination and the `shopify` schema. If this is not where your Shopify data is (for example, if your Shopify schema is named `shopify_fivetran` and your `issue` table is named `usa_issue`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -58,8 +58,8 @@ vars:
     shopify_schema: your_schema_name 
 ```
 
-#### Union multiple connectors
-If you have multiple Shopify connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `shopify_union_schemas` OR `shopify_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
+#### Union multiple connections
+If you have multiple Shopify connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `shopify_union_schemas` OR `shopify_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -142,7 +142,7 @@ models:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
 
-#### Change the source table references (not available if unioning multiple Shopify connectors)
+#### Change the source table references (not available if unioning multiple Shopify connections)
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 > IMPORTANT: See this project's [`src_shopify.yml`](https://github.com/fivetran/dbt_shopify_source/blob/main/models/src_shopify.yml) for the default names.
     

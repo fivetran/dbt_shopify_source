@@ -1,3 +1,8 @@
+# dbt_shopify_source version.version
+
+## Documentation
+- Corrected references to connectors and connections in the README. ([#94](https://github.com/fivetran/dbt_shopify_source/pull/94))
+
 # dbt_shopify_source v0.14.0
 [PR #93](https://github.com/fivetran/dbt_shopify_source/pull/93) includes the following changes:
 
