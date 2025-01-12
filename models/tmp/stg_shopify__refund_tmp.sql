@@ -1,7 +1,7 @@
 -- this model will be all NULL until you create a refund in Shopify
 
 {{
-    fivetran_utils.union_data(
+    shopify_union_data(
         table_identifier='refund', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

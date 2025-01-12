@@ -1,5 +1,5 @@
 {{
-    fivetran_utils.union_data(
+    shopify_union_data(
         table_identifier='transaction', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 
