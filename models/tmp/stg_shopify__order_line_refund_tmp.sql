@@ -1,7 +1,7 @@
 -- this model will be all NULL until you have made an order line refund in Shopify
 
 {{
-    shopify_union_data(
+    shopify_source.shopify_union_data(
         table_identifier='order_line_refund', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

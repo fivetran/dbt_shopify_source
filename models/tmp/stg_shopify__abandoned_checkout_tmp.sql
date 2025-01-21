@@ -1,7 +1,7 @@
 {{ config(enabled=var('shopify_using_abandoned_checkout', True)) }}
 
 {{
-    shopify_union_data(
+    shopify_source.shopify_union_data(
         table_identifier='abandoned_checkout', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 
