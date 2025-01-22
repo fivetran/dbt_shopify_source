@@ -1,7 +1,7 @@
 -- this model will be all NULL until you create a discount code in Shopify
 
 {{
-    fivetran_utils.union_data(
+    shopify_source.shopify_union_data(
         table_identifier='discount_code', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

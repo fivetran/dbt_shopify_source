@@ -1,7 +1,7 @@
 {{ config(enabled=var('shopify_using_metafield', True)) }}
 
 {{
-    fivetran_utils.union_data(
+    shopify_source.shopify_union_data(
         table_identifier='metafield', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 
