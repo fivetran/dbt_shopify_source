@@ -1,7 +1,7 @@
 {{ config(enabled=var('shopify_using_abandoned_checkout', True)) }}
 
 {{
-    fivetran_utils.union_data(
+    shopify_source.shopify_union_data(
         table_identifier='abandoned_checkout_shipping_line', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

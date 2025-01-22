@@ -45,7 +45,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.14.0", "<0.15.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.15.0", "<0.16.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -142,8 +142,10 @@ models:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
 
+
 #### Change the source table references (not available if unioning multiple Shopify connections)
-If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
+If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable: This config is available only when running the package on a single connection:
+
 > IMPORTANT: See this project's [`src_shopify.yml`](https://github.com/fivetran/dbt_shopify_source/blob/main/models/src_shopify.yml) for the default names.
     
 ```yml
@@ -159,7 +161,7 @@ If you are making use of the `shopify_union_schemas` or `shopify_union_databases
 
 Empty staging models are created in the Shopify schema dynamically if the respective source tables do not exist in your raw source schema. For example, if your shop has not incurred any refunds, you will not have a `refund` table yet until you do refund an order, and the package will create an empty `stg_shopify__refund` model.
 
-The source package will will return **completely** empty staging models (ie `limit 0`) if these source tables do not exist in your Shopify schema yet, and the transform package will work seamlessly with these empty models. Once an anticipated source table exists in your schema, the source and transform packages will automatically reference the new populated table(s). ([example](https://github.com/fivetran/dbt_shopify_source/blob/main/models/tmp/stg_shopify__refund_tmp.sql)).
+The source package will will return **completely** empty staging models (ie `limit 0`), if these source tables do not exist in your Shopify schema yet, and the transform package will work seamlessly with these empty models (The one exception is Redshift, which will create 1 all-null row to respect datatype casts). Once an anticipated source table exists in your schema, the source and transform packages will automatically reference the new populated table(s). ([example](https://github.com/fivetran/dbt_shopify_source/blob/main/models/tmp/stg_shopify__refund_tmp.sql)).
 
 The package will raise a compiler warning message that the respective staging model is empty. The compiler warning can be turned off by the end user by setting the `fivetran__remove_empty_table_warnings` variable to `True`.
 

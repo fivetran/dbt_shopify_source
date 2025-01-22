@@ -1,4 +1,10 @@
-# dbt_shopify_source version.version
+# dbt_shopify_source v0.15.0
+[PR #95](https://github.com/fivetran/dbt_shopify_source/pull/95) includes the following update:
+
+## Under the Hood 
+- (Affects Redshift only) Creates new `shopify_union_data` macro to accommodate Redshift's treatment of empty tables.
+  - For each staging model, if the source table is not found in any of your schemas, the package will create a table with one row with null values for Redshift destinations. There will be no change in behavior in other non-Redshift warehouses.
+  - This is necessary as Redshift will ignore explicit data casts when a table is completely empty and materialize every column as a `varchar`. This throws errors in downstream transformations in the `shopify` package. The 1 row will ensure that Redshift will respect the package's datatype casts.
 
 ## Documentation
 - Corrected references to connectors and connections in the README. ([#94](https://github.com/fivetran/dbt_shopify_source/pull/94))
