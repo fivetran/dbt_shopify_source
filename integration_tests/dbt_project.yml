@@ -1,5 +1,5 @@
 name: 'shopify_source_integration_tests'
-version: '0.15.0'
+version: '0.15.1'
 profile: 'integration_tests'
 config-version: 2
 
@@ -173,6 +173,7 @@ seeds:
         _fivetran_synced: timestamp
         created_at: timestamp
         updated_at: timestamp
+        owner_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
     shopify_shop_data:
       +column_types:
         taxes_included: boolean

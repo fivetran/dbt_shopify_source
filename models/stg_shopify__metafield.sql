@@ -34,7 +34,7 @@ final as (
         value,
         lower(coalesce(type, value_type)) as value_type,
         owner_id as owner_resource_id,
-        lower(owner_resource) as owner_resource,
+        case when lower(owner_resource) = 'productvariant' then 'variant' else lower(owner_resource) end as owner_resource,
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
         {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
