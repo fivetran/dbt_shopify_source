@@ -45,7 +45,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.15.0", "<0.16.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.16.0", "<0.17.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
