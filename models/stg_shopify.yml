@@ -1018,8 +1018,8 @@ models:
         description: The ID of the inventory level where this item is stored.
       - name: inventory_state_name
         description: The name of the inventory state associated with the record.
-      - name: available_quantity
-        description: The available quantity of the inventory item.
+      - name: quantity
+        description: The quantity associated with the record.
       - name: updated_at
         description: The timestamp of the last update to the inventory record.
       - name: _fivetran_synced
