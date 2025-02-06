@@ -29,6 +29,7 @@ vars:
     fulfillment_source: "{{ source('shopify','fulfillment') }}"
     inventory_item_source: "{{ source('shopify','inventory_item') }}"
     inventory_level_source: "{{ source('shopify','inventory_level') }}"
+    inventory_quantity_source: "{{ source('shopify','inventory_quantity') }}"
     location_source: "{{ source('shopify','location') }}"
     metafield_source: "{{ source('shopify','metafield') }}"
     order_note_attribute_source: "{{ source('shopify','order_note_attribute') }}"
