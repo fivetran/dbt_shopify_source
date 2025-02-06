@@ -999,6 +999,32 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
+    - name: stg_shopify__inventory_quantity
+      description: The total quantity of the inventory item available at all locations.
+      tests:
+        - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_quantity_id
+            - inventory_item_id
+            - inventory_level_id
+            - inventory_state_name
+            - source_relation
+      columns:
+        - name: inventory_quantity_id
+          description: The unique identifier for the record.
+        - name: inventory_item_id
+          description: The ID of the inventory item associated with this record.
+        - name: inventory_level_id
+          description: The ID of the inventory level where this item is stored.
+        - name: inventory_state_name
+          description: The name of the inventory state associated with the record.
+        - name: available_quantity
+          description: The available quantity of the inventory item.
+        - name: updated_at
+          description: The timestamp of the last update to the inventory record.
+        - name: _fivetran_synced
+          description: "{{ doc('_fivetran_synced') }}"
+
   - name: stg_shopify__location
     description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist.
     tests:
