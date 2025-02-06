@@ -7,7 +7,7 @@ models:
     +schema: stg_shopify
     +materialized: view
     stg_shopify__metafield:
-      +materialized: view
+      +materialized: table
 
 vars:
   shopify_source:
