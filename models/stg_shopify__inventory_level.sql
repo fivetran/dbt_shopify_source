@@ -29,7 +29,7 @@ final as (
         id as inventory_level_id,
         inventory_item_id,
         location_id,
-        available as available_quantity,
+        available as available_quantity, -- deprecated
         can_deactivate,
         deactivation_alert,
         {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
