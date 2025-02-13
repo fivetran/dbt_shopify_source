@@ -1,5 +1,5 @@
 # dbt_shopify_source v0.16.0  
-[PR #100](https://github.com/fivetran/dbt_shopify_source/pull/100) includes the following updates:  
+[PR #97](https://github.com/fivetran/dbt_shopify_source/pull/97) includes the following updates:  
 
 ## Breaking Changes  
 - Introduced the `inventory_quantity` source and the `stg_shopify__inventory_quantity` model to support downstream inventory quantity tracking.  
