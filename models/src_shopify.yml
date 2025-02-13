@@ -907,7 +907,7 @@ sources:
           - name: inventory_level_id
             description: The ID of the inventory level where this item is stored.
           - name: name
-            description: The name of the inventory state associated with the record. 
+            description: The name of the inventory state associated with the record. [Link to list of expected values](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states).
           - name: quantity
             description: The available quantity of the inventory item.
           - name: updated_at
