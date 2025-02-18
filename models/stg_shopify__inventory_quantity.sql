@@ -2,7 +2,7 @@
 with base as (
 
     select * 
-    from {{ ref('stg_shopify__inventory_level_tmp') }}
+    from {{ ref('stg_shopify__inventory_quantity_tmp') }}
 ),
 
 fields as (
@@ -10,8 +10,8 @@ fields as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__inventory_level_tmp')),
-                staging_columns=get_inventory_level_columns()
+                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__inventory_quantity_tmp')),
+                staging_columns=get_inventory_quantity_columns()
             )
         }}
 
@@ -26,13 +26,11 @@ fields as (
 final as (
     
     select
-        id as inventory_level_id,
+        id as inventory_quantity_id,
         inventory_item_id,
-        location_id,
-        available as available_quantity, -- deprecated
-        can_deactivate,
-        deactivation_alert,
-        {{ dbt_date.convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        inventory_level_id,
+        name as inventory_state_name,
+        quantity,
         {{ dbt_date.convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation

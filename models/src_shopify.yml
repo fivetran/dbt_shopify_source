@@ -896,6 +896,25 @@ sources:
           - name: deactivation_alert
             description: Provides an alert message when the inventory item is deactivated at the location.
 
+      - name: inventory_quantity
+        description: The total quantity of the inventory item available at all locations.
+        identifier: "{{ var('shopify_inventory_quantity_identifier', 'inventory_quantity') }}"
+        columns:
+          - name: id
+            description: The unique identifier for the record.
+          - name: inventory_item_id
+            description: The ID of the inventory item associated with this record.
+          - name: inventory_level_id
+            description: The ID of the inventory level where this item is stored.
+          - name: name
+            description: The name of the inventory state associated with the record. [Link to list of expected values](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states).
+          - name: quantity
+            description: The available quantity of the inventory item.
+          - name: updated_at
+            description: The timestamp of the last update to the inventory record.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
       - name: location
         description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist.
         identifier: "{{ var('shopify_location_identifier', 'location') }}"

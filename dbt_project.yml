@@ -1,5 +1,5 @@
 name: 'shopify_source'
-version: '0.15.0'
+version: '0.16.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -29,6 +29,7 @@ vars:
     fulfillment_source: "{{ source('shopify','fulfillment') }}"
     inventory_item_source: "{{ source('shopify','inventory_item') }}"
     inventory_level_source: "{{ source('shopify','inventory_level') }}"
+    inventory_quantity_source: "{{ source('shopify','inventory_quantity') }}"
     location_source: "{{ source('shopify','location') }}"
     metafield_source: "{{ source('shopify','metafield') }}"
     order_note_attribute_source: "{{ source('shopify','order_note_attribute') }}"
