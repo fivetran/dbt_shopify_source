@@ -1,5 +1,7 @@
 # dbt_shopify_source v0.17.0
 
+[PR #98](https://github.com/fivetran/dbt_shopify_source/pull/98) includes the following updates:
+
 ## Dependency Changes
 - Removed the dependency on [calogica/dbt_date](https://github.com/calogica/dbt-date) as it is no longer actively maintained.
 - To maintain functionality, the highly leveraged `dbt_date.convert_timezone` macro has been replicated within the `macros/fivetran_date_macros` folder with minimal modifications. It has been prefixed with `fivetran_` to avoid potential naming conflicts:
