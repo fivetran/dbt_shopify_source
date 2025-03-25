@@ -1,6 +1,6 @@
 {%- macro fivetran_convert_timezone(column, target_tz=None, source_tz=None) -%}
 {%- set source_tz = "UTC" if not source_tz else source_tz -%}
-{%- set target_tz = var("dbt_date:time_zone") if not target_tz else target_tz -%}
+{%- set target_tz = "UTC" if not target_tz else target_tz -%}
 {{ return(adapter.dispatch('fivetran_convert_timezone', 'shopify_source') (column, target_tz, source_tz)) }}
 {%- endmacro -%}
 
