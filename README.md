@@ -45,7 +45,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.16.0", "<0.17.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.17.0", "<0.18.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -98,7 +98,7 @@ vars:
     shopify_timezone: "America/New_York" # Replace with your timezone
 ```
 
-> **Note**: This will only **numerically** convert timestamps to your target timezone. They will however have a "UTC" appended to them. This is a current limitation of the dbt-date `convert_timezone` [macro](https://github.com/calogica/dbt-date#convert_timezone-column-target_tznone-source_tznone) we leverage.
+> **Note**: This will only **numerically** convert timestamps to your target timezone. They will however have a "UTC" appended to them. This is a current limitation of the dbt-date `convert_timezone` [macro](https://github.com/calogica/dbt-date#convert_timezone-column-target_tznone-source_tznone) we have leveraged and replicated [here](https://github.com/fivetran/dbt_shopify_source/tree/main/macros/fivetran_date_macros/fivetran_convert_timezone.sql) with minimal modifications.
 
 ### (Optional) Step 6: Additional configurations
 <details open><summary>Expand/Collapse configurations</summary>
@@ -191,9 +191,6 @@ packages:
 
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
-
-    - package: calogica/dbt_date
-      version: [">=0.9.0", "<1.0.0"]
       
     - package: dbt-labs/spark_utils
       version: [">=0.3.0", "<0.4.0"]
