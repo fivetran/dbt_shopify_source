@@ -1,5 +1,5 @@
 name: 'shopify_source'
-version: '0.17.0'
+version: '0.18.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -25,12 +25,17 @@ vars:
     collection_product_source: "{{ source('shopify','collection_product') }}"
     collection_source: "{{ source('shopify','collection') }}" 
     customer_tag_source: "{{ source('shopify','customer_tag') }}"
+    discount_allocation_source: "{{ source('shopify','discount_allocation') }}"
+    discount_application_source: "{{ source('shopify','discount_application') }}"
+    discount_basic_code_source: "{{ source('shopify','discount_basic_code') }}"
     discount_code_source: "{{ source('shopify','discount_code') }}"
     fulfillment_source: "{{ source('shopify','fulfillment') }}"
     inventory_item_source: "{{ source('shopify','inventory_item') }}"
     inventory_level_source: "{{ source('shopify','inventory_level') }}"
     inventory_quantity_source: "{{ source('shopify','inventory_quantity') }}"
     location_source: "{{ source('shopify','location') }}"
+    media_source: "{{ source('shopify','media') }}"
+    media_image_source: "{{ source('shopify','media_image') }}"
     metafield_source: "{{ source('shopify','metafield') }}"
     order_note_attribute_source: "{{ source('shopify','order_note_attribute') }}"
     order_shipping_line_source: "{{ source('shopify','order_shipping_line') }}"
@@ -39,6 +44,7 @@ vars:
     order_url_tag_source: "{{ source('shopify','order_url_tag') }}"
     price_rule_source: "{{ source('shopify','price_rule') }}"
     product_image_source: "{{ source('shopify','product_image') }}"
+    product_media_source: "{{ source('shopify','product_media') }}"
     product_tag_source: "{{ source('shopify','product_tag') }}"
     shop_source: "{{ source('shopify','shop') }}" 
     tender_transaction_source: "{{ source('shopify','tender_transaction') }}"
