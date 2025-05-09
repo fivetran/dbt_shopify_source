@@ -1,9 +1,9 @@
-{{% if var('shopify_using_product_image', does_table_exist('product_image')) %}}
+-- this model will be all NULL until you create a discount code in Shopify
 
 with base as (
 
     select * 
-    from {{ var('stg_shopify__product_image') }}
+    from {{ ref('stg_shopify__discount_basic_code_tmp') }}
 ),
 
 fields as (
@@ -11,8 +11,8 @@ fields as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__product_image_tmp')),
-                staging_columns=get_product_image_columns()
+                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__discount_basic_code_tmp')),
+                staging_columns=get_discount_basic_code_columns()
             )
         }}
 
@@ -25,34 +25,20 @@ fields as (
 ),
 
 final as (
-    
-    select 
-        id as product_image_id,
-        product_id,
-        height,
-        position,
-        variant_ids,
-        coalesce(url, src) as url,
-        width,
-        media_id,
-        status,
-        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
-        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
-        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
 
+    select
+        applies_once_per_customer,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(ends_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as ends_at,
+        id as discount_code_id,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(starts_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as starts_at,
+        title,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
+        usage_limit,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+ 
     from fields
-    where not coalesce(_fivetran_deleted, false)
 )
 
 select *
 from final
-
-{% else %}
-
-select 
-    cast(null as {{ dbt.type_bigint() }}) as product_image_id
-    cast(null as {{ dbt.type_string() }}) as source_relation
-limit {{ '1' if target.type == 'redshift' else '0' }}
-
-{% endif %}

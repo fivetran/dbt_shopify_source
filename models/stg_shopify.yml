@@ -1083,6 +1083,57 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
+  - name: stg_shopify__media
+    description: Table storing media metadata, including status and timestamps.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id
+            - source_relation
+    columns:
+      - name: id
+        description: The unique identifier for the media associated with a product image.
+        tests:
+          - not_null
+      - name: status
+        description: The status of the product image, indicating its availability or processing state.
+      - name: created_at
+        description: The date and time when the media was created. The API returns this value in ISO 8601 format.
+      - name: updated_at
+        description: The date and time when the media was last modified. The API returns this value in ISO 8601 format.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__media_image
+    description: Table storing image-specific properties for media assets.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - media_id
+            - image_id
+            - source_relation
+    columns:
+      - name: media_id
+        description: The unique identifier for the media associated with the product image.
+        tests:
+          - not_null
+      - name: image_id
+        description: Unique numeric identifier of the product image.
+        tests:
+          - not_null
+      - name: image_alt_text
+        description: A word or phrase to share the nature or contents of an image.
+      - name: image_height
+        description: Height dimension of the image which is determined on upload.
+      - name: image_width
+        description: Width dimension of the image which is determined on upload.
+      - name: image_url
+        description: Specifies the location of the product image, hashed for privacy. Coalesced with the deprecated `src` field.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+
+
   - name: stg_shopify__metafield
     description: >
       Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
@@ -1387,6 +1438,27 @@ models:
         description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image. Coalesced with the deprecated `src` field.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__product_media
+    description: Table mapping products to their associated media.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - media_id
+            - source_relation
+    columns:
+      - name: product_id
+        description: The id of the product associated with the media.
+        tests:
+          - not_null
+      - name: media_id
+        description: The unique identifier for the media asset linked to the product.
+        tests:
+          - not_null
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
 
   - name: stg_shopify__product_tag
     description: Tags that the shop owner has attached to the product.
@@ -1773,3 +1845,112 @@ models:
         description: The proportion of the line item price that the tax represents as a decimal.
       - name: title
         description: The name of the tax.
+
+  - name: stg_shopify__discount_allocation
+    description: Table storing allocation amounts from discount applications across specific order lines.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_id
+            - discount_application_index
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: amount
+        description: The total amount discounted on the order line from this allocation.
+      - name: amount_set_presentment_money_amount
+        description: The presentment money amount of the discount allocation in the customer’s local currency.
+      - name: amount_set_presentment_money_currency_code
+        description: The presentment money currency code for the customer’s local currency.
+      - name: amount_set_shop_money_amount
+        description: The shop money amount of the discount allocation in the store’s currency.
+      - name: amount_set_shop_money_currency_code
+        description: The shop money currency code for the store’s currency.
+      - name: discount_application_index
+        description: Index of the discount application this allocation relates to. Used to join with the discount application.
+        tests:
+          - not_null
+      - name: index
+        description: The index of the discount allocation within the list of allocations on an order line.
+      - name: order_line_id
+        description: The ID of the order line item receiving the allocation.
+        tests:
+          - not_null
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__discount_application
+    description: Table storing discount applications, which define how discounts were applied at the order level.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - index
+            - order_id
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: allocation_method
+        description: >
+          The method by which the discount is allocated. Valid values include `each` (applies the discount to each eligible item) and `across` (spreads the discount value across eligible items).
+      - name: code
+        description: The discount code associated with the application, if applicable.
+      - name: description
+        description: A description of the discount, often corresponding to the rule or promotion name.
+      - name: index
+        description: The index of the discount application on the order.
+        tests:
+          - not_null
+      - name: order_id
+        description: The ID of the order to which the discount was applied.
+        tests:
+          - not_null
+      - name: target_selection
+        description: >
+          Indicates whether the discount applies to all line items (`all`) or only those that are specifically entitled (`entitled`).
+      - name: target_type
+        description: The type of target this discount applies to (e.g., `line_item` or `shipping_line`).
+      - name: title
+        description: The name or title of the discount as defined in Shopify.
+      - name: type
+        description: The type of discount (e.g., `manual`, `script`, or `automatic`).
+      - name: value
+        description: The value of the discount. If `value_type` is `percentage`, this represents a percentage. If `fixed_amount`, this is a fixed currency value.
+      - name: value_type
+        description: >
+          Indicates whether the discount value is a `percentage` or `fixed_amount`.
+          If `target_type` is `shipping_line`, only `percentage` is accepted.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__discount_basic_code
+    description: Table storing metadata about basic discount codes created by merchants.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: applies_once_per_customer
+        description: Boolean representing whether the discount code is limited to one use per customer.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the discount code was created.
+      - name: ends_at
+        description: The date and time (ISO 8601 format) when the discount code expires.
+      - name: id
+        description: The unique ID for the discount code.
+        tests:
+          - not_null
+      - name: starts_at
+        description: The date and time (ISO 8601 format) when the discount code becomes active.
+      - name: title
+        description: The display name for the discount code.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the discount code was last updated.
+      - name: usage_limit
+        description: The total number of times the discount code can be used.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
