@@ -811,35 +811,6 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
-  - name: stg_shopify__discount_code
-    description: >
-      Table storing discount codes that enable specific discounts to be redeemed. Merchants can distribute discount codes to their customers using a variety of means, such as an email or URL, 
-      and customers can apply these codes at checkout. Each discount code belongs to a price rule, which holds the logic for the discount.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
-    columns:
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
-      - name: code
-        description: The case-insensitive discount code that customers use at checkout. Shopify recommends this map onto the associated `price_rule.title`.
-      - name: created_at
-        description: The date and time (ISO 8601 format) when the discount code was created.
-      - name: discount_code_id
-        description: The ID for the discount code.
-        tests:
-          - not_null
-      - name: price_rule_id
-        description: The ID for the price rule that this discount code belongs to.
-      - name: updated_at
-        description: The date and time (ISO 8601 format) when the discount code was updated.
-      - name: usage_count
-        description: The number of times that the discount code has been redeemed.
-      - name: source_relation
-        description: "{{ doc('source_relation') }}"
-
   - name: stg_shopify__fulfillment
     description: >
       A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
@@ -1088,10 +1059,10 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - id
+            - media_id
             - source_relation
     columns:
-      - name: id
+      - name: media_id
         description: The unique identifier for the media associated with a product image.
         tests:
           - not_null
@@ -1315,127 +1286,6 @@ models:
           - not_null
       - name: value
         description: Value of the tag.
-      - name: source_relation
-        description: "{{ doc('source_relation') }}"
-
-  - name: stg_shopify__price_rule
-    description: >
-      Table storing price rules. You can use price rules to create discounts dependent on conditions. Merchants can distribute the discount codes to their customers. 
-      Using price rules, you can create discounts that specify a discount as a percentage, a fixed amount, or free shipping. You use entitlements and prerequisites to dynamically build these discounts.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - price_rule_id
-            - source_relation   
-    columns:
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
-      - name: allocation_limit
-        description: >
-          The number of times the discount can be allocated on the cart - if eligible. For example a Buy 1 hat Get 1 hat for free discount can be applied 3 times on a cart having more than 6 hats, 
-          where maximum of 3 hats get discounted - if the allocation_limit is 3. Empty (null) allocation_limit means unlimited number of allocations.
-      - name: allocation_method
-        description: >
-          The allocation method of the price rule. Valid values include `each` (the discount is applied to each of the entitled items. For example, for a price rule that takes $15 off, each entitled line item in a checkout will be discounted by $15)
-          and `across` (the calculated discount amount will be applied across the entitled items. For example, for a price rule that takes $15 off, the discount will be applied across all the entitled items).
-      - name: created_at
-        description: The date and time (ISO 8601 format) when the price rule was created.
-      - name: customer_selection
-        description: >
-          The customer selection for the price rule. Valid values include `all` (the price rule is valid for all customers) and `prerequisite` 
-          (the customer must either belong to one of the customer segments specified by customer_segment_prerequisite_ids, or be one of the customers specified by prerequisite_customer_ids).
-      - name: ends_at
-        description: The date and time (ISO 8601 format) when the price rule ends. Must be after starts_at.
-      - name: price_rule_id
-        description: The ID for the price rule.
-        tests:
-          - not_null
-      - name: is_once_per_customer
-        description: Boolean representing whether the generated discount code will be valid only for a single use per customer. This is tracked using customer ID.
-      - name: prereq_min_quantity
-        description: If `customer_selection` is `prerequisite`, the minimum number of items for the price rule to be applicable. The quantity of an entitled cart item must be greater than or equal to this value.
-      - name: prereq_max_shipping_price
-        description: If `customer_selection` is `prerequisite`, the maximum shipping price for the price rule to be applicable. The shipping price must be less than or equal to this value
-      - name: prereq_min_subtotal
-        description: If `customer_selection` is `prerequisite`, the minimum subtotal for the price rule to be applicable. The subtotal of the entitled cart items must be greater than or equal to this value for the discount to apply.
-      - name: prereq_min_purchase_quantity_for_entitlement
-        description: If `customer_selection` is `prerequisite`, the prerequisite purchase for a Buy X Get Y discount. The minimum purchase amount required to be entitled to the discount.
-      - name: prereq_buy_x_get_this
-        description: If `customer_selection` is `prerequisite`, in a Buy/Get ratio for a Buy X Get Y discount, this is the offered 'get' quantity.
-      - name: prereq_buy_this_get_y
-        description: If `customer_selection` is `prerequisite`, in a Buy/Get ratio for a Buy X Get Y discount, this defines the necessary 'buy' quantity.
-      - name: starts_at
-        description: The date and time (ISO 8601 format) when the price rule starts.
-      - name: target_selection
-        description: >
-          The target selection method of the price rule. Valid values include `all` (the price rule applies the discount to all line items in the checkout) and 
-          `entitled` (the price rule applies the discount to selected entitlements only).
-      - name: target_type
-        description: The target type that the price rule applies to. Valid values include `line_item` (the price rule applies to the cart's line items) and `shipping_line` (the price rule applies to the cart's shipping lines).
-        tests:
-          - accepted_values:
-              values: ['line_item', 'shipping_line']
-              config:
-                severity: warn # we use these in a JOIN condition in shopify__discounts
-      - name: title
-        description: >
-          The title of the price rule. This is used by the Shopify admin search to retrieve discounts. It is also displayed on the Discounts page of the Shopify admin for bulk discounts. 
-          Shopify recommends that this map onto the associated `discount_code.code`.
-      - name: updated_at
-        description: The date and time (ISO 8601 format) when the price rule was updated.
-      - name: usage_limit
-        description: The maximum number of times the price rule can be used, per discount code.
-      - name: value
-        description: The value of the price rule. If if the value of `target_type` is `shipping_line`, then only -100 is accepted. The value must be negative.
-      - name: value_type
-        description: >
-          The value type of the price rule. Valid values include `fixed_amount` (applies a discount of value as a unit of the store's currency. For example, if value is -30 and the store's currency is USD, then $30 USD is deducted when the discount is applied)
-          and `percentage` (applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied).
-
-          If `target_type` is `shipping_line`, then only `percentage` is accepted.
-        tests:
-          - accepted_values:
-              values: ['percentage', 'fixed_amount']
-              config:
-                severity: warn # we use these in a JOIN condition in shopify__discounts
-      - name: source_relation
-        description: "{{ doc('source_relation') }}"
-
-  - name: stg_shopify__product_image
-    description: Table storing hosted images of products.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_image_id
-            - product_id
-            - source_relation
-    columns:
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
-      - name: created_at
-        description: (DEPRECATED 2025-01-06) The date and time when the product image was created. The API returns this value in ISO 8601 format.
-      - name: height
-        description: Height dimension of the image which is determined on upload.
-      - name: product_image_id
-        description: Unique numeric identifier of the product image.
-        tests:
-          - not_null
-      - name: position
-        description: (DEPRECATED 2025-01-06) The order of the product image in the list. The first product image is at position 1 and is the "main" image for the product.
-      - name: product_id
-        description: The id of the product associated with the image.
-      - name: updated_at
-        description: (DEPRECATED 2025-01-06) The date and time when the product image was last modified. The API returns this value in ISO 8601 format.
-      - name: variant_ids
-        description: (DEPRECATED 2025-01-06) An array of variant ids associated with the image.
-      - name: width
-        description: Width dimension of the image which is determined on upload.
-      - name: media_id
-        description: The unique identifier for the media associated with the product image.
-      - name: status
-        description: The status of the product image, indicating its availability or processing state.
-      - name: url
-        description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image. Coalesced with the deprecated `src` field.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
@@ -1924,33 +1774,235 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
-  - name: stg_shopify__discount_basic_code
+  - name: stg_shopify__discount_code_app
+    description: Table storing metadata for discount codes created through third-party apps in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - discount_code_id
+            - source_relation
+    columns:
+      - name: discount_code_id
+        description: The unique ID for the discount code.
+        tests:
+          - not_null
+      - name: title
+        description: The display name for the discount code.
+      - name: status
+        description: The status of the discount code (e.g., `enabled`, `disabled`, `expired`).
+      - name: applies_once_per_customer
+        description: Boolean representing whether the discount code is limited to one use per customer.
+      - name: usage_limit
+        description: The total number of times the discount code can be used.
+      - name: usage_count
+        description: The number of times the discount code has been used.
+      - name: codes_count
+        description: The total number of redeemable codes generated for this discount.
+      - name: codes_precision
+        description: Indicates the precision or type of generated codes (e.g., exact vs. bulk).
+      - name: combines_with_order_discounts
+        description: Whether this discount can be combined with other order-level discounts.
+      - name: combines_with_product_discounts
+        description: Whether this discount can be combined with product-level discounts.
+      - name: combines_with_shipping_discounts
+        description: Whether this discount can be combined with shipping discounts.
+      - name: customer_selection_all_customers
+        description: Boolean indicating whether the discount is available to all customers.
+      - name: recurring_cycle_limit
+        description: The number of billing cycles this discount applies to (for subscription products).
+      - name: total_sales_amount
+        description: The total sales amount that resulted from the usage of this discount.
+      - name: total_sales_currency_code
+        description: The currency code associated with `total_sales_amount`.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the discount code was created.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the discount code was last updated.
+      - name: starts_at
+        description: The date and time (ISO 8601 format) when the discount code becomes active.
+      - name: ends_at
+        description: The date and time (ISO 8601 format) when the discount code expires.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__discount_code_basic
     description: Table storing metadata about basic discount codes created by merchants.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - id
+            - discount_code_id
             - source_relation
     columns:
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
-      - name: applies_once_per_customer
-        description: Boolean representing whether the discount code is limited to one use per customer.
-      - name: created_at
-        description: The date and time (ISO 8601 format) when the discount code was created.
-      - name: ends_at
-        description: The date and time (ISO 8601 format) when the discount code expires.
-      - name: id
+      - name: discount_code_id
         description: The unique ID for the discount code.
         tests:
           - not_null
-      - name: starts_at
-        description: The date and time (ISO 8601 format) when the discount code becomes active.
       - name: title
         description: The display name for the discount code.
-      - name: updated_at
-        description: The date and time (ISO 8601 format) when the discount code was last updated.
+      - name: status
+        description: The status of the discount code (e.g., `enabled`, `disabled`, `expired`).
+      - name: applies_once_per_customer
+        description: Boolean representing whether the discount code is limited to one use per customer.
       - name: usage_limit
         description: The total number of times the discount code can be used.
+      - name: usage_count
+        description: The number of times the discount code has been used.
+      - name: codes_count
+        description: The total number of redeemable codes generated for this discount.
+      - name: codes_precision
+        description: Indicates the precision or type of generated codes (e.g., exact vs. bulk).
+      - name: combines_with_order_discounts
+        description: Whether this discount can be combined with other order-level discounts.
+      - name: combines_with_product_discounts
+        description: Whether this discount can be combined with product-level discounts.
+      - name: combines_with_shipping_discounts
+        description: Whether this discount can be combined with shipping discounts.
+      - name: customer_selection_all_customers
+        description: Boolean indicating whether the discount is available to all customers.
+      - name: recurring_cycle_limit
+        description: The number of billing cycles this discount applies to (for subscription products).
+      - name: total_sales_amount
+        description: The total sales amount that resulted from the usage of this discount.
+      - name: total_sales_currency_code
+        description: The currency code associated with `total_sales_amount`.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the discount code was created.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the discount code was last updated.
+      - name: starts_at
+        description: The date and time (ISO 8601 format) when the discount code becomes active.
+      - name: ends_at
+        description: The date and time (ISO 8601 format) when the discount code expires.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__discount_code_bxgy
+    description: Table storing metadata for Buy X Get Y-style discount codes in Shopify, where discounts are applied based on product quantity thresholds.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - discount_code_id
+            - source_relation
+    columns:
+      - name: discount_code_id
+        description: The unique ID for the discount code.
+        tests:
+          - not_null
+      - name: title
+        description: The display name for the discount code.
+      - name: status
+        description: The status of the discount code (e.g., `enabled`, `disabled`, `expired`).
+      - name: applies_once_per_customer
+        description: Boolean representing whether the discount code is limited to one use per customer.
+      - name: usage_limit
+        description: The total number of times the discount code can be used.
+      - name: usage_count
+        description: The number of times the discount code has been used.
+      - name: codes_count
+        description: The total number of redeemable codes generated for this discount.
+      - name: codes_precision
+        description: Indicates the precision or type of generated codes (e.g., exact vs. bulk).
+      - name: combines_with_order_discounts
+        description: Whether this discount can be combined with other order-level discounts.
+      - name: combines_with_product_discounts
+        description: Whether this discount can be combined with product-level discounts.
+      - name: combines_with_shipping_discounts
+        description: Whether this discount can be combined with shipping discounts.
+      - name: customer_selection_all_customers
+        description: Boolean indicating whether the discount is available to all customers.
+      - name: recurring_cycle_limit
+        description: The number of billing cycles this discount applies to (for subscription products).
+      - name: total_sales_amount
+        description: The total sales amount that resulted from the usage of this discount.
+      - name: total_sales_currency_code
+        description: The currency code associated with `total_sales_amount`.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the discount code was created.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the discount code was last updated.
+      - name: starts_at
+        description: The date and time (ISO 8601 format) when the discount code becomes active.
+      - name: ends_at
+        description: The date and time (ISO 8601 format) when the discount code expires.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__discount_code_free_shipping
+    description: Table storing metadata for free shipping discount codes in Shopify, where shipping costs are discounted based on qualifying conditions.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - discount_code_id
+            - source_relation
+    columns:
+      - name: discount_code_id
+        description: The unique ID for the discount code.
+        tests:
+          - not_null
+      - name: title
+        description: The display name for the discount code.
+      - name: status
+        description: The status of the discount code (e.g., `enabled`, `disabled`, `expired`).
+      - name: applies_once_per_customer
+        description: Boolean representing whether the discount code is limited to one use per customer.
+      - name: usage_limit
+        description: The total number of times the discount code can be used.
+      - name: usage_count
+        description: The number of times the discount code has been used.
+      - name: codes_count
+        description: The total number of redeemable codes generated for this discount.
+      - name: codes_precision
+        description: Indicates the precision or type of generated codes (e.g., exact vs. bulk).
+      - name: combines_with_order_discounts
+        description: Whether this discount can be combined with other order-level discounts.
+      - name: combines_with_product_discounts
+        description: Whether this discount can be combined with product-level discounts.
+      - name: combines_with_shipping_discounts
+        description: Whether this discount can be combined with shipping discounts.
+      - name: customer_selection_all_customers
+        description: Boolean indicating whether the discount is available to all customers.
+      - name: recurring_cycle_limit
+        description: The number of billing cycles this discount applies to (for subscription products).
+      - name: total_sales_amount
+        description: The total sales amount that resulted from the usage of this discount.
+      - name: total_sales_currency_code
+        description: The currency code associated with `total_sales_amount`.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the discount code was created.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the discount code was last updated.
+      - name: starts_at
+        description: The date and time (ISO 8601 format) when the discount code becomes active.
+      - name: ends_at
+        description: The date and time (ISO 8601 format) when the discount code expires.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify__discount_redeem_code
+    description: Table storing individual redeem codes that customers can use at checkout to receive a discount. Each redeem code is tied to a parent discount and may be created by an app or manually.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - discount_code_id
+            - source_relation
+    columns:
+      - name: discount_code_id
+        description: The unique ID of the redeem code.
+        tests:
+          - not_null
+      - name: async_usage_count
+        description: The number of times that the redeem code has been used. This is updated asynchronously and may differ from real-time usage.
+      - name: code
+        description: The redeemable code that a customer can enter at checkout (e.g., `SUMMER20`).
+      - name: created_by_description
+        description: A descriptive label of the app or user who created the redeem code.
+      - name: created_by_id
+        description: The internal ID of the app or user that created the redeem code.
+      - name: created_by_title
+        description: The name or title of the creator of the redeem code (typically an app name).
+      - name: discount_id
+        description: The unique ID of the parent discount associated with this redeem code.
+      - name: discount_type
+        description: The type of discount the redeem code is associated with (e.g., `discount_code_basic`, `discount_code_app`).
       - name: source_relation
         description: "{{ doc('source_relation') }}"

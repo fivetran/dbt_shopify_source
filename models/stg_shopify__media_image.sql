@@ -1,5 +1,3 @@
-{{ config(enabled=var('shopify_using_product_media', False)) }}
-
 with base as (
 
     select * 
@@ -33,7 +31,9 @@ final as (
         image_alt_text,
         image_height,
         image_url,
-        image_width
+        image_width,
+        source_relation
+
     from fields
 )
 

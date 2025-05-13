@@ -1,5 +1,3 @@
-{{ config(enabled=var('shopify_using_product_media', True)) }}
-
 with base as (
 
     select * 

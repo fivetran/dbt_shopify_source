@@ -1,5 +1,42 @@
 # dbt_shopify_source v0.18.0
 
+[PR #100](https://github.com/fivetran/dbt_shopify_source/pull/100) includes the following updates:
+
+## Schema Updates
+
+**22 new models -- 6 deprecated models**
+
+| Data Model                                                                                                                                               | Change Type | Old Name                     | New Name                                             | Notes                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [stg_shopify__discount_code_app](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_app)                      |  New Staging Model   |                              |        | Via `discount_code_app` source table.               |
+| [stg_shopify__discount_code_basic](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_basic)                  |  New Staging Model  |                              |                 |  Via `discount_code_basic` source table.                      |
+| [stg_shopify__discount_code_bxgy](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_bxgy)                    |  New Staging Model |                              |                |  Via `discount_code_bxgy` source table.                         |
+| [stg_shopify__discount_code_free_shipping](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_free_shipping) |  New Staging Model  |                              |          |  Via `discount_code_free_shipping` source table.                         |
+| [stg_shopify__discount_application](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_application)                 |  New Staging Model |                              |              | Via `discount_application` source table.    |
+| [stg_shopify__discount_allocation](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_allocation)                   |  New Staging Model   |                              |              | Via `discount_allocation` source table.                           |
+| [stg_shopify__discount_basic_code](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_basic_code)                  |  New Staging Model  |                              |                  | Via `discount_basic_code` source table.  |
+| [stg_shopify__discount_redeem_code](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_redeem_code)                |  New Staging Model   |                              |              | Via `discount_redeem_code` source table.           |
+| [stg_shopify__media](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__media)                               | New Staging Model  | | | Via `media` source table.  |
+| [stg_shopify__media_image](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__media_image)                               |  New Staging Model   | |   |  Via `media_image` source table.       
+| [stg_shopify__product_media](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_media)                               |  New Staging Model    | | | Via `product_media` source table.        |
+| [stg_shopify__discount_code_app_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_app_tmp)                      | New Temp Model |          |          | Via `discount_code_app` source table.           |
+| [stg_shopify__discount_code_basic_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_basic_tmp)                  | New Temp Model |          |          | Via `discount_code_basic` source table.         |
+| [stg_shopify__discount_code_bxgy_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_bxgy_tmp)                    | New Temp Model |          |          | Via `discount_code_bxgy` source table.          |
+| [stg_shopify__discount_code_free_shipping_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_free_shipping_tmp) | New Temp Model |          |          | Via `discount_code_free_shipping` source table. |
+| [stg_shopify__discount_application_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_application_tmp)                 | New Temp Model |          |          | Via `discount_application` source table.        |
+| [stg_shopify__discount_allocation_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_allocation_tmp)                   | New Temp Model |          |          | Via `discount_allocation` source table.         |
+| [stg_shopify__discount_basic_code_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_basic_code_tmp)                  | New Temp Model |          |          | Via `discount_basic_code` source table.         |
+| [stg_shopify__discount_redeem_code_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_redeem_code_tmp)                | New Temp Model |          |          | Via `discount_redeem_code` source table.        |
+| [stg_shopify__media_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__media_tmp)                                                | New Temp Model |          |          | Via `media` source table.                       |
+| [stg_shopify__media_image_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__media_image_tmp)                                   | New Temp Model |          |          | Via `media_image` source table.                 |
+| [stg_shopify__product_media_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_media_tmp)                               | New Temp Model |          |          | Via `product_media` source table.               |
+| [stg_shopify__discount_code](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code)                      | Old Staging Model |   |          | Deprecated the `discount_code` source table.     |
+| [stg_shopify__discount_code_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_tmp)                      | Old Temp Model |   |          | Deprecated the `discount_code_app` source table.    |
+| [stg_shopify__price_rule](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__price_rule)                      | Old Staging Model |   |          | Deprecated the `price_rule` source table.     |
+| [stg_shopify__price_rule_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__price_rule_tmp)                      | Old Temp Model |   |          | Deprecated the `price_rule` source table.    |
+| [stg_shopify__product_image](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_image)                      | Old Staging Model |   |          | Deprecated the `product_image` source table.     |
+| [stg_shopify__product_image_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_image_tmp)                      | Old Temp Model |   |          | Deprecated the `product_image` source table.    |
+
 
 # dbt_shopify_source v0.17.0
 
