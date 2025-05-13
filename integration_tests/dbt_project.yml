@@ -5,9 +5,9 @@ config-version: 2
 
 vars:
   # Enable when regenerating docs
-  shopify_using_fulfillment_event: true
+  # shopify_using_fulfillment_event: true
 
-  shopify_schema: shopify_source_integration_tests_12
+  shopify_schema: shopify_source_integration_tests_13
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
     shopify_order_line_refund_identifier: "shopify_order_line_refund_data"
@@ -112,7 +112,6 @@ seeds:
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         product_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         inventory_item_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
-        image_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         legacy_resource_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
     shopify_transaction_data:
       +column_types:

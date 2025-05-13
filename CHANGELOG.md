@@ -3,7 +3,6 @@
 [PR #100](https://github.com/fivetran/dbt_shopify_source/pull/100) includes the following updates:
 
 ## Schema Updates
-
 **22 new models -- 6 deprecated models**
 
 | Data Model                                                                                                                                               | Change Type | Old Name                     | New Name                                             | Notes                                                                                    |
@@ -36,7 +35,7 @@
 | [stg_shopify__price_rule_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__price_rule_tmp)                      | Old Temp Model |   |          | Deprecated the `price_rule` source table.    |
 | [stg_shopify__product_image](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_image)                      | Old Staging Model |   |          | Deprecated the `product_image` source table.     |
 | [stg_shopify__product_image_tmp](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_image_tmp)                      | Old Temp Model |   |          | Deprecated the `product_image` source table.    |
-
+| [stg_shopify__product_variant](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_image_tmp)                      | Old Columns | `image_id`  |   None       | No longer supported in `product_variant`.    |
 
 # dbt_shopify_source v0.17.0
 
