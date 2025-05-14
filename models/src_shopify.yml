@@ -1518,9 +1518,9 @@ sources:
             description: The number of times the discount has been used, updated asynchronously.
           - name: usage_limit
             description: The maximum number of times the discount can be used across all customers.
-          - name: codes_count
+          - name: codes_count_count
             description: The number of redeemable codes generated for this discount.
-          - name: codes_precision
+          - name: codes_count_precision
             description: Indicates whether the codes count is exact or estimated.
           - name: combines_with_order_discounts
             description: Whether this discount can be combined with order discounts.
