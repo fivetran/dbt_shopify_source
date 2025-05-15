@@ -46,9 +46,11 @@
 ## Feature Updates
 - If users are utilizing the `discount_code_app` source, these models can be enabled by setting the variable `shopify_using_discount_code_app` to `true`.  More instructions [are available in the README](https://github.com/fivetran/dbt_shopify_source/blob/main/README.md#step-4-disable-models-for-non-existent-sources).
 
+# Under the Hood
+- Created and removed seed files to ensure end models in the concurrent `dbt_shopify` [release](https://github.com/fivetran/dbt_shopify/releases/tag/v0.19.0) run successfully.
+
 ## Documentation Notes
 - Added/removed yml documentation for new/deprecated models and fields.
-- Created and removed seed files to ensure end models in the concurrent `dbt_shopify` [release](https://github.com/fivetran/dbt_shopify/releases/tag/v0.19.0) run successfully.
 
 # dbt_shopify_source v0.17.0
 
