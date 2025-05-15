@@ -5,7 +5,7 @@ config-version: 2
 
 vars:
   # Enable when regenerating docs
-  # shopify_using_fulfillment_event: true
+  shopify_using_fulfillment_event: true
 
   shopify_schema: shopify_source_integration_tests_13
   shopify_source:
