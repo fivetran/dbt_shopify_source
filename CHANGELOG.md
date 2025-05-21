@@ -12,8 +12,8 @@
 | `stg_shopify__price_rule`                      | Deprecated Staging Model |   |          | Deprecated the `price_rule` source table.     |
 | `stg_shopify__price_rule_tmp`                      | Deprecated Temp Model |   |          | Deprecated the `price_rule` source table.    |
 | `stg_shopify__product_image`                    | Deprecated Staging Model |   |          | Deprecated the `product_image` source table.     |
-| `stg_shopify__product_image_tmp]`                       | Deprecated Temp Model |   |          | Deprecated the `product_image` source table.    |
-| `stg_shopify__product_variant` | Deprecated Columns | `image_id`  |   None       | No longer supported in `product_variant`.    |
+| `stg_shopify__product_image_tmp`                       | Deprecated Temp Model |   |          | Deprecated the `product_image` source table.    |
+| [stg_shopify__product_variant](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__product_variant) | Deprecated Columns | `image_id`  |   None       | No longer supported in `product_variant`.    |
 | [stg_shopify__discount_code_app](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_app)                      |  New Staging Model   |                              |        | Source: `discount_code_app` table.               |
 | [stg_shopify__discount_code_basic](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_basic)                  |  New Staging Model  |                              |                 |  Source: `discount_code_basic` table.                      |
 | [stg_shopify__discount_code_bxgy](https://fivetran.github.io/dbt_shopify/#!/model/model.shopify.stg_shopify__discount_code_bxgy)                    |  New Staging Model |                              |                |  Source: `discount_code_bxgy` table.                         |
@@ -40,7 +40,7 @@
 ## Release Notes
 - Applied the above schema changes in accordance with the latest Fivetran connector update to accommodate new changes in the Shopify API. [See the release notes for more details](https://fivetran.com/docs/connectors/applications/shopify/changelog#april2025).
 - Major updates included:
-  - Deprecated staging models and fields stem from the `discount_code`, `price_rule`, `product_image` sources, and `image_id` in the `product_variant` table.
+  - Deprecated staging models and field that stem from the `discount_code`, `price_rule`, `product_image` sources, and `image_id` in the `product_variant` table.
   - New models created that originate from the `discount_code_app`, `discount_code_basic`, `discount_code_bxgy`. `discount_code_free_shipping`, `discount_application`, `discount_allocation`, `product_image`, `media`, `media_image` source tables. 
 
 ## Feature Updates
