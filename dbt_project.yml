@@ -46,6 +46,7 @@ vars:
     order_tag_source: "{{ source('shopify','order_tag') }}"
     order_url_tag_source: "{{ source('shopify','order_url_tag') }}"
     product_media_source: "{{ source('shopify','product_media') }}"
+    product_variant_media_source: "{{ source('shopify','product_variant_media') }}"
     product_tag_source: "{{ source('shopify','product_tag') }}"
     shop_source: "{{ source('shopify','shop') }}" 
     tender_transaction_source: "{{ source('shopify','tender_transaction') }}"

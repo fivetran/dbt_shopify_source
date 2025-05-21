@@ -1101,6 +1101,18 @@ sources:
           - name: media_id
             description: The unique identifier for the media asset linked to the product.
 
+
+      - name: product_variant_media
+        description: Table mapping product variants to their associated media.
+        identifier: "{{ var('shopify_product_variant_media_identifier', 'product_variant_media') }}"
+        config:
+          enabled: "{{ var('shopify_using_product_variant_media', false) }}"    
+        columns:
+          - name: product_variant_id
+            description: The id of the product variant associated with the media.
+          - name: media_id
+            description: The unique identifier for the media asset linked to the product.
+
       - name: product_tag
         description: Tags that the shop owner has attached to the product.
         identifier: "{{ var('shopify_product_tag_identifier', 'product_tag') }}"

@@ -1307,6 +1307,25 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
+  - name: stg_shopify__product_variant_media
+    description: Table mapping products to their associated media.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_variant_id
+            - media_id
+            - source_relation
+    columns:
+      - name: product_variant_id
+        description: The id of the product variant associated with the media.
+        tests:
+          - not_null
+      - name: media_id
+        description: The unique identifier for the media asset linked to the product.
+        tests:
+          - not_null
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify__product_tag
     description: Tags that the shop owner has attached to the product.
