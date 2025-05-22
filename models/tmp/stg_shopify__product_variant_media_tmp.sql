@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_using_product_variant_media', False)) }}
+
 {{
     shopify_source.shopify_union_data(
         table_identifier='product_variant_media', 

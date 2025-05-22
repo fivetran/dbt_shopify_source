@@ -2,7 +2,7 @@
 
 {% set columns = [
     {"name": "product_variant_id", "datatype": dbt.type_bigint()},
-    {"name": "media_id", "datatype": dbt.type_bigint()},
+    {"name": "media_id", "datatype": dbt.type_bigint()}
 ] %}
 
 {{ return(columns) }}
