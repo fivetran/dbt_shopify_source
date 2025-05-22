@@ -8,7 +8,6 @@
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "product_id", "datatype": dbt.type_numeric()},
     {"name": "inventory_item_id", "datatype": dbt.type_numeric()},
-    {"name": "image_id", "datatype": dbt.type_numeric()},
     {"name": "title", "datatype": dbt.type_string()},
     {"name": "price", "datatype": dbt.type_float()},
     {"name": "sku", "datatype": dbt.type_string()},
@@ -24,8 +23,7 @@
     {"name": "display_name", "datatype": dbt.type_string()},
     {"name": "legacy_resource_id", "datatype": dbt.type_bigint()},
     {"name": "requires_components", "datatype": dbt.type_boolean()},
-    {"name": "sellable_online_quantity", "datatype": dbt.type_int()}
-    ,
+    {"name": "sellable_online_quantity", "datatype": dbt.type_int()},
     {"name": "fulfillment_service", "datatype": dbt.type_string()},
     {"name": "grams", "datatype": dbt.type_float()},
     {"name": "inventory_management", "datatype": dbt.type_string()},

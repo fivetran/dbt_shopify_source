@@ -31,7 +31,6 @@ final as (
         id as variant_id,
         product_id,
         inventory_item_id,
-        image_id,
         title,
         price,
         sku,

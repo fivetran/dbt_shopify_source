@@ -45,7 +45,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.17.0", "<0.18.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.18.0", "<0.19.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -75,15 +75,18 @@ To connect your multiple schema/database sources to the package models, follow t
 
 ### Step 4: Disable models for non-existent sources
 
-The package takes into consideration that not every Shopify connection may have the `fulfillment_event`, `metadata`, or `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
+The package takes into consideration that not every Shopify connection may have the `fulfillment_event`, `metadata`, `discount_code_app`, `product_variant_media` or `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
 
 vars:
     shopify_using_fulfillment_event: true # false by default. 
-    shopify_using_metafield: false  #true by default
+    shopify_using_metafield: false  #true by default.
+    shopify_using_discount_code_app: true #false by default.
+    shopify_using_product_variant_media: true #false by default.
     shopify_using_abandoned_checkout: false # true by default. Setting to false will disable `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`.
+
 ```
 
 
