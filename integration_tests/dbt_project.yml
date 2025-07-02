@@ -9,7 +9,7 @@ vars:
   # shopify_using_discount_code_app: true
   # shopify_using_product_variant_media: true
 
-  shopify_schema: zz_dbt_joe
+  shopify_schema: shopify_source_integration_tests_13
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
     shopify_order_line_refund_identifier: "shopify_order_line_refund_data"
