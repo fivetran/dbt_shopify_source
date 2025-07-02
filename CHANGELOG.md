@@ -1,12 +1,14 @@
 # dbt_shopify_source v0.18.1
 
+[PR #103](https://github.com/fivetran/dbt_shopify_source/pull/103) includes the following updates:
+
 ## Under the Hood
 - Added BigQuery JSON field support for the following model and columns:
   - `stg_shopify__order`: `total_shipping_price_set` column
   - `stg_shopify__transaction`: `receipt` column
   - `stg_shopify__collection`: `rules` column
 - Introduced new the new `json_to_string()` macro to be used in the BigQuery JSON field support.
-- Updated the integration tests to ensure json data type compatibility.
+- Included json versions to the integration tests to ensure json data type compatibility.
 
 # dbt_shopify_source v0.18.0
 
