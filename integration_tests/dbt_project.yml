@@ -9,7 +9,7 @@ vars:
   # shopify_using_discount_code_app: true
   # shopify_using_product_variant_media: true
 
-  shopify_schema: shopify_source_integration_tests_13
+  shopify_schema: zz_dbt_joe
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
     shopify_order_line_refund_identifier: "shopify_order_line_refund_data"
@@ -87,6 +87,7 @@ seeds:
         user_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         total_shipping_price_set: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     shopify_order_bq_json_data:
+      +enabled: "{{ target.type == 'bigquery' }}"
       +column_types:
         created_at: timestamp
         updated_at: timestamp
@@ -142,6 +143,7 @@ seeds:
         refund_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         receipt: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     shopify_transaction_bq_json_data:
+      +enabled: "{{ target.type == 'bigquery' }}"
       +column_types:
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
@@ -192,6 +194,7 @@ seeds:
         updated_at: timestamp
         rules: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     shopify_collection_bq_json_data:
+      +enabled: "{{ target.type == 'bigquery' }}"
       +column_types:
         disjunctive: boolean
         published_at: timestamp
