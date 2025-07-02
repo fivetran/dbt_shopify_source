@@ -44,7 +44,7 @@ final as (
         payment_credit_card_number,
         payment_credit_card_company,
         kind,
-        receipt,
+        {{ shopify_source.json_to_string("receipt", ref('stg_shopify__transaction_tmp')) }} as receipt,
         currency_exchange_id,
         currency_exchange_adjustment,
         currency_exchange_original_amount,

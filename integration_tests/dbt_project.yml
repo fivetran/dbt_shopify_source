@@ -1,5 +1,5 @@
 name: 'shopify_source_integration_tests'
-version: '0.18.0'
+version: '0.18.1'
 profile: 'integration_tests'
 config-version: 2
 
@@ -85,6 +85,20 @@ seeds:
         customer_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         location_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         user_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        total_shipping_price_set: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+    shopify_order_bq_json_data:
+      +column_types:
+        created_at: timestamp
+        updated_at: timestamp
+        processed_at: timestamp
+        cancelled_at: timestamp
+        _fivetran_synced: timestamp
+        total_tax: float
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        customer_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        location_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        user_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        total_shipping_price_set: json
     shopify_order_line_data:
       +column_types:
         _fivetran_synced: timestamp
@@ -126,6 +140,13 @@ seeds:
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
         refund_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        receipt: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+    shopify_transaction_bq_json_data:
+      +column_types:
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        refund_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        receipt: json
     shopify_refund_data:
       +column_types:
         id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
@@ -169,6 +190,13 @@ seeds:
         disjunctive: boolean
         published_at: timestamp
         updated_at: timestamp
+        rules: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+    shopify_collection_bq_json_data:
+      +column_types:
+        disjunctive: boolean
+        published_at: timestamp
+        updated_at: timestamp
+        rules: json
     shopify_metafield_data:
       +column_types:
         value_type: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"

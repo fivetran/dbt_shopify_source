@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -34,7 +33,7 @@ final as (
             else 'conjunctive' end as rule_logic,
         handle,
         published_scope,
-        rules,
+        {{ shopify_source.json_to_string("rules", ref('stg_shopify__collection_tmp')) }} as rules,
         sort_order,
         title,
         {{ shopify_source.fivetran_convert_timezone(column='cast(published_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as published_at,
