@@ -1,3 +1,5 @@
+{% set source_columns = adapter.get_columns_in_relation(ref('stg_shopify__order_tmp')) %}
+
 with base as (
 
     select * 
@@ -11,7 +13,7 @@ fields as (
     
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__order_tmp')),
+                source_columns=source_columns,
                 staging_columns=get_order_columns()
             )
         }}
@@ -79,7 +81,7 @@ final as (
         billing_address_province_code,
         billing_address_zip,
         browser_ip,
-        {{ shopify_source.json_to_string("total_shipping_price_set", ref('stg_shopify__order_tmp')) }} as total_shipping_price_set,
+        {{ shopify_source.json_to_string("total_shipping_price_set", source_columns) }} as total_shipping_price_set,
         shipping_address_address_1,
         shipping_address_address_2,
         shipping_address_city,
