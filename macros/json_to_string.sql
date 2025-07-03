@@ -1,13 +1,13 @@
-{%- macro json_to_string(column, model) -%}
-    {{ return(adapter.dispatch('json_to_string', 'shopify_source')(column, model)) }}
+{%- macro json_to_string(column, column_list) -%}
+    {{ return(adapter.dispatch('json_to_string', 'shopify_source')(column, column_list)) }}
 {%- endmacro -%}
 
-{%- macro default__json_to_string(column, model) -%}
+{%- macro default__json_to_string(column, column_list) -%}
     {{ column }}
 {%- endmacro -%}
 
 {%- macro bigquery__json_to_string(column, model) -%}
-    {%- set columns = adapter.get_columns_in_relation(model) -%}
+    {%- set columns = column_list -%}
     {%- set ns = namespace(column_type='string') -%}
 
     {%- for col in columns -%}
