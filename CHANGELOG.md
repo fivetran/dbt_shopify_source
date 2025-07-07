@@ -7,8 +7,9 @@
   - `stg_shopify__order`: `total_shipping_price_set` column
   - `stg_shopify__transaction`: `receipt` column
   - `stg_shopify__collection`: `rules` column
-- Introduced new the new `json_to_string()` macro to be used in the BigQuery JSON field support.
+- Introduced the new `json_to_string()` macro to be used in the BigQuery JSON field support.
 - Included json versions to the integration tests to ensure json data type compatibility.
+- Updated the Maintainer PR template.
 
 # dbt_shopify_source v0.18.0
 
