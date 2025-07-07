@@ -6,7 +6,7 @@
     {{ column }}
 {%- endmacro -%}
 
-{%- macro bigquery__json_to_string(column, model) -%}
+{%- macro bigquery__json_to_string(column, column_list) -%}
     {%- set columns = column_list -%}
     {%- set ns = namespace(column_type='string') -%}
 
