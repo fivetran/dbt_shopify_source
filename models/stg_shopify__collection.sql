@@ -1,4 +1,4 @@
-{% set source_columns = adapter.get_columns_in_relation(ref('stg_shopify__collection_tmp')) %}
+{% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_shopify__collection_tmp')) %}
 
 with base as (
 
@@ -11,7 +11,7 @@ fields as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=source_columns,
+                source_columns=source_columns_in_relation,
                 staging_columns=get_collection_columns()
             )
         }}
@@ -35,7 +35,7 @@ final as (
             else 'conjunctive' end as rule_logic,
         handle,
         published_scope,
-        {{ shopify_source.json_to_string("rules", source_columns) }} as rules,
+        {{ shopify_source.json_to_string("rules", source_columns_in_relation) }} as rules,
         sort_order,
         title,
         {{ shopify_source.fivetran_convert_timezone(column='cast(published_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as published_at,
