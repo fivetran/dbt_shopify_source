@@ -1,3 +1,5 @@
+{% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_shopify__order_tmp')) %}
+
 with base as (
 
     select * 
@@ -11,7 +13,7 @@ fields as (
     
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__order_tmp')),
+                source_columns=source_columns_in_relation,
                 staging_columns=get_order_columns()
             )
         }}
@@ -31,12 +33,12 @@ final as (
         id as order_id,
         user_id,
         total_discounts,
-        total_discounts_set,
+        {{ shopify_source.json_to_string("total_discounts_set", source_columns_in_relation) }} as total_discounts_set,
         total_line_items_price,
-        total_line_items_price_set,
+        {{ shopify_source.json_to_string("total_line_items_price_set", source_columns_in_relation) }} as total_line_items_price_set,
         total_price,
-        total_price_set,
-        total_tax_set,
+        {{ shopify_source.json_to_string("total_price_set", source_columns_in_relation) }} as total_price_set,
+        {{ shopify_source.json_to_string("total_tax_set", source_columns_in_relation) }} as total_tax_set,
         total_tax,
         source_name,
         subtotal_price,
@@ -79,7 +81,7 @@ final as (
         billing_address_province_code,
         billing_address_zip,
         browser_ip,
-        total_shipping_price_set,
+        {{ shopify_source.json_to_string("total_shipping_price_set", source_columns_in_relation) }} as total_shipping_price_set,
         shipping_address_address_1,
         shipping_address_address_2,
         shipping_address_city,

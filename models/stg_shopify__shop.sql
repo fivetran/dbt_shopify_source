@@ -1,3 +1,4 @@
+{% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_shopify__shop_tmp')) %}
 
 with base as (
 
@@ -10,7 +11,7 @@ fields as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__shop_tmp')),
+                source_columns=source_columns_in_relation,
                 staging_columns=get_shop_columns()
             )
         }}
@@ -42,7 +43,7 @@ final as (
         longitude,
         case when county_taxes is null then false else county_taxes end as has_county_taxes,
         currency,
-        enabled_presentment_currencies,
+        {{ shopify_source.json_to_string("enabled_presentment_currencies", source_columns_in_relation) }} as enabled_presentment_currencies,
         customer_email,
         email,
         domain,

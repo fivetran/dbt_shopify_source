@@ -1,3 +1,5 @@
+{% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_shopify__transaction_tmp')) %}
+
 with base as (
 
     select * from {{ ref('stg_shopify__transaction_tmp') }}
@@ -10,7 +12,7 @@ fields as (
 
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_shopify__transaction_tmp')),
+                source_columns=source_columns_in_relation,
                 staging_columns=get_transaction_columns()
             )
         }}
@@ -44,7 +46,7 @@ final as (
         payment_credit_card_number,
         payment_credit_card_company,
         kind,
-        receipt,
+        {{ shopify_source.json_to_string("receipt", source_columns_in_relation) }} as receipt,
         currency_exchange_id,
         currency_exchange_adjustment,
         currency_exchange_original_amount,
