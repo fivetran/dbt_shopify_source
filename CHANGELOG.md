@@ -4,7 +4,7 @@
 
 ## Under the Hood
 - Added BigQuery JSON field support for the following model and columns:
-  - `stg_shopify__order`: `total_shipping_price_set` column
+  - `stg_shopify__order`: `total_shipping_price_set`, `total_discounts_set`, `total_line_items_price_set`, `total_price_set`, and `total_tax_set` columns
   - `stg_shopify__transaction`: `receipt` column
   - `stg_shopify__collection`: `rules` column
 - Added the `json_to_string()` macro for BigQuery to convert JSON fields to strings for reliable downstream parsing.
