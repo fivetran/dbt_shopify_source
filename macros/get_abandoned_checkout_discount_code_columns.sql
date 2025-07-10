@@ -15,3 +15,17 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_abandoned_checkout_discount_code_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "checkout_id", "datatype": dbt.type_int()},
+    {"name": "code", "datatype": dbt.type_string()},
+    {"name": "index", "datatype": dbt.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

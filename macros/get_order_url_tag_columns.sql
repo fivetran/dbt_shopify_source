@@ -10,3 +10,6 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{# No order_url_tag GraphQL table #}

@@ -20,3 +20,37 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_order_shipping_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "carrier_identifier", "datatype": dbt.type_string()},
+    {"name": "code", "datatype": dbt.type_string()},
+    {"name": "current_discounted_price_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "current_discounted_price_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "current_discounted_price_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "current_discounted_price_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "custom", "datatype": dbt.type_boolean()},
+    {"name": "delivery_category", "datatype": dbt.type_string()},
+    {"name": "discounted_price_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "discounted_price_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "discounted_price_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "discounted_price_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "is_removed", "datatype": dbt.type_boolean()},
+    {"name": "order_id", "datatype": dbt.type_int()},
+    {"name": "original_price_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "original_price_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "original_price_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "original_price_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "phone", "datatype": dbt.type_string()},
+    {"name": "shipping_rate_handle", "datatype": dbt.type_string()},
+    {"name": "source", "datatype": dbt.type_string()},
+    {"name": "title", "datatype": dbt.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

@@ -23,3 +23,6 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{# No GraphQL abandoned_checkout_shipping_line table #}

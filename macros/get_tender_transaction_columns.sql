@@ -16,3 +16,25 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_tender_transaction_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "amount", "datatype": dbt.type_float()},
+    {"name": "currency_code", "datatype": dbt.type_string()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "order_id", "datatype": dbt.type_int()},
+    {"name": "payment_method", "datatype": dbt.type_string()},
+    {"name": "processed_at", "datatype": dbt.type_timestamp()},
+    {"name": "remote_reference", "datatype": dbt.type_string()},
+    {"name": "test", "datatype": dbt.type_boolean()},
+    {"name": "transaction_details_credit_card_company", "datatype": dbt.type_string()},
+    {"name": "transaction_details_credit_card_number", "datatype": dbt.type_string()},
+    {"name": "user_id", "datatype": dbt.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

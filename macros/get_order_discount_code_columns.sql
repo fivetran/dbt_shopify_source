@@ -12,3 +12,17 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_order_discount_code_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "code", "datatype": dbt.type_string()},
+    {"name": "index", "datatype": dbt.type_int()},
+    {"name": "order_id", "datatype": dbt.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
