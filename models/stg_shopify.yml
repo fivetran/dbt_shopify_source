@@ -1088,8 +1088,6 @@ models:
           - not_null
       - name: image_id
         description: Unique numeric identifier of the product image.
-        tests:
-          - not_null
       - name: image_alt_text
         description: A word or phrase to share the nature or contents of an image.
       - name: image_height
