@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,15 +23,26 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
-        _fivetran_synced,
-        applied_disjunctively,
+        id as collection_id,
+        _fivetran_deleted as is_deleted,
+        case 
+            when applied_disjunctively is null then null
+            when applied_disjunctively then 'disjunctive'
+            else 'conjunctive' end as rule_logic,
+        handle,
+        {# no published_scope #}
+        {# no rules rn #}
+        sort_order,
+        title,
+        {# no published_at #}
+        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+        {# REMOVE
         description,
         description_html,
         feedback_summary,
-        handle,
-        id as collection_id,
         image_alt_text,
         image_height,
         image_id,
@@ -42,10 +52,9 @@ final as (
         products_count_precision,
         seo_description,
         seo_title,
-        sort_order,
-        template_suffix,
-        title,
-        updated_at
+        template_suffix #}
+
+
     from fields
 )
 

@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,31 +23,38 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
+        id as order_shipping_line_id,
+        order_id,
         carrier_identifier,
         code,
+        delivery_category,
+        {# discounted_price and _set are broken out #}
+        discounted_price_set_pres_amount,
+        discounted_price_set_pres_currency_code,
+        discounted_price_set_shop_amount,
+        discounted_price_set_shop_currency_code,
+        phone,
+        {# price and price_set are broken out #}
+        original_price_set_pres_amount as price_set_pres_amount,
+        original_price_set_pres_currency_code as price_set_pres_currency_code,
+        original_price_set_shop_amount as price_set_shop_amount,
+        original_price_set_shop_currency_code as price_set_shop_currency_code,
+        {# requested_fulfillment_service_id is no longer used in Shopify #}
+        source,
+        title,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+        {# REMOVE
         current_discounted_price_set_pres_amount,
         current_discounted_price_set_pres_currency_code,
         current_discounted_price_set_shop_amount,
         current_discounted_price_set_shop_currency_code,
         custom,
-        delivery_category,
-        discounted_price_set_pres_amount,
-        discounted_price_set_pres_currency_code,
-        discounted_price_set_shop_amount,
-        discounted_price_set_shop_currency_code,
-        id as order_shipping_line_id,
         is_removed,
-        order_id,
-        original_price_set_pres_amount,
-        original_price_set_pres_currency_code,
-        original_price_set_shop_amount,
-        original_price_set_shop_currency_code,
-        phone,
-        shipping_rate_handle,
-        source,
-        title
+        shipping_rate_handle #}
+
+
     from fields
 )
 

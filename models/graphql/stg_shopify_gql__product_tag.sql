@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,11 +23,12 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
-        index,
         product_id,
-        value
+        index,
+        value,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
     from fields
 )
 

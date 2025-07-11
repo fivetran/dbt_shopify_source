@@ -24,17 +24,31 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
-        _fivetran_synced,
-        activatable,
+        id as location_id,
+        name,
+        _fivetran_deleted as is_deleted,
+        is_active,
         address_1,
         address_2,
-        address_verified,
         city,
-        country,
+        country_code as country, -- match REST api
         country_code,
-        created_at,
+        country as country_name,
+        {# localized_country_name,
+        localized_province_name, #}
+        phone,
+        province,
+        province_code,
+        zip,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+
+        {# new fields
+        activatable,
+        address_verified,
         deactivatable,
         deactivated_at,
         deletable,
@@ -42,20 +56,13 @@ final as (
         fulfills_online_orders,
         has_active_inventory,
         has_unfulfilled_orders,
-        id as location_id,
-        is_active,
         is_fulfillment_service,
         latitude,
         local_pickup_settings_instructions,
         local_pickup_settings_pickup_time,
         longitude,
-        name as location_name,
-        phone,
-        province,
-        province_code,
-        ships_inventory,
-        updated_at,
-        zip
+        ships_inventory #}
+        
     from fields
 )
 

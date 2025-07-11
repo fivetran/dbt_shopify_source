@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,30 +23,36 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
-        available_for_sale,
-        barcode,
-        compare_at_price,
-        created_at,
-        display_name,
         id as product_variant_id,
-        image_id,
-        inventory_item_id,
-        inventory_policy,
-        inventory_quantity,
-        legacy_resource_id,
-        metafield,
-        position,
-        price,
         product_id,
-        requires_components,
-        sellable_online_quantity,
-        sku,
-        tax_code,
-        taxable,
+        inventory_item_id,
         title,
-        updated_at
+        price,
+        sku,
+        position,
+        inventory_policy,
+        compare_at_price,
+        {# deprecated: fulfillment_service, inventory_management, grams, weight, weight_unit, option_1, option_2, option_3 #}
+        taxable as is_taxable,
+        barcode,
+        available_for_sale as is_available_for_sale,
+        display_name,
+        legacy_resource_id,
+        requires_components as has_components_required,
+        sellable_online_quantity,
+        tax_code,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_timestamp,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+        {{ fivetran_utils.fill_pass_through_columns('product_variant_pass_through_columns') }}
+
+        {# TODO: remove from here + macro
+        image_id,
+        inventory_quantity,
+        metafield, #}
+
     from fields
 )
 

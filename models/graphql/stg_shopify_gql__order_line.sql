@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,8 +23,44 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
+        id as order_line_id,
+        {# no index - maybe use a row_number, but what to order by? #}
+        name,
+        order_id,
+        unfulfilled_quantity as fulfillable_quantity,
+        case 
+            when unfulfilled_quantity = 0 then 'fulfilled'
+            else null 
+        end as fulfillment_status,
+        is_gift_card,
+        {# no grams - maybe join in fulfillment_ordeR_line_item.weight and weight_unit #}
+        {# pre_tax has been removed #}
+        {# price has been split #}
+        original_total_set_pres_amount as price_set_pres_amount,
+        original_total_set_pres_currency_code as price_set_pres_currency_code,
+        original_total_set_shop_amount as price_set_shop_amount,
+        original_total_set_shop_currency_code as price_set_shop_currency_code,
+        product_id,
+        quantity,
+        requires_shipping as is_shipping_required,
+        sku,
+        taxable as is_taxable,
+        {# no tax code - join in product_variant.tax_code #}
+        title,
+        {# total_discount is broken out #}
+        total_discount_set_pres_amount,
+        total_discount_set_pres_currency_code,
+        total_discount_set_shop_amount,
+        total_discount_set_shop_currency_code,
+        variant_id,
+        variant_title,
+        {# variant_inventory_management is potentially in fulfillment_service table #}
+        vendor,
+        {# no properties #}
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+        {# TODO - remove for better use of passthru variable
         current_quantity,
         discounted_total_set_pres_amount,
         discounted_total_set_pres_currency_code,
@@ -39,45 +74,27 @@ final as (
         discounted_unit_price_set_pres_currency_code,
         discounted_unit_price_set_shop_amount,
         discounted_unit_price_set_shop_currency_code,
-        id as order_line_id,
         image_alt_text,
         image_height,
         image_id,
         image_url,
         image_width,
-        is_gift_card,
         line_item_group_id,
         line_item_group_quantity,
         line_item_group_title,
         line_item_group_variant_id,
         line_item_group_variant_sku,
         merchant_editable,
-        name as order_line_name,
         non_fulfillable_quantity,
-        order_id,
-        original_total_set_pres_amount,
-        original_total_set_pres_currency_code,
-        original_total_set_shop_amount,
-        original_total_set_shop_currency_code,
         original_unit_price_set_pres_amount,
         original_unit_price_set_pres_currency_code,
         original_unit_price_set_shop_amount,
         original_unit_price_set_shop_currency_code,
-        product_id,
-        quantity,
         refundable_quantity,
-        requires_shipping,
         restockable,
         selling_plan_id,
         selling_plan_name,
-        sku,
         staff_member_id,
-        taxable,
-        title,
-        total_discount_set_pres_amount,
-        total_discount_set_pres_currency_code,
-        total_discount_set_shop_amount,
-        total_discount_set_shop_currency_code,
         unfulfilled_discounted_total_set_pres_amount,
         unfulfilled_discounted_total_set_pres_currency_code,
         unfulfilled_discounted_total_set_shop_amount,
@@ -85,11 +102,10 @@ final as (
         unfulfilled_original_total_set_pres_amount,
         unfulfilled_original_total_set_pres_currency_code,
         unfulfilled_original_total_set_shop_amount,
-        unfulfilled_original_total_set_shop_currency_code,
-        unfulfilled_quantity,
-        variant_id,
-        variant_title,
-        vendor
+        unfulfilled_original_total_set_shop_currency_code #}
+        
+    {{ fivetran_utils.fill_pass_through_columns('order_line_pass_through_columns') }}
+
     from fields
 )
 

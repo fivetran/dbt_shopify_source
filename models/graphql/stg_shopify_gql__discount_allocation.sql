@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,15 +23,17 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
-        allocated_amount_set_pres_amount,
-        allocated_amount_set_pres_currency_code,
-        allocated_amount_set_shop_amount,
-        allocated_amount_set_shop_currency_code,
+        {# no single amount field #}
+        allocated_amount_set_pres_amount as amount_set_presentment_money_amount,
+        allocated_amount_set_pres_currency_code as amount_set_presentment_money_currency_code,
+        allocated_amount_set_shop_amount as amount_set_shop_money_amount,
+        allocated_amount_set_shop_currency_code as amount_set_shop_money_currency_code,
         discount_application_index,
         index,
-        order_line_id
+        order_line_id,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
     from fields
 )
 

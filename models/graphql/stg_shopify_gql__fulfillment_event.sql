@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_using_fulfillment_event', false)) }}
 
 with base as (
 
@@ -24,24 +25,28 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
-        _fivetran_synced,
+        id as fulfillment_event_id,
+        fulfillment_id,
+        {# shop_id #}
+        {# order_id - join in fulfillment #}
+        lower(status) as status, -- lowercase in old, upper in new
+        message,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(estimated_delivery_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as estimated_delivery_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(happened_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as happened_at,
         address_1,
         city,
+        province,
         country,
-        created_at,
-        estimated_delivery_at,
-        fulfillment_id,
-        happened_at,
-        id as fulfillment_event_id,
+        zip,
         latitude,
         longitude,
-        message,
-        province,
-        status,
-        zip
+        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {# no updated_at, #}
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

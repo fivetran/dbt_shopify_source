@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,17 +23,24 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
-        created_at,
-        delivered_at,
-        display_status,
-        estimated_delivery_at,
         id as fulfillment_id,
-        in_transit_at,
         location_id,
-        name as fulfillment_name,
         order_id,
+        name,
+        service_id as service,
+        lower(display_status) as shipment_status,
+        lower(status) as status,
+        {# for tracking_company, tracking_number, tracking_numbers, tracking_urls - join in fulfillment_tracking #}
+        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+
+        {# REMOVE
+        delivered_at,
+        estimated_delivery_at,
+        in_transit_at,
         origin_address_1,
         origin_address_2,
         origin_address_city,
@@ -42,10 +48,8 @@ final as (
         origin_address_province_code,
         origin_address_zip,
         requires_shipping,
-        service_id,
-        status,
-        total_quantity,
-        updated_at
+        total_quantity #}
+
     from fields
 )
 

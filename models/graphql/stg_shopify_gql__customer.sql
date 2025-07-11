@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -24,48 +23,56 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
-        _fivetran_synced,
-        can_delete,
-        created_at,
+        id as customer_id,
+        lower(email) as email,
+        first_name,
+        last_name,
+        orders_count,
+        {# default_address_id - need to join in #}
+        phone,
+        lower(state) as account_state,
+        tax_exempt as is_tax_exempt,
+        total_spent,
+        verified_email as is_verified_email,
+        note,
         currency,
+        lower(email_marketing_consent_state) end as marketing_consent_state,
+        lower(email_marketing_consent_opt_in_level) as marketing_opt_in_level,
+
+        {{ shopify_source.fivetran_convert_timezone(column='cast(email_marketing_consent_updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as marketing_consent_updated_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_timestamp,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+        
+        {{ fivetran_utils.fill_pass_through_columns('customer_pass_through_columns') }}
+
+        {# 
+        TODO - remove from macro
+        _fivetran_deleted,
+        can_delete,
         data_sale_opt_out,
         display_name,
-        email,
-        email_marketing_consent_opt_in_level,
-        email_marketing_consent_state,
-        email_marketing_consent_updated_at,
-        first_name,
-        id as customer_id,
         image_alt_text,
         image_height,
         image_id,
         image_url,
         image_width,
         is_data_sale_opt_out,
-        last_name,
         last_order_id,
         lifetime_duration,
         locale,
         multipass_identifier,
-        note,
         number_of_orders,
-        orders_count,
-        phone,
         product_subscriber_status,
         sms_marketing_consent_collected_from,
         sms_marketing_consent_opt_in_level,
         sms_marketing_consent_state,
         sms_marketing_consent_updated_at,
-        state,
         statistics_predicted_spend_tier,
-        tax_exempt,
-        total_spent,
         unsubscribe_url,
-        updated_at,
-        valid_email_address,
-        verified_email
+        valid_email_address #}
+
     from fields
 )
 
