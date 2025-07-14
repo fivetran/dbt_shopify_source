@@ -305,3 +305,5 @@ final as (
 
 select *
 from final
+where not coalesce(is_test_order, false)
+and not coalesce(is_deleted, false)

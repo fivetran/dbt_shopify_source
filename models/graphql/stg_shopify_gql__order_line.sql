@@ -27,7 +27,7 @@ final as (
         {# no index - maybe use a row_number, but what to order by? #}
         name,
         order_id,
-        unfulfilled_quantity as fulfillable_quantity,
+        unfulfilled_quantity as fulfillable_quantity, -- actually maybe use fulfillment_line_item.remaining_quantity? https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem#field-LineItem.fields.fulfillableQuantity
         case 
             when unfulfilled_quantity = 0 then 'fulfilled'
             else null 

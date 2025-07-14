@@ -1,5 +1,5 @@
 {{
-    shopify_source.union_data(
+    shopify_source.shopify_union_data(
         table_identifier='tender_transaction', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

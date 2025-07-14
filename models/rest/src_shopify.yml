@@ -56,7 +56,7 @@ sources:
           - name: cancelled_at
             description: The date and time when the order was canceled.
           - name: cart_token
-            description: The ID of the cart that's associated with the order.
+            description: (DEPRECATED) The ID of the cart that's associated with the order.
           - name: closed_at
             description: The date and time when the order was closed (archived).
           - name: created_at
@@ -144,7 +144,7 @@ sources:
           - name: user_id
             description: The ID of the user logged into Shopify POS who processed the order, if applicable.
           - name: checkout_token
-            description: A unique value when referencing the checkout that's associated with the order.
+            description: (DEPRECATED) A unique value when referencing the checkout that's associated with the order.
           - name: confirmed
             description: Whether inventory has been reserved for the order.
           - name: customer_locale 

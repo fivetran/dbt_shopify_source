@@ -24,20 +24,23 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_synced,
-        amount,
-        currency_code,
         id as tender_transaction_id,
         order_id,
+        amount,
+        currency_code as currency,
         payment_method,
-        processed_at,
         remote_reference,
-        test,
+        user_id,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(processed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_at,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
+        source_relation
+
+        {# REMOVE
         transaction_details_credit_card_company,
-        transaction_details_credit_card_number,
-        user_id
+        transaction_details_credit_card_number, #}
+
     from fields
+    where not coalesce(test, false)
 )
 
 select *
