@@ -6,8 +6,12 @@ models:
   shopify_source:
     +schema: stg_shopify
     +materialized: view
-    stg_shopify__metafield:
-      +materialized: table
+    rest:
+      stg_shopify__metafield:
+        +materialized: table
+    graphql:
+      stg_shopify__metafield:
+        +materialized: table
 
 vars:
   shopify_source:
