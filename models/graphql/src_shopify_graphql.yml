@@ -5,7 +5,7 @@ sources:
     schema: "{{ var('shopify_schema', 'shopify') }}"
     database: "{% if target.type not in ('spark') %}{{ var('shopify_database', target.database) }}{% endif %}"
     config:
-      enabled: "{{ var('shopify_api', 'rest') == var('shopify_api','graphql') }}"
+      enabled: "{{ var('shopify_api', 'rest') == var('shopify_api_override','graphql') }}"
     tables:
       - name: order
         description: Each record represents an order in Shopify.
@@ -293,8 +293,6 @@ sources:
             description: The total amount allocated to the line item in the presentment currency.
           - name: variant_title
             description: The title of the product variant.
-          - name: variant_inventory_management
-            description: The fulfillment service that tracks the number of items in stock for the product variant.
           - name: properties
             description: Line item properties.
           - name: tax_code
@@ -1680,3 +1678,9 @@ sources:
             description: The unique ID of the parent discount associated with this redeem code.
           - name: discount_type
             description: The type of discount this redeem code is associated with (e.g., `discount_code_basic`, `discount_code_bxgy`).
+
+      - name: fulfillment_tracking_info
+      - name: customer_visit
+      - name: collection_rule
+      - name: fulfillment_order_line_item
+      - name: customer_address

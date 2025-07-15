@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_api', 'rest') == var('shopify_api_override','graphql')) }}
+
 with base as (
 
     select * 
@@ -36,7 +38,7 @@ final as (
         verified_email as is_verified_email,
         note,
         currency,
-        lower(email_marketing_consent_state) end as marketing_consent_state,
+        lower(email_marketing_consent_state) as marketing_consent_state,
         lower(email_marketing_consent_opt_in_level) as marketing_opt_in_level,
 
         {{ shopify_source.fivetran_convert_timezone(column='cast(email_marketing_consent_updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as marketing_consent_updated_at,

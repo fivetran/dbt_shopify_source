@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_using_metafield', True)) }}
+{{ config(enabled=(var('shopify_using_metafield', True) and var('shopify_api', 'rest') == 'rest')) }}
 
 with base as (
 

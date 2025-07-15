@@ -1,3 +1,5 @@
+{{ config(enabled=(var('shopify_using_fulfillment_event', false) and var('shopify_api', 'rest') == var('shopify_api_override','graphql'))) }}
+
 {{
     shopify_source.shopify_union_data(
         table_identifier='fulfillment_event', 

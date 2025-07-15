@@ -90,6 +90,12 @@ vars:
     gql_abandoned_checkout_shipping_line_source: "{{ source('shopify_graphql', 'abandoned_checkout_shipping_line') }}"
     gql_fulfillment_event_source: "{{ source('shopify_graphql', 'fulfillment_event') }}"
     gql_tax_line_source: "{{ source('shopify_graphql', 'tax_line') }}"
+    # new tables
+    gql_fulfillment_tracking_info_source: "{{ source('shopify_graphql', 'fulfillment_tracking_info') }}"
+    gql_fulfillment_order_line_item_source: "{{ source('shopify_graphql', 'fulfillment_order_line_item') }}"
+    gql_customer_visit_source: "{{ source('shopify_graphql', 'customer_visit') }}"
+    gql_customer_address_source: "{{ source('shopify_graphql', 'customer_address') }}"
+    gql_collection_rule_source: "{{ source('shopify_graphql', 'collection_rule') }}"
 
     customer_pass_through_columns: []
     order_line_refund_pass_through_columns: []

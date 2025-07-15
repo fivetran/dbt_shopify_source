@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_using_discount_code_app', False)) }}
+{{ config(enabled=(var('shopify_using_discount_code_app', False) and var('shopify_api', 'rest') == var('shopify_api_override','graphql'))) }}
 
 with base as (
 

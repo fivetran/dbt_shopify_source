@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_using_product_variant_media', False)) }}
+{{ config(enabled=(var('shopify_using_product_variant_media', False) and var('shopify_api', 'rest') == 'rest')) }}
 
 with base as (
 

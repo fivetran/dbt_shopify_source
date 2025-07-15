@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_using_fulfillment_event', false)) }}
+{{ config(enabled=(var('shopify_using_fulfillment_event', false) and var('shopify_api', 'rest') == 'rest')) }}
 
 {{
     shopify_source.shopify_union_data(

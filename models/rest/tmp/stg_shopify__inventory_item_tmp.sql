@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_api', 'rest') == 'rest') }}
+
 {{
     shopify_source.shopify_union_data(
         table_identifier='inventory_item', 

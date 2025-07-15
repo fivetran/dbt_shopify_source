@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_api', 'rest') == var('shopify_api_override','graphql')) }}
+
 {{
     shopify_source.shopify_union_data(
         table_identifier='media_image', 

@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_using_product_variant_media', False)) }}
+{{ config(enabled=(var('shopify_using_product_variant_media', False) and var('shopify_api', 'rest') == 'rest')) }}
 
 {{
     shopify_source.shopify_union_data(

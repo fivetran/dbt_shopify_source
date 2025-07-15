@@ -114,8 +114,8 @@
             {% set identifier_var = default_schema + "_" + table_identifier + "_identifer"  %}
         {% endif %}
         {%- set relation.value=adapter.get_relation(
-            database=source(default_schema, table_identifier).database,
-            schema=source(default_schema, table_identifier).schema,
+            database=source(default_schema ~ ('_graphql' if var('shopify_api', 'rest') == 'graphql' else ''), table_identifier).database,
+            schema=source(default_schema ~ ('_graphql' if var('shopify_api', 'rest') == 'graphql' else ''), table_identifier).schema,
             identifier=var(identifier_var, table_identifier)
         ) -%}
     {% endif %}

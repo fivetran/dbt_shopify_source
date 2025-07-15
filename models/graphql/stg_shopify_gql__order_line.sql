@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_api', 'rest') == var('shopify_api_override','graphql')) }}
+
 with base as (
 
     select * 
@@ -33,7 +35,7 @@ final as (
             else null 
         end as fulfillment_status,
         is_gift_card,
-        {# no grams - maybe join in fulfillment_ordeR_line_item.weight and weight_unit #}
+        {# no grams - maybe join in fulfillment_order_line_item.weight and weight_unit #}
         {# pre_tax has been removed #}
         {# price has been split #}
         original_total_set_pres_amount as price_set_pres_amount,
@@ -54,7 +56,7 @@ final as (
         total_discount_set_shop_currency_code,
         variant_id,
         variant_title,
-        {# variant_inventory_management is potentially in fulfillment_service table #}
+        {# variant_inventory_management is deprecated #}
         vendor,
         {# no properties #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,

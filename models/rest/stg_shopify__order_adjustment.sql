@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_api', 'rest') == 'rest') }}
 -- this model will be all NULL until you have made an order adjustment in Shopify
 
 with base as (

@@ -1,5 +1,7 @@
+{{ config(enabled=var('shopify_api', 'rest') == 'rest') }}
+
 {{
-   shopify_source.shopify_union_data(
+    shopify_source.shopify_union_data(
         table_identifier='order_line', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 

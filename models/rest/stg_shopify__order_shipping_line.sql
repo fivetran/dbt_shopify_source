@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_api', 'rest') == 'rest') }}
 
 with base as (
 

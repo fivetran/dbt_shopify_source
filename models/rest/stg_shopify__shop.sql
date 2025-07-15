@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_api', 'rest') == 'rest') }}
+
 {% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_shopify__shop_tmp')) %}
 
 with base as (
