@@ -89,43 +89,43 @@ final as (
         {# source_name, #}
 
         {# subtotal_price, #}
-        subtotal_price_set_shop_amount,
-        subtotal_price_set_shop_currency,
-        subtotal_price_set_pres_amount,
-        subtotal_price_set_pres_currency,
+        subtotal_price_set_shop_amount as subtotal_price_shop_amount,
+        subtotal_price_set_shop_currency as subtotal_price_shop_currency,
+        subtotal_price_set_pres_amount as subtotal_price_pres_amount,
+        subtotal_price_set_pres_currency as subtotal_price_pres_currency,
 
         taxes_included as has_taxes_included,
 
         {# token, #}
         {# total_discounts, #}
-        total_discounts_set_shop_amount,
-        total_discounts_set_shop_currency,
-        total_discounts_set_pres_amount,
-        total_discounts_set_pres_currency,
+        total_discounts_set_shop_amount as total_discounts_shop_amount,
+        total_discounts_set_shop_currency as total_discounts_shop_currency,
+        total_discounts_set_pres_amount as total_discounts_pres_amount,
+        total_discounts_set_pres_currency as total_discounts_pres_currency,
 
         {# total_duties, #}
-        total_duties_set_shop_amount,
-        total_duties_set_shop_currency,
-        total_duties_set_pres_amount,
-        total_duties_set_pres_currency,
+        total_duties_set_shop_amount as total_duties_shop_amount,
+        total_duties_set_shop_currency as total_duties_shop_currency,
+        total_duties_set_pres_amount as total_duties_pres_amount,
+        total_duties_set_pres_currency as total_duties_pres_currency,
 
         {# total_line_items_price, #}
-        total_line_items_price_set_shop_amount,
-        total_line_items_price_set_shop_currency,
-        total_line_items_price_set_pres_amount,
-        total_line_items_price_set_pres_currency,
+        total_line_items_price_set_shop_amount as total_line_items_price_shop_amount,
+        total_line_items_price_set_shop_currency as total_line_items_price_shop_currency,
+        total_line_items_price_set_pres_amount as total_line_items_price_pres_amount,
+        total_line_items_price_set_pres_currency as total_line_items_price_pres_currency,
 
         {# total_price, #}
-        total_price_set_shop_amount,
-        total_price_set_shop_currency,
-        total_price_set_pres_amount,
-        total_price_set_pres_currency,
+        total_price_set_shop_amount as total_price_shop_amount,
+        total_price_set_shop_currency as total_price_shop_currency,
+        total_price_set_pres_amount as total_price_pres_amount,
+        total_price_set_pres_currency as total_price_pres_currency,
 
         {# total_tax, #}
-        total_tax_set_shop_amount,
-        total_tax_set_shop_currency,
-        total_tax_set_pres_amount,
-        total_tax_set_pres_currency,
+        total_tax_set_shop_amount as total_tax_shop_amount,
+        total_tax_set_shop_currency as total_tax_shop_currency,
+        total_tax_set_pres_amount as total_tax_pres_amount,
+        total_tax_set_pres_currency as total_tax_pres_currency,
 
         {# total_weight, #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,

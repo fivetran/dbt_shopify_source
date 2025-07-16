@@ -31,16 +31,18 @@ final as (
         {# join in order_line_refund.restocked for restock #}
         {# no total_duties yet #}
         staff_member_id as user_id,
+
+        {# new fields #}
+        return_id,
+        total_refunded_set_pres_amount as total_refunded_pres_amount,
+        total_refunded_set_pres_currency_code as total_refunded_pres_currency_code,
+        total_refunded_set_shop_amount as total_refunded_shop_amount,
+        total_refunded_set_shop_currency_code as total_refunded_shop_currency_code,
+
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
-        {# {{ shopify_source.fivetran_convert_timezone(column='cast(processed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_at, #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
-
-        {# return_id,
-        total_refunded_set_pres_amount,
-        total_refunded_set_pres_currency_code,
-        total_refunded_set_shop_amount,
-        total_refunded_set_shop_currency_code, #}
+        {# no processed_at #}
         
     from fields
 )

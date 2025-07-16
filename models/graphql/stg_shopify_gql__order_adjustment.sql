@@ -35,17 +35,17 @@ final as (
 
         {# amount,
         amount_set, #}
-        amount_set_pres_amount,
-        amount_set_pres_currency_code,
-        amount_set_shop_amount,
-        amount_set_shop_currency_code,
+        amount_set_pres_amount as amount_pres,
+        amount_set_pres_currency_code as amount_pres_currency_code,
+        amount_set_shop_amount as amount_shop,
+        amount_set_shop_currency_code as amount_shop_currency_code,
 
         {# tax_amount,
         tax_amount_set, #}
-        tax_amount_set_pres_amount,
-        tax_amount_set_pres_currency_code,
-        tax_amount_set_shop_amount,
-        tax_amount_set_shop_currency_code,
+        tax_amount_set_pres_amount as tax_amount_pres,
+        tax_amount_set_pres_currency_code as tax_amount_pres_currency_code,
+        tax_amount_set_shop_amount as tax_amount_shop,
+        tax_amount_set_shop_currency_code as tax_amount_shop_currency_code,
 
         {# kind, #}
         reason,

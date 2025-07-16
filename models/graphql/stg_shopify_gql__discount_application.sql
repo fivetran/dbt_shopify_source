@@ -33,14 +33,13 @@ final as (
         lower(target_selection) as target_selection, -- was lowercase in old api, upper in gql
         lower(target_type) as target_type, -- was lowercase in old api, upper in gql
         {# title, #}
-        coalesce(value_amount, value_percentage) as value, -- do we need this?
         value_amount,
         value_percentage,
         value_currency_code,
         case 
             when value_percentage is not null then 'percentage'
-            when value_amount is not null then 'fixed_amount'
             when lower(target_type) = 'shipping_line' then 'shipping'
+            when value_amount is not null then 'fixed_amount'
         else null end as value_type,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation

@@ -32,16 +32,18 @@ final as (
         unfulfilled_quantity as fulfillable_quantity, -- actually maybe use fulfillment_line_item.remaining_quantity? https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem#field-LineItem.fields.fulfillableQuantity
         case 
             when unfulfilled_quantity = 0 then 'fulfilled'
+            when unfulfilled_quantity > 0 and unfulfilled_quantity < quantity then 'partial'
+            when unfulfilled_quantity = quantity then 'unfulfilled'
             else null 
         end as fulfillment_status,
         is_gift_card,
         {# no grams - maybe join in fulfillment_order_line_item.weight and weight_unit #}
         {# pre_tax has been removed #}
         {# price has been split #}
-        original_total_set_pres_amount as price_set_pres_amount,
-        original_total_set_pres_currency_code as price_set_pres_currency_code,
-        original_total_set_shop_amount as price_set_shop_amount,
-        original_total_set_shop_currency_code as price_set_shop_currency_code,
+        original_total_set_pres_amount as price_pres_amount,
+        original_total_set_pres_currency_code as price_pres_currency_code,
+        original_total_set_shop_amount as price_shop_amount,
+        original_total_set_shop_currency_code as price_shop_currency_code,
         product_id,
         quantity,
         requires_shipping as is_shipping_required,
@@ -50,10 +52,10 @@ final as (
         {# no tax code - join in product_variant.tax_code #}
         title,
         {# total_discount is broken out #}
-        total_discount_set_pres_amount,
-        total_discount_set_pres_currency_code,
-        total_discount_set_shop_amount,
-        total_discount_set_shop_currency_code,
+        total_discount_set_pres_amount as total_discount_pres_amount,
+        total_discount_set_pres_currency_code as total_discount_pres_currency_code,
+        total_discount_set_shop_amount as total_discount_shop_amount,
+        total_discount_set_shop_currency_code as total_discount_shop_currency_code,
         variant_id,
         variant_title,
         {# variant_inventory_management is deprecated #}

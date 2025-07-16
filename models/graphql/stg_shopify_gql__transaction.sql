@@ -29,14 +29,14 @@ final as (
         order_id,
         refund_id,
         {# amount is split out #}
-        amount_set_pres_amount,
-        amount_set_shop_amount,
+        amount_set_pres_amount as amount_pres,
+        amount_set_shop_amount as amount_shop,
         {# no device_id rn #}
         gateway,
         {# no source_name - join from order #}
         {# no message #}
-        amount_set_pres_currency_code as presentment_currency,
-        amount_set_shop_currency_code as shop_currency,
+        amount_set_pres_currency_code as amount_pres_currency_code,
+        amount_set_shop_currency_code as amount_shop_currency_code,
         {# no location_id - join in from order #}
         parent_id,
         payment_avs_result_code,

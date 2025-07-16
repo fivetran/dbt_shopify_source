@@ -25,7 +25,7 @@ fields as (
 final as (
     
     select 
-        {# no single amount field #}
+        {# match REST name #}
         allocated_amount_set_pres_amount as amount_set_presentment_money_amount,
         allocated_amount_set_pres_currency_code as amount_set_presentment_money_currency_code,
         allocated_amount_set_shop_amount as amount_set_shop_money_amount,
