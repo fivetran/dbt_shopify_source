@@ -25,7 +25,7 @@ fields as (
 final as (
     
     select 
-        id as product_variant_id,
+        id as variant_id,
         product_id,
         inventory_item_id,
         title,
@@ -37,6 +37,7 @@ final as (
         {# deprecated: fulfillment_service, inventory_management, grams, weight, weight_unit, option_1, option_2, option_3 #}
         taxable as is_taxable,
         barcode,
+        inventory_quantity,
         available_for_sale as is_available_for_sale,
         display_name,
         legacy_resource_id,

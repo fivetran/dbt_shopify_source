@@ -35,6 +35,7 @@ final as (
         country_code as country, -- match REST api
         country_code,
         country as country_name,
+        is_fulfillment_service as is_legacy,
         {# localized_country_name,
         localized_province_name, #}
         phone,
@@ -57,7 +58,6 @@ final as (
         fulfills_online_orders,
         has_active_inventory,
         has_unfulfilled_orders,
-        is_fulfillment_service,
         latitude,
         local_pickup_settings_instructions,
         local_pickup_settings_pickup_time,

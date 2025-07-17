@@ -25,7 +25,7 @@ fields as (
 final as (
     
     select 
-        {# match REST name #}
+        {# match REST name, which we kept the _set_ in. Should we remove to align with the other models (or align the other models with this? Model was introduced in late May #}
         allocated_amount_set_pres_amount as amount_set_presentment_money_amount,
         allocated_amount_set_pres_currency_code as amount_set_presentment_money_currency_code,
         allocated_amount_set_shop_amount as amount_set_shop_money_amount,

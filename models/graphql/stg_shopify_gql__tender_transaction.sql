@@ -25,7 +25,7 @@ fields as (
 final as (
     
     select 
-        id as tender_transaction_id,
+        id as transaction_id,
         order_id,
         amount,
         currency_code as currency,

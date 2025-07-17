@@ -29,15 +29,15 @@ final as (
         location_id,
         order_line_id,
         {# subtotal and subtotal_set are split out #}
-        subtotal_set_pres_amount,
-        subtotal_set_pres_currency_code,
-        subtotal_set_shop_amount,
-        subtotal_set_shop_currency_code,
+        subtotal_set_pres_amount as subtotal_pres_amount,
+        subtotal_set_pres_currency_code as subtotal_pres_currency_code,
+        subtotal_set_shop_amount as subtotal_shop_amount,
+        subtotal_set_shop_currency_code as subtotal_shop_currency_code,
         {# total_tax and total_tax_set are split out #}
-        total_tax_set_pres_amount,
-        total_tax_set_pres_currency_code,
-        total_tax_set_shop_amount,
-        total_tax_set_shop_currency_code,
+        total_tax_set_pres_amount as total_tax_pres_amount,
+        total_tax_set_pres_currency_code as total_tax_pres_currency_code,
+        total_tax_set_shop_amount as total_tax_shop_amount,
+        total_tax_set_shop_currency_code as total_tax_shop_currency_code,
         quantity,
         refund_id,
         lower(restock_type) as restock_type, -- match rest API casing

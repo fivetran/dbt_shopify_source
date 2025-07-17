@@ -27,12 +27,14 @@ final as (
     select 
         lower(allocation_method) as allocation_method, -- was lowercase in old api, upper in gql
         {# no code rn #}
+        null as code, -- for development
         {# description, #}
         index,
         order_id,
         lower(target_selection) as target_selection, -- was lowercase in old api, upper in gql
         lower(target_type) as target_type, -- was lowercase in old api, upper in gql
-        {# title, #}
+        {# no title, #}
+        {# no type #}
         value_amount,
         value_percentage,
         value_currency_code,
