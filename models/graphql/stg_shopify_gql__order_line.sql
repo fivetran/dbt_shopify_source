@@ -26,7 +26,8 @@ final as (
     
     select 
         id as order_line_id,
-        {# no index - maybe use a row_number, but what to order by? #}
+        {# recreating this, though it may not be exact #}
+        row_number() over(partition by order_id, source_relation order by id asc) as index,
         name,
         order_id,
         unfulfilled_quantity as fulfillable_quantity, -- actually maybe use fulfillment_line_item.remaining_quantity? https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem#field-LineItem.fields.fulfillableQuantity
@@ -63,50 +64,6 @@ final as (
         {# no properties #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
-
-        {# TODO - remove for better use of passthru variable
-        current_quantity,
-        discounted_total_set_pres_amount,
-        discounted_total_set_pres_currency_code,
-        discounted_total_set_shop_amount,
-        discounted_total_set_shop_currency_code,
-        discounted_unit_price_after_all_disc_set_pres_amount,
-        discounted_unit_price_after_all_disc_set_pres_currency_code,
-        discounted_unit_price_after_all_disc_set_shop_amount,
-        discounted_unit_price_after_all_disc_set_shop_currency_code,
-        discounted_unit_price_set_pres_amount,
-        discounted_unit_price_set_pres_currency_code,
-        discounted_unit_price_set_shop_amount,
-        discounted_unit_price_set_shop_currency_code,
-        image_alt_text,
-        image_height,
-        image_id,
-        image_url,
-        image_width,
-        line_item_group_id,
-        line_item_group_quantity,
-        line_item_group_title,
-        line_item_group_variant_id,
-        line_item_group_variant_sku,
-        merchant_editable,
-        non_fulfillable_quantity,
-        original_unit_price_set_pres_amount,
-        original_unit_price_set_pres_currency_code,
-        original_unit_price_set_shop_amount,
-        original_unit_price_set_shop_currency_code,
-        refundable_quantity,
-        restockable,
-        selling_plan_id,
-        selling_plan_name,
-        staff_member_id,
-        unfulfilled_discounted_total_set_pres_amount,
-        unfulfilled_discounted_total_set_pres_currency_code,
-        unfulfilled_discounted_total_set_shop_amount,
-        unfulfilled_discounted_total_set_shop_currency_code,
-        unfulfilled_original_total_set_pres_amount,
-        unfulfilled_original_total_set_pres_currency_code,
-        unfulfilled_original_total_set_shop_amount,
-        unfulfilled_original_total_set_shop_currency_code #}
         
     {{ fivetran_utils.fill_pass_through_columns('order_line_pass_through_columns') }}
 

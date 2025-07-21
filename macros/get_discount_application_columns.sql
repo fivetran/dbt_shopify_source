@@ -25,6 +25,7 @@
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "allocation_method", "datatype": dbt.type_string()},
+    {"name": "code", "datatype": dbt.type_string()},
     {"name": "index", "datatype": dbt.type_int()},
     {"name": "order_id", "datatype": dbt.type_int()},
     {"name": "target_selection", "datatype": dbt.type_string()},

@@ -27,7 +27,7 @@ final as (
     select 
         lower(allocation_method) as allocation_method, -- was lowercase in old api, upper in gql
         {# no code rn #}
-        null as code, -- for development
+        cast(null as {{dbt.type_string() }}) as code, -- for development
         {# description, #}
         index,
         order_id,
