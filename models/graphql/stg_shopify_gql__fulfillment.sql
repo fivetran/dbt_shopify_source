@@ -38,20 +38,6 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
 
-
-        {# REMOVE
-        delivered_at,
-        estimated_delivery_at,
-        in_transit_at,
-        origin_address_1,
-        origin_address_2,
-        origin_address_city,
-        origin_address_country_code,
-        origin_address_province_code,
-        origin_address_zip,
-        requires_shipping,
-        total_quantity #}
-
     from fields
 )
 

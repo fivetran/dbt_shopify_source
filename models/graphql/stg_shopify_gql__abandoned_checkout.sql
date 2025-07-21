@@ -47,11 +47,12 @@ final as (
         {# buyer_accepts_marketing as has_buyer_accepted_marketing,
         cart_token, #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
-        {{ shopify_source.fivetran_convert_timezone(column='cast(closed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as closed_at,
+        {# no closed_At #}
+        {# {{ shopify_source.fivetran_convert_timezone(column='cast(closed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as closed_at, #}
         
 
-        -- should we recreate this or just refer to the multiple currency fields?
-        {# currency as shop_currency, #}
+        -- should we recreate this or just refer to the multiple currency_code fields?
+        {# currency_code as shop_currency_code, #}
 
         customer_id,
         {# customer_locale,
@@ -65,8 +66,8 @@ final as (
         note,
         {# phone, #}
 
-        -- should we recreate this or just refer to the multiple currency fields?
-        {# presentment_currency, #}
+        -- should we recreate this or just refer to the multiple currency_code fields?
+        {# presentment_currency_code, #}
 
         {# referring_site, #}
 
@@ -85,47 +86,46 @@ final as (
         shipping_address_province,
         shipping_address_province_code,
         shipping_address_zip,
-        shipping_lines_code,
         {# source_name, #}
 
         {# subtotal_price, #}
         subtotal_price_set_shop_amount as subtotal_price_shop_amount,
-        subtotal_price_set_shop_currency as subtotal_price_shop_currency,
+        subtotal_price_set_shop_currency_code as subtotal_price_shop_currency_code,
         subtotal_price_set_pres_amount as subtotal_price_pres_amount,
-        subtotal_price_set_pres_currency as subtotal_price_pres_currency,
+        subtotal_price_set_pres_currency_code as subtotal_price_pres_currency_code,
 
         taxes_included as has_taxes_included,
 
         {# token, #}
         {# total_discounts, #}
-        total_discounts_set_shop_amount as total_discounts_shop_amount,
-        total_discounts_set_shop_currency as total_discounts_shop_currency,
-        total_discounts_set_pres_amount as total_discounts_pres_amount,
-        total_discounts_set_pres_currency as total_discounts_pres_currency,
+        total_discount_set_shop_amount as total_discount_shop_amount,
+        total_discount_set_shop_currency_code as total_discount_shop_currency_code,
+        total_discount_set_pres_amount as total_discount_pres_amount,
+        total_discount_set_pres_currency_code as total_discount_pres_currency_code,
 
         {# total_duties, #}
         total_duties_set_shop_amount as total_duties_shop_amount,
-        total_duties_set_shop_currency as total_duties_shop_currency,
+        total_duties_set_shop_currency_code as total_duties_shop_currency_code,
         total_duties_set_pres_amount as total_duties_pres_amount,
-        total_duties_set_pres_currency as total_duties_pres_currency,
+        total_duties_set_pres_currency_code as total_duties_pres_currency_code,
 
         {# total_line_items_price, #}
         total_line_items_price_set_shop_amount as total_line_items_price_shop_amount,
-        total_line_items_price_set_shop_currency as total_line_items_price_shop_currency,
+        total_line_items_price_set_shop_currency_code as total_line_items_price_shop_currency_code,
         total_line_items_price_set_pres_amount as total_line_items_price_pres_amount,
-        total_line_items_price_set_pres_currency as total_line_items_price_pres_currency,
+        total_line_items_price_set_pres_currency_code as total_line_items_price_pres_currency_code,
 
         {# total_price, #}
         total_price_set_shop_amount as total_price_shop_amount,
-        total_price_set_shop_currency as total_price_shop_currency,
+        total_price_set_shop_currency_code as total_price_shop_currency_code,
         total_price_set_pres_amount as total_price_pres_amount,
-        total_price_set_pres_currency as total_price_pres_currency,
+        total_price_set_pres_currency_code as total_price_pres_currency_code,
 
         {# total_tax, #}
         total_tax_set_shop_amount as total_tax_shop_amount,
-        total_tax_set_shop_currency as total_tax_shop_currency,
+        total_tax_set_shop_currency_code as total_tax_shop_currency_code,
         total_tax_set_pres_amount as total_tax_pres_amount,
-        total_tax_set_pres_currency as total_tax_pres_currency,
+        total_tax_set_pres_currency_code as total_tax_pres_currency_code,
 
         {# total_weight, #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,

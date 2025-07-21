@@ -49,32 +49,6 @@ final as (
         
         {{ fivetran_utils.fill_pass_through_columns('customer_pass_through_columns') }}
 
-        {# 
-        TODO - remove from macro
-        _fivetran_deleted,
-        can_delete,
-        data_sale_opt_out,
-        display_name,
-        image_alt_text,
-        image_height,
-        image_id,
-        image_url,
-        image_width,
-        is_data_sale_opt_out,
-        last_order_id,
-        lifetime_duration,
-        locale,
-        multipass_identifier,
-        number_of_orders,
-        product_subscriber_status,
-        sms_marketing_consent_collected_from,
-        sms_marketing_consent_opt_in_level,
-        sms_marketing_consent_state,
-        sms_marketing_consent_updated_at,
-        statistics_predicted_spend_tier,
-        unsubscribe_url,
-        valid_email_address #}
-
     from fields
 )
 

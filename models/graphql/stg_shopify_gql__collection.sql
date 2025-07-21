@@ -33,7 +33,7 @@ final as (
             else 'conjunctive' end as rule_logic,
         handle,
         {# no published_scope #}
-        {# no rules rn #}
+        {# no rules -- join with collection_rule #}
         sort_order,
         title,
         {# no published_at #}
