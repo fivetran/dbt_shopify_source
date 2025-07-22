@@ -549,7 +549,7 @@ sources:
       
       - name: abandoned_checkout
         description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
-        identifier: "{{ var('shopify_abandoned_checkout_identifier', 'abandoned_checkout') }}"
+        identifier: "{{ var('shopify_gql_abandoned_checkout_identifier', 'abandoned_checkout') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -587,42 +587,16 @@ sources:
             description: The two-letter abbreviation of the state or province of the billing address.
           - name: billing_address_zip
             description: The zip or postal code of the billing address.
-          - name: buyer_accepts_marketing
-            description: Whether the customer would like to receive email updates from the shop. This is set by the 'I want to receive occasional emails about new products, promotions and other news' checkbox during checkout.
-          - name: cart_token
-            description: The ID for the cart that's attached to the checkout.
-          - name: closed_at
-            description: The date and time (ISO 8601 format) when the checkout was closed. If the checkout was not closed, then this value is null.
           - name: created_at
             description: The date and time (ISO 8601 format) when the checkout was created.
-          - name: currency
-            description: The three-letter code (ISO 4217 format) of the shop's default currency at the time of checkout. For the currency that the customer used at checkout, see `presentment_currency`.
           - name: customer_id
             description: ID of the customer with the abandoned checkout.
-          - name: customer_locale
-            description: The two or three-letter language code, optionally followed by a region modifier. Example values - en, en-CA.
-          - name: device_id
-            description: The ID of the Shopify POS device that created the checkout.
-          - name: email
-            description: The customer's email address.
-          - name: gateway
-            description: The payment gateway used by the checkout.
           - name: id
             description: The ID for the checkout.
-          - name: landing_site_base_url
-            description: The URL for the page where the customer entered the shop.
-          - name: location_id
-            description: The ID of the physical location where the checkout was processed.
           - name: name
             description: Checkout order number. 
           - name: note
             description: The text of an optional note that a shop owner can attach to the order.
-          - name: phone
-            description: The customer's phone number for receiving SMS notifications.
-          - name: presentment_currency
-            description: The three-letter code (ISO 4217 format) of the currency that the customer used at checkout. For the shop's default currency, see `currency`.
-          - name: referring_site
-            description: The website that referred the customer to the shop.
           - name: shipping_address_address_1
             description: The street address of the shipping address.
           - name: shipping_address_address_2
@@ -653,30 +627,58 @@ sources:
             description: The two-letter abbreviation of the state or province of the shipping address.
           - name: shipping_address_zip
             description: The zip or postal code of the shipping address.
-          - name: source_name
-            description: Where the checkout originated. Valid values include `web`, `pos`, `iphone`, `android`.
-          - name: subtotal_price
-            description: The price of the checkout in _presentment_ (customer) currency before shipping and taxes.
+          - name: subtotal_price_set_shop_amount
+            description: The price of the checkout before shipping and taxes in *shop* currency. If taxesIncluded is true, then the subtotal also includes tax.
+          - name: subtotal_price_set_pres_amount
+            description: The price of the checkout before shipping and taxes in *presentment* currencyy. If taxesIncluded is true, then the subtotal also includes tax.
+          - name: subtotal_price_set_shop_currency_code
+            description: The three-letter code (ISO 4217 format) for the shop currency used to display the subtotal price.
+          - name: subtotal_price_set_pres_currency_code
+            description: The three-letter code (ISO 4217 format) for the presentment currency used to display the subtotal price.
           - name: taxes_included
             description: Boolean representing whether taxes are included in the price.
-          - name: token
-            description: A unique ID for a checkout.
-          - name: total_discounts
-            description: The total amount of discounts to be applied in presentment currency.
-          - name: total_duties
-            description: The total duties of the checkout in presentment currency.
-          - name: total_line_items_price
-            description: The sum of the prices of all line items in the checkout in _presentment_ (customer) currency.
-          - name: total_price
-            description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in _presentment_ (customer) currency.
-          - name: total_tax
-            description: The sum of all the taxes applied to the checkout in _presentment_ (customer) currency.
-          - name: total_weight
-            description: The sum of all the weights in grams of the line items in the checkout.
+          - name: total_discount_set_shop_amount
+            description: The total discount allocated to the line item in *shop* currency, including the total allocated to refunded and removed quantities. This value doesn't include order-level discounts.
+          - name: total_discount_set_pres_amount
+            description: The total discount allocated to the line item in *presentment* currency, including the total allocated to refunded and removed quantities. This value doesn't include order-level discounts.
+          - name: total_discount_set_shop_currency_code
+            description: The three-letter code (ISO 4217 format) for the shop currency used to display the total discount.
+          - name: total_discount_set_pres_currency_code
+            description: The three-letter code (ISO 4217 format) for the currency currency used to display the total discount.
+          - name: total_duties_set_shop_amount
+            description: The total duties of the checkout in *shop* currency, including the total allocated to refunded and removed quantities. This value doesn't include order-level discounts.
+          - name: total_duties_set_pres_amount
+            description: The total duties of the checkout in *presentment* currency, including the total allocated to refunded and removed quantities. This value doesn't include order-level discounts.
+          - name: total_duties_set_shop_currency_code
+            description: The three-letter code (ISO 4217 format) for the shop currency used to display the total duties of the checkout.
+          - name: total_duties_set_pres_currency_code
+            description: The three-letter code (ISO 4217 format) for the currency currency used to display the total duties of the checkout.
+          - name: total_line_items_price_set_shop_amount
+            description: The sum of the prices of all line items in the checkout in *shop* currency, including the total allocated to refunded and removed quantities. This value doesn't include order-level discounts.
+          - name: total_line_items_price_set_pres_amount
+            description: The sum of the prices of all line items in the checkout in *presentment* currency, including the total allocated to refunded and removed quantities. This value doesn't include order-level discounts.
+          - name: total_line_items_price_set_shop_currency_code
+            description: The three-letter code (ISO 4217 format) for the shop currency used to display the sum of the prices of all line items in the checkout.
+          - name: total_line_items_price_set_pres_currency_code
+            description: The three-letter code (ISO 4217 format) for the presentment currency used to display the sum of the prices of all line items in the checkout.
+          - name: total_price_set_shop_amount
+            description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in *shop* currency.
+          - name: total_price_set_pres_amount
+            description: The sum of line item prices, all discounts, shipping costs, and taxes for the checkout in *presentment* currency.
+          - name: total_price_set_shop_currency_code
+            description: The three-letter code (ISO 4217 format) for the shop currency used to display the sum of line item prices, all discounts, shipping costs, and taxes for the checkout.
+          - name: total_price_set_pres_currency_code
+            description: The three-letter code (ISO 4217 format) for the presentment currency used to display the sum of line item prices, all discounts, shipping costs, and taxes for the checkout.
+          - name: total_tax_set_shop_amount
+            description: The sum of all the taxes applied to the checkout in *shop* currency.
+          - name: total_tax_set_pres_amount
+            description: The sum of all the taxes applied to the checkout in *presentment* currency.
+          - name: total_tax_set_shop_currency_code
+            description: The three-letter code (ISO 4217 format) for the shop currency used to display the total tax amount.
+          - name: total_tax_set_pres_currency_code
+            description: The three-letter code (ISO 4217 format) for the presentment currency used to display the total tax amount.
           - name: updated_at
             description: The date and time (ISO 8601 format) when the checkout was last modified.
-          - name: user_id
-            description: The ID of the user who created the checkout.
 
       - name: collection_product
         description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
@@ -1290,26 +1292,18 @@ sources:
 
       - name: abandoned_checkout_discount_code
         description: Abandoned checkouts that applied a discount code. 
-        identifier: "{{ var('shopify_abandoned_checkout_discount_code_identifier', 'abandoned_checkout_discount_code') }}"
+        identifier: "{{ var('shopify_gql_abandoned_checkout_discount_code_identifier', 'abandoned_checkout_discount_code') }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
-          - name: amount
-            description: The amount of the discount in presentment currency.
           - name: checkout_id
             description: ID of the checkout. 
           - name: code
             description: The discount code.
           - name: created_at
             description: When the checkout discount application was created.
-          - name: discount_id
-            description: ID of the discount. Deprecated, use `code` instead.
           - name: index
             description: Index (from 1) representing the application of the discount to the checkout. Use the latest (highest index)
-          - name: type
-            description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
-          - name: updated_at
-            description: When the checkout's discount was last updated
       
       - name: order_discount_code
         description: Discount codes placed on orders.

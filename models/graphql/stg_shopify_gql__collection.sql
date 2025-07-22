@@ -41,22 +41,6 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
 
-        {# REMOVE
-        description,
-        description_html,
-        feedback_summary,
-        image_alt_text,
-        image_height,
-        image_id,
-        image_url,
-        image_width,
-        products_count,
-        products_count_precision,
-        seo_description,
-        seo_title,
-        template_suffix #}
-
-
     from fields
 )
 

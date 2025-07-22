@@ -41,35 +41,6 @@ final as (
 
         {{ fivetran_utils.fill_pass_through_columns('product_pass_through_columns') }}
 
-        {# TODO: remove
-        
-        compare_at_price_range_max_variant_compare_at_price_amount,
-        compare_at_price_range_max_variant_compare_at_price_currency_code,
-        compare_at_price_range_min_variant_compare_at_price_amount,
-        compare_at_price_range_min_variant_compare_at_price_currency_code,
-        created_at,
-        description,
-        description_html,
-        featured_media_id,
-        gift_card_template_suffix,
-        has_only_default_variant,
-        has_out_of_stock_variants,
-        has_variants_that_requires_components,
-        is_gift_card,
-        legacy_resource_id,
-        max_variant_price_amount,
-        max_variant_price_currency_code,
-        metafield,
-        min_variant_price_amount,
-        min_variant_price_currency_code,
-        online_store_preview_url,
-        requires_selling_plan,
-        seo_description,
-        seo_title,
-        template_suffix,
-        total_inventory,
-        tracks_inventory #}
-
     from fields
 )
 

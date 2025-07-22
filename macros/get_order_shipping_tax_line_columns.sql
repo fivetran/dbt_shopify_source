@@ -19,7 +19,6 @@
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "channel_liable", "datatype": dbt.type_boolean()},
     {"name": "index", "datatype": dbt.type_int()},
     {"name": "order_shipping_line_id", "datatype": dbt.type_int()},
     {"name": "price_set_pres_amount", "datatype": dbt.type_float()},
@@ -27,7 +26,6 @@
     {"name": "price_set_shop_amount", "datatype": dbt.type_float()},
     {"name": "price_set_shop_currency_code", "datatype": dbt.type_string()},
     {"name": "rate", "datatype": dbt.type_float()},
-    {"name": "rate_percentage", "datatype": dbt.type_float()},
     {"name": "source", "datatype": dbt.type_string()},
     {"name": "title", "datatype": dbt.type_string()}
 ] %}

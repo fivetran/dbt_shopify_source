@@ -59,41 +59,6 @@ final as (
 
         {{ fivetran_utils.fill_pass_through_columns('transaction_pass_through_columns') }}
 
-        {# TODO - remove these fields from here + macro
-        account_number,
-        amount_rounding_set_pres_amount,
-        amount_rounding_set_pres_currency_code,
-        amount_rounding_set_shop_amount,
-        amount_rounding_set_shop_currency_code,
-        extended_authorization_expires_at,
-        formatted_gateway,
-        manual_payment_gateway,
-        manually_capturable,
-        maximum_refundable_amount,
-        maximum_refundable_currency_code,
-        multi_capturable,
-        payment_credit_card_expiration_month,
-        payment_credit_card_expiration_year,
-        payment_credit_card_name,
-        payment_credit_card_wallet,
-        payment_descriptor,
-        payment_icon_alt_text,
-        payment_icon_height,
-        payment_icon_id,
-        payment_icon_url,
-        payment_icon_width,
-        payment_id,
-        payment_method_name,
-        receipt_json,
-        refund_set_acquirer_reference_number,
-        settlement_currency,
-        settlement_currency_rate,
-        standard_authorization_expires_at,
-        total_unsettled_set_pres_amount,
-        total_unsettled_set_pres_currency_code,
-        total_unsettled_set_shop_amount,
-        total_unsettled_set_shop_currency_code #}
-
     from fields
     where not coalesce(test, false)
 )

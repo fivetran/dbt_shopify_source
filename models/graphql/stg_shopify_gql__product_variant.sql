@@ -51,11 +51,6 @@ final as (
 
         {{ fivetran_utils.fill_pass_through_columns('product_variant_pass_through_columns') }}
 
-        {# TODO: remove from here + macro
-        image_id,
-        inventory_quantity,
-        metafield, #}
-
     from fields
 )
 

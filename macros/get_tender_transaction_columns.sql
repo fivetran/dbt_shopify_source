@@ -30,8 +30,6 @@
     {"name": "processed_at", "datatype": dbt.type_timestamp()},
     {"name": "remote_reference", "datatype": dbt.type_string()},
     {"name": "test", "datatype": dbt.type_boolean()},
-    {"name": "transaction_details_credit_card_company", "datatype": dbt.type_string()},
-    {"name": "transaction_details_credit_card_number", "datatype": dbt.type_string()},
     {"name": "user_id", "datatype": dbt.type_int()}
 ] %}
 
