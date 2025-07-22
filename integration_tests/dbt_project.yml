@@ -116,6 +116,9 @@ seeds:
     shopify_gql_customer_data:
       +column_types:
         phone: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+    shopify_gql_customer_address_data:
+      +column_types:
+        phone: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     shopify_order_data:
       +column_types:
         created_at: timestamp
@@ -132,6 +135,7 @@ seeds:
     shopify_gql_order_data:
       +column_types:
         billing_address_phone: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+        shipping_address_phone: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
         total_shipping_price_set_pres_amount: float
         total_shipping_price_set_shop_amount: float
     shopify_order_bq_json_data:
