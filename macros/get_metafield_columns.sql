@@ -32,7 +32,6 @@
     {"name": "owner_id", "datatype": dbt.type_int()},
     {"name": "owner_resource", "datatype": dbt.type_string()},
     {"name": "type", "datatype": dbt.type_string()},
-    {"name": "value_type", "datatype": dbt.type_string()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "value", "datatype": dbt.type_string()}
 ] %}

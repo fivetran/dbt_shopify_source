@@ -78,7 +78,6 @@ vars:
     shopify_gql_order_shipping_line_identifier: "shopify_gql_order_shipping_line_data"
     shopify_gql_order_shipping_tax_line_identifier: "shopify_gql_order_shipping_tax_line_data"
     shopify_gql_order_tag_identifier: "shopify_gql_order_tag_data"
-    shopify_gql_order_url_tag_identifier: "shopify_gql_order_url_tag_data"
     shopify_gql_product_media_identifier: "shopify_gql_product_media_data"
     shopify_gql_product_variant_media_identifier: "shopify_gql_product_variant_media_data"
     shopify_gql_product_tag_identifier: "shopify_gql_product_tag_data"
@@ -86,7 +85,6 @@ vars:
     shopify_gql_tender_transaction_identifier: "shopify_gql_tender_transaction_data"
     shopify_gql_abandoned_checkout_discount_code_identifier: "shopify_gql_abandoned_checkout_discount_code_data"
     shopify_gql_order_discount_code_identifier: "shopify_gql_order_discount_code_data"
-    shopify_gql_abandoned_checkout_shipping_line_identifier: "shopify_gql_abandoned_checkout_shipping_line_data"
     shopify_gql_fulfillment_event_identifier: "shopify_gql_fulfillment_event_data"
     shopify_gql_tax_line_identifier: "shopify_gql_tax_line_data"
     shopify_gql_fulfillment_tracking_info_identifier: "shopify_gql_fulfillment_tracking_info_data"
@@ -94,6 +92,7 @@ vars:
     shopify_gql_customer_visit_identifier: "shopify_gql_customer_visit_data"
     shopify_gql_customer_address_identifier: "shopify_gql_customer_address_data"
     shopify_gql_collection_rule_identifier: "shopify_gql_collection_rule_data"
+    shopify_gql_refund_line_item_identifier: "shopify_gql_refund_line_item_data"
 
 dispatch:
   - macro_namespace: dbt_utils
