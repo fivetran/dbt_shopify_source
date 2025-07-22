@@ -140,6 +140,14 @@ seeds:
         total_shipping_price_set_shop_amount: float
         total_tax_set_pres_amount: float
         total_tax_set_shop_amount: float
+        total_discounts_set_pres_amount: float
+        total_discounts_set_shop_amount: float
+        total_price_set_pres_amount: float
+        total_price_set_shop_amount: float
+        subtotal_price_set_pres_amount: float
+        subtotal_price_set_shop_amount: float
+        total_tip_received_set_pres_amount: float 
+        total_tip_received_set_shop_amount: float
     shopify_order_bq_json_data:
       +enabled: "{{ target.type == 'bigquery' }}"
       +column_types:
@@ -238,6 +246,16 @@ seeds:
         shipping_address_phone: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
         subtotal_price_set_pres_amount: float
         subtotal_price_set_shop_amount: float
+        total_discount_set_shop_amount: float
+        total_discount_set_pres_amount: float
+        total_duties_set_shop_amount: float 
+        total_duties_set_pres_amount: float
+        total_line_items_price_set_shop_amount: float 
+        total_line_items_price_set_pres_amount: float
+        total_price_set_shop_amount: float
+        total_price_set_pres_amount: float
+        total_tax_set_shop_amount: float 
+        total_tax_set_pres_amount: float
     shopify_order_discount_code_data:
       +column_types:
         order_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
