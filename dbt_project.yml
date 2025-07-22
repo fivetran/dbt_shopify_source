@@ -24,7 +24,6 @@ vars:
     transaction_source: "{{ source('shopify','transaction') }}"
     refund_source: "{{ source('shopify','refund') }}"
     order_adjustment_source: "{{ source('shopify','order_adjustment') }}"
-    
     abandoned_checkout_source: "{{ source('shopify','abandoned_checkout') }}"
     collection_product_source: "{{ source('shopify','collection_product') }}"
     collection_source: "{{ source('shopify','collection') }}" 
@@ -83,7 +82,6 @@ vars:
     gql_order_shipping_line_source: "{{ source('shopify_graphql','order_shipping_line') }}"
     gql_order_shipping_tax_line_source: "{{ source('shopify_graphql','order_shipping_tax_line') }}"
     gql_order_tag_source: "{{ source('shopify_graphql','order_tag') }}"
-    gql_order_url_tag_source: "{{ source('shopify_graphql','order_url_tag') }}"
     gql_product_media_source: "{{ source('shopify_graphql','product_media') }}"
     gql_product_variant_media_source: "{{ source('shopify_graphql','product_variant_media') }}"
     gql_product_tag_source: "{{ source('shopify_graphql','product_tag') }}"
@@ -91,10 +89,8 @@ vars:
     gql_tender_transaction_source: "{{ source('shopify_graphql','tender_transaction') }}"
     gql_abandoned_checkout_discount_code_source: "{{ source('shopify_graphql','abandoned_checkout_discount_code') }}" 
     gql_order_discount_code_source: "{{ source('shopify_graphql','order_discount_code') }}" 
-    gql_abandoned_checkout_shipping_line_source: "{{ source('shopify_graphql', 'abandoned_checkout_shipping_line') }}"
     gql_fulfillment_event_source: "{{ source('shopify_graphql', 'fulfillment_event') }}"
     gql_tax_line_source: "{{ source('shopify_graphql', 'tax_line') }}"
-    # new tables
     gql_fulfillment_tracking_info_source: "{{ source('shopify_graphql', 'fulfillment_tracking_info') }}"
     gql_fulfillment_order_line_item_source: "{{ source('shopify_graphql', 'fulfillment_order_line_item') }}"
     gql_customer_visit_source: "{{ source('shopify_graphql', 'customer_visit') }}"
