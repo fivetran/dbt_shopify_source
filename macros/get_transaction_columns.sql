@@ -68,6 +68,7 @@
     {"name": "payment_credit_card_number", "datatype": dbt.type_string()},
     {"name": "payment_cvv_result_code", "datatype": dbt.type_string()},
     {"name": "processed_at", "datatype": dbt.type_timestamp()},
+    {"name": "receipt_json", "datatype": dbt.type_string()},
     {"name": "refund_id", "datatype": dbt.type_int()},
     {"name": "staff_member_id", "datatype": dbt.type_int()},
     {"name": "status", "datatype": dbt.type_string()},
