@@ -1,3 +1,10 @@
+# dbt_shopify_source v0.18.2
+
+[PR #104](https://github.com/fivetran/dbt_shopify_source/pull/104) includes the following updates:
+
+## Bug Fixes
+- Removed the `not_null` test for the `image_id` field from the `stg_shopify__media_image`  model as this field may be empty.
+
 [PR #105](https://github.com/fivetran/dbt_shopify_source/pull/105) includes the following updates:
 
 ### Under the Hood - July 2025 Updates
