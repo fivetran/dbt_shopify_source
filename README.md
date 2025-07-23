@@ -27,9 +27,94 @@
 
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
-To use this dbt package, you must have the following:
-- At least one Fivetran Shopify connection syncing data into your destination.
-- A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
+To use this dbt package, you must have either at least one Fivetran REST API-based Shopify connection or one Fivetran GraphQL-based Shopify connection syncing these respective tables to your destination:
+
+#### Shopify REST API
+- customer
+- order_line_refund
+- order_line
+- order
+- product
+- product_variant
+- transaction
+- refund
+- order_adjustment
+- abandoned_checkout
+- collection_product
+- collection
+- customer_tag
+- discount_allocation
+- discount_application
+- discount_code_app
+- discount_code_basic
+- discount_code_bxgy
+- discount_code_free_shipping
+- discount_redeem_code
+- fulfillment
+- inventory_item
+- inventory_level
+- inventory_quantity
+- location
+- media
+- media_image
+- metafield
+- order_note_attribute
+- order_shipping_line
+- order_shipping_tax_line
+- order_tag
+- order_url_tag
+- product_media
+- product_variant_media
+- product_tag
+- shop
+- tender_transaction
+- abandoned_checkout_discount_code
+- order_discount_code
+- abandoned_checkout_shipping_line
+- fulfillment_event
+- tax_line
+
+#### Shopify GraphQL
+- collection_product
+- collection
+- customer_tag
+- discount_allocation
+- discount_application
+- discount_code_app
+- discount_code_basic
+- discount_code_bxgy
+- discount_code_free_shipping
+- discount_redeem_code
+- fulfillment
+- inventory_item
+- inventory_level
+- inventory_quantity
+- location
+- media
+- media_image
+- metafield
+- order_note_attribute
+- order_shipping_line
+- order_shipping_tax_line
+- order_tag
+- product_media
+- product_variant_media
+- product_tag
+- shop
+- tender_transaction
+- tax_line
+- order_discount_code
+- abandoned_checkout
+- abandoned_checkout_discount_code
+- fulfillment_event
+- fulfillment_tracking_info
+- fulfillment_order_line_item ------ maybe
+- customer_visit
+- customer_address
+- collection_rule
+
+#### Database Compatibility
+This package is compatible with either a **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
 #### Databricks dispatch configuration
 If you are using a Databricks destination with this package, you must add the following (or a variation of the following) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
@@ -75,20 +160,42 @@ To connect your multiple schema/database sources to the package models, follow t
 
 ### Step 4: Disable models for non-existent sources
 
-The package takes into consideration that not every Shopify connection may have the `fulfillment_event`, `metadata`, `discount_code_app`, `product_variant_media` or `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
+#### REST API
+> If your Shopify connection is leveraging the older Shopify REST API, refer to the following variables.
+
+The package takes into consideration that not every Shopify connection may have the `fulfillment_event`, `metafield`, `discount_code_app`, `product_variant_media` or `abandoned_checkout` tables (including `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
 
 vars:
-    shopify_using_fulfillment_event: true # false by default. 
-    shopify_using_metafield: false  #true by default.
-    shopify_using_discount_code_app: true #false by default.
-    shopify_using_product_variant_media: true #false by default.
-    shopify_using_abandoned_checkout: false # true by default. Setting to false will disable `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`.
+    shopify_using_fulfillment_event: true # FALSE by default. 
+    shopify_using_metafield: false  # TRUE by default.
+    shopify_using_discount_code_app: true # FALSE by default.
+    shopify_using_product_variant_media: true # FALSE by default.
+    shopify_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`.
 
 ```
 
+#### GraphQL API
+> If your Shopify connection is leveraging the newer Shopify GraphQL API, refer to the following variables.
+
+The package takes into consideration that not every Shopify connection may have the `collection_rule`, `customer_visit`, `fulfillment_event`, `fulfillment_tracking_info`, `metafield`, `discount_code_app`, `product_variant_media` or `abandoned_checkout` tables (including `abandoned_checkout` and `abandoned_checkout_discount_code`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+    shopify_gql_using_collection_rule: true # FALSE by default. 
+    shopify_gql_using_customer_visit: false # TRUE by default
+    shopify_gql_using_fulfillment_event: true # FALSE by default.
+    shopify_gql_using_fulfillment_tracking_info: true # FALSE by default.  
+    shopify_gql_using_metafield: false  # TRUE by default.
+    shopify_gql_using_discount_code_app: true # FALSE by default.
+    shopify_gql_using_product_variant_media: true # FALSE by default.
+    shopify_gql_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout` and `abandoned_checkout_discount_code`
+
+```
 
 ### Step 5: Setting your timezone
 By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation.

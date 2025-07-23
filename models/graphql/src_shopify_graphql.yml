@@ -1079,7 +1079,7 @@ sources:
         description: Table mapping product variants to their associated media.
         identifier: "{{ var('shopify_gql_product_variant_media_identifier', 'product_variant_media') }}"
         config:
-          enabled: "{{ var('shopify_using_product_variant_media', false) }}"    
+          enabled: "{{ var('shopify_gql_using_product_variant_media', false) }}"    
         columns:
           - name: product_variant_id
             description: The id of the product variant associated with the media.
@@ -1390,7 +1390,7 @@ sources:
           Table storing discount codes created and managed through apps using Shopify Functions. These app-based discounts support advanced, dynamic behavior and custom targeting.
         identifier: "{{ var('shopify_gql_discount_code_app_identifier', 'discount_code_app') }}"
         config:
-          enabled: "{{ var('shopify_using_discount_code_app', false) }}"    
+          enabled: "{{ var('shopify_gql_using_discount_code_app', false) }}"    
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
