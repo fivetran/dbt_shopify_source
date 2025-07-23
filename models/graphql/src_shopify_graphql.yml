@@ -1592,8 +1592,210 @@ sources:
           - name: discount_type
             description: The type of discount this redeem code is associated with (e.g., `discount_code_basic`, `discount_code_bxgy`).
 
+
       - name: fulfillment_tracking_info
+        description: Represents tracking information associated with a fulfillment. Used by Shopify to generate clickable tracking numbers and delivery updates.
+        identifier: "{{ var('shopify_gql_fulfillment_tracking_info_identifier', 'fulfillment_tracking_info') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: fulfillment_id
+            description: The unique identifier of the fulfillment this tracking info belongs to. 
+          - name: company
+            description: The name of the tracking company. For supported carriers, Shopify automatically builds tracking URLs and may update the shipment status. 
+          - name: number
+            description: Tracking number for the fulfillment. If a known tracking company is specified, or the number matches a known format, Shopify may auto-generate a tracking URL.
+          - name: url
+            description: Direct URL to track the fulfillment. This is displayed in the Shopify admin and customer notifications.
+          - name: updated_at
+            description: Timestamp indicating when the tracking info was last modified.
+          - name: index
+            description: The index of the tracking information associated with a fulfillment.
+
       - name: customer_visit
+        description: Metadata about a customer's session visiting a Shopify store, including session, landing page, referrer, marketing campaign, and source attribution information.
+          This data helps merchants analyze the effectiveness of marketing campaigns and customer engagement.
+        identifier: "{{ var('shopify_gql_customer_visit_identifier', 'customer_visit') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: A globally-unique identifier for the customer visit session.
+          - name: order_id
+            description: The ID of the order associated with the customer visit, if any.
+          - name: type
+            description: >
+              The type of marketing tactic associated with the session. 
+              Possible values include: abandoned_cart, ad, affiliate, link, loyalty, message, newsletter, notification, post, retargeting, seo, storefront_app, transactional.
+          - name: landing_page
+            description: The URL of the first page the customer landed on for the session.
+          - name: landing_page_html
+            description: The landing page URL rendered as HTML with a hyperlink.
+          - name: occurred_at
+            description: The timestamp when the customer's session occurred.
+          - name: referral_code
+            description: A marketing referral code captured from the landing URL. Supports query params like `ref`, `source`, or `r`.
+          - name: referral_info_html
+            description: Referral info rendered as HTML with URLs.
+          - name: referrer_url
+            description: The referring webpage where the customer clicked a link to arrive at the store.
+          - name: source
+            description: The origin of the customer's visit, such as a platform (e.g., Facebook, Google), a QR code, direct, or other attribution channels.
+          - name: source_description
+            description: A more descriptive label for the visit source; used primarily for the first or last session.
+          - name: source_type
+            description: The marketing tactic type, such as ad, seo, newsletter, etc.
+          - name: utm_parameters_campaign
+            description: The name of the marketing campaign.
+          - name: utm_parameters_content
+            description: Identifies specific content within a campaign, used to differentiate similar links.
+          - name: utm_parameters_medium
+            description: The medium of the campaign (e.g., cpc, banner, email).
+          - name: utm_parameters_source
+            description: The traffic source for the campaign (e.g., google, newsletter).
+          - name: utm_parameters_term
+            description: Search terms associated with paid campaigns.
+
       - name: collection_rule
+        description: >
+          Defines the rules used to automatically include products in a smart collection.
+          Each rule specifies a product attribute, a comparison relation, and a condition value to match against.
+          These rules are evaluated dynamically to determine collection membership without manual curation.
+        identifier: "{{ var('shopify_gql_collection_rule_identifier', 'collection_rule') }}"
+        config:
+          enabled: "{{ var('shopify_gql_using_collection_rule', false) }}"   
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: collection_id
+            description: The ID of the smart collection to which this rule applies.
+          - name: index
+            description: >
+              The position of the rule within the collection's rule set. 
+              Rules are evaluated in order and may be grouped depending on collection logic.
+          - name: condition
+            description: >
+              The value to compare against the attribute. For example, “Hats” if the rule is targeting products with a title containing “Hats”.
+              The interpretation depends on the associated `relation` and `columns` values.
+          - name: relation
+            description: >
+              The operator used to evaluate the rule. Common values include:
+              - `equals`
+              - `contains`
+              - `not_equals`
+              - `starts_with`
+              - `ends_with`
+              - `is_set`
+              - `is_not_set`
+              - `greater_than`
+              - `less_than`
+              - `not_contains`
+          - name: columns
+            description: >
+              The attribute being evaluated by the rule. Example values include:
+              - `title`
+              - `vendor`
+              - `tag`
+              - `variant_price`
+              - `product_category_id`
+              - `variant_compare_at_price`
+              - `variant_metafield_definition`
+              - `product_metafield_definition`
+              - `variant_weight`
+              - `type`
+              - `is_price_reduced`
+    
       - name: fulfillment_order_line_item
+        description: Links a fulfillment order to specific items that require fulfillment. Contains detailed product information, quantity tracking, variant metadata, and shipping requirements.
+          This is a core entity for determining which products and how many units are involved in a given fulfillment process.
+        identifier: "{{ var('shopify_gql_fulfillment_order_line_item_identifier', 'fulfillment_order_line_item') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: fulfillment_order_id
+            description: The identifier of the fulfillment order that this line item is associated with.
+          - name: id
+            description: A globally unique identifier for this fulfillment order line item.
+          - name: image_alt_text
+            description: Alt text describing the image associated with the line item's variant.
+          - name: image_height
+            description: The height in pixels of the variant image, if hosted by Shopify.
+          - name: image_id
+            description: The unique identifier for the variant image.
+          - name: image_url
+            description: The url of the variant image used in this fulfillment line item.
+          - name: image_width
+            description: The width in pixels of the variant image, if hosted by Shopify.
+          - name: inventory_item_id
+            description: The identifier of the inventory item being fulfilled.
+          - name: order_line_item_id
+            description: The identifier of the original order line item linked to this fulfillment.
+          - name: product_title
+            description: The title of the product at the time of order creation.
+          - name: product_variant_id
+            description: The identifier of the product variant associated with this fulfillment item.
+          - name: remaining_quantity
+            description: The number of units remaining to be fulfilled.
+          - name: requires_shipping
+            description: Indicates whether physical shipping is required for this item.
+          - name: sku
+            description: The SKU of the product variant.
+          - name: total_quantity
+            description: The total number of units allocated to this fulfillment.
+          - name: variant_title
+            description: The title of the product variant at the time of order creation.
+          - name: vendor
+            description: The vendor of the product variant.
+          - name: weight_unit
+            description: The unit of measurement for the weight of a single item (e.g., grams, ounces).
+          - name: weight_value
+            description: The numeric weight of a single unit of the line item using the specified `weight_unit`.
+
       - name: customer_address
+        description: Represents a customer's mailing address and includes additional geographic metadata.
+        identifier: "{{ var('shopify_gql_customer_address_identifier', 'customer_address') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: customer_id
+            description: The unique identifier of the customer to whom this address belongs.
+          - name: id
+            description: A globally unique identifier for the customer address.
+          - name: address_1
+            description: The first line of the address (e.g., street address or PO Box).
+          - name: address_2
+            description: The second line of the address (e.g., apartment, suite, or unit).
+          - name: city
+            description: The name of the city, district, village, or town for the address.
+          - name: company
+            description: The company or organization associated with the customer at this address.
+          - name: country
+            description: The full country name for the address.
+          - name: country_code
+            description: The two-letter ISO country code for the address.
+          - name: first_name
+            description: The customer's first name for this address.
+          - name: is_default
+            description: Indicates if this address is the default shipping address for the customer.
+          - name: last_name
+            description: The customer's last name for this address.
+          - name: latitude
+            description: The latitude coordinate of the address location.
+          - name: longitude
+            description: The longitude coordinate of the address location.
+          - name: name
+            description: The full name of the customer, derived from first and last name.
+          - name: phone
+            description: The customer’s phone number.
+          - name: province
+            description: The name of the region, state, or province for the address.
+          - name: province_code
+            description: The standardized zone or province code for the region.
+          - name: zip
+            description: The zip or postal code of the address.
+          - name: validation_result_summary
+            description: A summary of address validation results (e.g., match confidence or status).
+          - name: timezone
+            description: The timezone associated with the address, if available.
+          - name: coordinates_validated
+            description: Indicates whether the latitude and longitude coordinates were validated.

@@ -1543,9 +1543,12 @@ models:
       - name: type
         description: The type of discount. Valid values - percentage, shipping, fixed_amount. (default - fixed_amount)
       - name: updated_at
-        description: When the checkout's discount was last updated
+        description: When the checkout's discount was last updated.
+      - name: index
+        description: Index of the discount codes from abandoned checkouts.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+
 
   - name: stg_shopify__order_discount_code
     description: Discount codes placed on orders.

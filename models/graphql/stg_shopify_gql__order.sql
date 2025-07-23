@@ -60,7 +60,7 @@ final as (
         location_id,
         name,
         note,
-        {# number and order_number aren't included rn #}
+        {# number and order_number are not included rn #}
         cancel_reason,
         {# cart_token and checkout_token are deprecated #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
