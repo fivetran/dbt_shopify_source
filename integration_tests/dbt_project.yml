@@ -92,6 +92,7 @@ vars:
     shopify_gql_customer_visit_identifier: "shopify_gql_customer_visit_data"
     shopify_gql_customer_address_identifier: "shopify_gql_customer_address_data"
     shopify_gql_collection_rule_identifier: "shopify_gql_collection_rule_data"
+    shopify_gql_refund_line_item_identifier: "shopify_gql_refund_line_item_data"
 
 dispatch:
   - macro_namespace: dbt_utils
