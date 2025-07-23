@@ -921,3 +921,450 @@ models:
         description: The date and time (ISO 8601 format) when the fulfillment was last modified.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__fulfillment_event
+    description: >
+      The FulfillmentEvent resource represents tracking events that belong to a fulfillment of one or more items in an order. 
+      Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_event_id
+            - source_relation    
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: address_1
+        description: The street address where the fulfillment event occurred.
+      - name: city
+        description: The city where the fulfillment event occurred.
+      - name: country
+        description: The country where the fulfillment event occurred.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the fulfillment event was created.
+      - name: estimated_delivery_at
+        description: >
+          The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
+          Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
+      - name: fulfillment_id
+        description: An ID for the fulfillment that's associated with the fulfillment event.
+      - name: happened_at
+        description: The date and time (ISO 8601 format) when the fulfillment event occurred.
+      - name: fulfillment_event_id
+        description: An ID for the fulfillment event.
+      - name: latitude
+        description: A geographic coordinate specifying the latitude of the fulfillment event.
+      - name: longitude
+        description: A geographic coordinate specifying the longitude of the fulfillment event.
+      - name: message
+        description: An arbitrary message describing the status. Can be provided by a shipping carrier.
+      - name: province
+        description: The province where the fulfillment event occurred.
+      - name: status
+        description: >
+          The status of the fulfillment event. Valid values:
+          - label_printed: A label for the shipment was purchased and printed.
+          - label_purchased: A label for the shipment was purchased, but not printed.
+          - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
+          - ready_for_pickup: The shipment is ready for pickup at a shipping depot.
+          - picked_up: The fulfillment was successfully picked up.
+          - confirmed: The carrier is aware of the shipment, but hasn't received it yet.
+          - in_transit: The shipment is being transported between shipping facilities on the way to its destination.
+          - out_for_delivery: The shipment is being delivered to its final destination.
+          - delivered: The shipment was successfully delivered.
+          - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+        tests:
+          - accepted_values:
+              values:  ['attempted_delivery', 'delayed', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
+              config:
+                severity: warn # we pivot these out in shopify__daily_shop
+      - name: zip
+        description: The zip code of the location where the fulfillment event occurred.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__fulfillment_order_line_item
+    description: Links a fulfillment order to specific items that require fulfillment. Contains detailed product information, quantity tracking, variant metadata, and shipping requirements.
+      This is a core entity for determining which products and how many units are involved in a given fulfillment process.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_order_line_item_id
+            - source_relation
+    columns:
+        - name: _fivetran_synced
+          description: "{{ doc('_fivetran_synced') }}"
+        - name: fulfillment_order_line_item_id
+          description: A globally unique identifier for this fulfillment order line item.
+        - name: fulfillment_order_id
+          description: The identifier of the fulfillment order that this line item is associated with.
+        - name: image_alt_text
+          description: Alt text describing the image associated with the line item's variant.
+        - name: image_height
+          description: The height in pixels of the variant image, if hosted by Shopify.
+        - name: image_id
+          description: The unique identifier for the variant image.
+        - name: image_url
+          description: The url of the variant image used in this fulfillment line item.
+        - name: image_width
+          description: The width in pixels of the variant image, if hosted by Shopify.
+        - name: inventory_item_id
+          description: The identifier of the inventory item being fulfilled.
+        - name: order_line_item_id
+          description: The identifier of the original order line item linked to this fulfillment.
+        - name: product_title
+          description: The title of the product at the time of order creation.
+        - name: product_variant_id
+          description: The identifier of the product variant associated with this fulfillment item.
+        - name: remaining_quantity
+          description: The number of units remaining to be fulfilled.
+        - name: requires_shipping
+          description: Indicates whether physical shipping is required for this item.
+        - name: sku
+          description: The SKU of the product variant.
+        - name: total_quantity
+          description: The total number of units allocated to this fulfillment.
+        - name: variant_title
+          description: The title of the product variant at the time of order creation.
+        - name: vendor
+          description: The vendor of the product variant.
+        - name: weight_unit
+          description: The unit of measurement for the weight of a single item (e.g., grams, ounces).
+        - name: weight_value
+          description: The numeric weight of a single unit of the line item using the specified `weight_unit`.
+        - name: source_relation
+          description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__fulfillment_tracking_info
+    description: Represents tracking information associated with a fulfillment. Used by Shopify to generate clickable tracking numbers and delivery updates.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_id
+            - index
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: fulfillment_id
+        description: The unique identifier of the fulfillment this tracking info belongs to. 
+      - name: company
+        description: The name of the tracking company. For supported carriers, Shopify automatically builds tracking URLs and may update the shipment status. 
+      - name: number
+        description: Tracking number for the fulfillment. If a known tracking company is specified, or the number matches a known format, Shopify may auto-generate a tracking URL.
+      - name: url
+        description: Direct URL to track the fulfillment. This is displayed in the Shopify admin and customer notifications.
+      - name: updated_at
+        description: Timestamp indicating when the tracking info was last modified.
+      - name: index
+        description: The index of the tracking information associated with a fulfillment.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__inventory_item
+    description: >
+      An inventory item represents a physical good. It holds essential information about the physical good, including its SKU and whether its inventory is tracked.
+      There is a 1:1 relationship between a product variant and an inventory item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_item_id
+            - source_relation
+    columns:
+      - name: inventory_item_id
+        description: The ID of the inventory item.
+        tests: 
+          - not_null
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: country_code_of_origin
+        description: The country code (ISO 3166-1 alpha-2) of where the item came from.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the inventory item was created.
+      - name: province_code_of_origin
+        description: The province code (ISO 3166-2 alpha-2) of where the item came from. The province code is only used if the shipping provider for the inventory item is Canada Post.
+      - name: is_shipping_required
+        description: Boolean representing whether a customer needs to provide a shipping address when placing an order containing the inventory item.
+      - name: sku
+        description: The unique SKU (stock keeping unit) of the inventory item.
+      - name: is_inventory_quantity_tracked
+        description: Boolean representing whether inventory levels are tracked for the item. If true, then the inventory quantity changes are tracked by Shopify.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the inventory item was last modified.
+      - name: duplicate_sku_count
+        description: The number of inventory items that share the same SKU with this item.
+      - name: harmonized_system_code
+        description: The harmonized system code of the item.
+      - name: inventory_history_url
+        description: The URL that points to the inventory history for the item.
+      - name: legacy_resource_id
+        description: The ID of the corresponding resource in the REST Admin API.
+      - name: measurement_id
+        description: The unique identifier for the inventory item's measurement.
+      - name: measurement_weight_value
+        description: The weight value of the inventory item's measurement.
+      - name: measurement_weight_unit
+        description: The unit of measurement for the inventory item's weight.
+      - name: tracked_editable_locked
+        description: Indicates whether the 'tracked' field for the inventory item is locked from editing.
+      - name: tracked_editable_reason
+        description: Provides the reason why the 'tracked' field for the inventory item is locked from editing.
+      - name: unit_cost_amount
+        description: Decimal money amount of the unit cost associated with the inventory item.
+      - name: unit_cost_currency_code
+        description: Currency of the unit cost associated with the inventory item. 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__inventory_level
+    description: >
+      An inventory level represents the quantities of an inventory item for a location.
+      Each inventory level belongs to one inventory item and has one location. For every location where an inventory item can be stocked, there's an inventory level that represents 
+      the inventory item's quantities relating to that location.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_level_id
+            - inventory_item_id
+            - location_id
+            - source_relation
+    columns:
+      - name: inventory_level_id
+        description: A globally unique identifier for the inventory level.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: inventory_item_id
+        description: The ID of the inventory item associated with the inventory level.
+      - name: location_id
+        description: The ID of the location that the inventory level belongs to.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the inventory level was last modified.
+      - name: can_deactivate
+        description: Indicates whether the inventory item can be deactivated at the location.
+      - name: created_at
+        description: The date and time when the inventory level was created.
+      - name: deactivation_alert
+        description: Provides an alert message when the inventory item is deactivated at the location.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__inventory_quantity
+    description: The total quantity of the inventory item available at all locations.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_quantity_id
+            - inventory_item_id
+            - inventory_level_id
+            - inventory_state_name
+            - source_relation
+    columns:
+      - name: inventory_quantity_id
+        description: The unique identifier for the record.
+      - name: inventory_item_id
+        description: The ID of the inventory item associated with this record.
+      - name: inventory_level_id
+        description: The ID of the inventory level where this item is stored.
+      - name: inventory_state_name
+        description: The name of the inventory state associated with the record. [Link to list of expected values](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states).
+      - name: quantity
+        description: The available quantity of the inventory item.
+      - name: updated_at
+        description: The timestamp of the last update to the inventory record.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__location
+    description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - location_id
+            - source_relation    
+    columns:
+      - name: location_id
+        description: The ID of the location. 
+        tests:
+          - not_null
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: is_active
+        description: >
+          Boolean representing whether the location is active. If true, then the location can be used to sell products, stock inventory, and fulfill orders.
+      - name: address_1
+        description: The location's street address.
+      - name: address_2
+        description: The optional second line of the location's street address.
+      - name: city
+        description: The city the location is in.
+      - name: country_name
+        description: The country the location is in (two-letter code).
+      - name: country
+        description: The two-letter code (ISO 3166-1 alpha-2 format) corresponding to country the location is in, this matches the REST API.
+      - name: country_code
+        description: The two-letter code (ISO 3166-1 alpha-2 format) corresponding to country the location is in.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the location was created.
+      - name: is_fulfillment_service
+        description: Whether this location is a fulfillment service. 
+      - name: phone
+        description: The phone number of the location. This value can contain special characters, such as - or +.
+      - name: province
+        description: The province, state, or district of the location.
+      - name: province_code
+        description: The province, state, or district code (ISO 3166-2 alpha-2 format) of the location.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the location was last updated.
+      - name: zip
+        description: The zip or postal code.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__media
+    description: Table storing media metadata, including status and timestamps. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - media_id
+            - source_relation       
+    columns:
+      - name: media_id
+        description: The unique identifier for the media associated with a product image.
+        tests:
+          - not_null
+      - name: status
+        description: The status of the product image, indicating its availability or processing state.
+      - name: created_at
+        description: The date and time when the media was created. The API returns this value in ISO 8601 format.
+      - name: updated_at
+        description: The date and time when the media was last modified. The API returns this value in ISO 8601 format.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__media_image
+    description: Table storing image-specific properties for media assets. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - media_id
+            - image_id
+            - source_relation
+    columns:
+      - name: media_id
+        description: The unique identifier for the media associated with the product image.
+        tests:
+          - not_null
+      - name: image_id
+        description: Unique numeric identifier of the product image.
+      - name: image_alt_text
+        description: A word or phrase to share the nature or contents of an image.
+      - name: image_height
+        description: Height dimension of the image which is determined on upload.
+      - name: image_width
+        description: Width dimension of the image which is determined on upload.
+      - name: image_url
+        description: The URL of the product image, hashed for privacy.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__metafield
+    description: >
+      Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
+      downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - metafield_id
+            - source_relation    
+    columns:
+      - name: metafield_id
+        description: The unique ID of the metafield.
+        tests: 
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the metafield was created.
+      - name: description
+        description: A description of the information that the metafield contains.
+      - name: key
+        description: The key of the metafield. Keys can be up to 64 characters long and can contain alphanumeric characters, hyphens, underscores, and periods.
+      - name: namespace
+        description: A container for a group of metafields. Grouping metafields within a namespace prevents your metafields from conflicting with other metafields with the same key name. Must have between 3-255 characters.
+      - name: owner_resource_id
+        description: The unique ID of the resource that the metafield is attached to.
+      - name: owner_resource
+        description: The type of resource (table) that the metafield is attached to.
+      - name: type
+        description: The type of data that the metafield stores in the `value` field. Refer to the [list](https://shopify.dev/apps/metafields/types) of supported types. Use this instead of `value_type`.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the metafield was last updated.
+      - name: value
+        description: The data to store in the metafield. The value is always stored as a string, regardless of the metafield's type.
+      - name: value_type
+        description: DEPRECATED as of [June 2022](https://fivetran.com/docs/applications/shopify/changelog#june2022). Use `type` instead. 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__product_media
+    description: Table mapping products to their associated media.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - media_id
+            - source_relation
+    columns:
+      - name: product_id
+        description: The id of the product associated with the media.
+        tests:
+          - not_null
+      - name: media_id
+        description: The unique identifier for the media asset linked to the product.
+        tests:
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__order_adjustment 
+    description: Each record represents and adjustment to and order within Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_adjustment_id
+            - source_relation
+    columns:
+      - name: order_adjustment_id
+        description: The unique numeric identifier for the order adjustment.
+      - name: refund_id
+        description: Reference to the refund which the adjustment is associated. 
+      - name: amount_pres
+        description: The amount of the order adjustment in the currency the customer purchased in.
+      - name: amount_pres_currency_code
+        description: The three letter currency code for the order adjustment.
+      - name: amount_shop
+        description: The amount of the order adjustment in the shop's currency.
+      - name: amount_shop_currency_code
+        description: The three letter shop currency code of the order adjustment.
+      - name: reason
+        description: The reason for the order adjustment.
+      - name: tax_amount_pres
+        description: The tax amount of the order adjustment in the currency the customer purchased in.
+      - name: tax_amount_pres_currency_code
+        description: The three letter currency code for the tax of the order adjustment.
+      - name: tax_amount_shop
+        description: The tax amount of the order adjustment in the shop's currency.
+      - name: tax_amount_shop_currency_code
+        description: The three letter shop currency code of the tax for the order adjustment.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"      
