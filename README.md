@@ -186,15 +186,14 @@ The package takes into consideration that not every Shopify connection may have 
 # dbt_project.yml
 
 vars:
-    shopify_gql_using_collection_rule: true # FALSE by default. 
-    shopify_gql_using_customer_visit: false # TRUE by default
     shopify_gql_using_fulfillment_event: true # FALSE by default.
     shopify_gql_using_fulfillment_tracking_info: true # FALSE by default.  
     shopify_gql_using_metafield: false  # TRUE by default.
     shopify_gql_using_discount_code_app: true # FALSE by default.
     shopify_gql_using_product_variant_media: true # FALSE by default.
     shopify_gql_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout` and `abandoned_checkout_discount_code`
-
+    shopify_gql_using_collection_rule: true # FALSE by default. 
+    shopify_gql_using_customer_visit: false # TRUE by default
 ```
 
 ### Step 5: Setting your timezone
