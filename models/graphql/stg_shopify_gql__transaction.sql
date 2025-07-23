@@ -31,7 +31,7 @@ final as (
         {# amount is split out #}
         amount_set_pres_amount as amount_pres,
         amount_set_shop_amount as amount_shop,
-        {# no device_id rn #}
+        {# no device_id #}
         gateway,
         {# no source_name - join from order #}
         {# no message #}

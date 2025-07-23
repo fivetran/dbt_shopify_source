@@ -130,7 +130,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.18.0", "<0.19.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.19.0", "<0.20.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -180,20 +180,21 @@ vars:
 #### GraphQL API
 > If your Shopify connection is leveraging the newer Shopify GraphQL API, refer to the following variables.
 
-The package takes into consideration that not every Shopify connection may have the `collection_rule`, `customer_visit`, `fulfillment_event`, `fulfillment_tracking_info`, `metafield`, `discount_code_app`, `product_variant_media` or `abandoned_checkout` tables (including `abandoned_checkout` and `abandoned_checkout_discount_code`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
+The package takes into consideration that not every Shopify connection may have the `collection_rule`, `customer_visit`, `fulfillment_event`, `fulfillment_tracking_info`, `fulfillment_order_line_item`, `metafield`, `discount_code_app`, `product_variant_media` or `abandoned_checkout` tables (including `abandoned_checkout` and `abandoned_checkout_discount_code`) and allows you to enable or disable the corresponding functionality. To enable/disable the modeling of the mentioned source tables and their downstream references, add the following variable to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
 
 vars:
     shopify_gql_using_fulfillment_event: true # FALSE by default.
-    shopify_gql_using_fulfillment_tracking_info: true # FALSE by default.  
     shopify_gql_using_metafield: false  # TRUE by default.
     shopify_gql_using_discount_code_app: true # FALSE by default.
     shopify_gql_using_product_variant_media: true # FALSE by default.
     shopify_gql_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout` and `abandoned_checkout_discount_code`
     shopify_gql_using_collection_rule: true # FALSE by default. 
     shopify_gql_using_customer_visit: false # TRUE by default
+    shopify_gql_using_fulfillment_order_line_item: false # TRUE by default
+    shopify_gql_using_fulfillment_tracking_info: true # FALSE by default.  
 ```
 
 ### Step 5: Setting your timezone

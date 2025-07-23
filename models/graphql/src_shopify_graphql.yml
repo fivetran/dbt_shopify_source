@@ -523,6 +523,7 @@ sources:
       - name: abandoned_checkout
         description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
         identifier: "{{ var('shopify_gql_abandoned_checkout_identifier', 'abandoned_checkout') }}"
+        # TODO add enabled flag 
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
