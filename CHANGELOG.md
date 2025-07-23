@@ -1,3 +1,22 @@
+# dbt_shopify_source v0.18.2
+
+[PR #104](https://github.com/fivetran/dbt_shopify_source/pull/104) includes the following updates:
+
+## Bug Fixes
+- Removed the `not_null` test for the `image_id` field from the `stg_shopify__media_image`  model as this field may be empty.
+
+[PR #105](https://github.com/fivetran/dbt_shopify_source/pull/105) includes the following updates:
+
+### Under the Hood - July 2025 Updates
+
+- Updated conditions in `.github/workflows/auto-release.yml`.
+- Added `.github/workflows/generate-docs.yml`.
+- Migrated `flags` (e.g., `send_anonymous_usage_stats`, `use_colors`) from `sample.profiles.yml` to `integration_tests/dbt_project.yml`.
+- Updated `maintainer_pull_request_template.md` with improved checklist.
+- Refreshed README tag block:
+- Updated Python image version to `3.10.13` in `pipeline.yml`.
+- Updated `.gitignore` to exclude additional DBT, Python, and system artifacts.
+
 # dbt_shopify_source v0.18.1
 
 [PR #103](https://github.com/fivetran/dbt_shopify_source/pull/103) includes the following updates:
