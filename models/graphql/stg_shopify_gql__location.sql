@@ -46,23 +46,6 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
-
-
-        {# new fields
-        activatable,
-        address_verified,
-        deactivatable,
-        deactivated_at,
-        deletable,
-        fulfillment_service_id,
-        fulfills_online_orders,
-        has_active_inventory,
-        has_unfulfilled_orders,
-        latitude,
-        local_pickup_settings_instructions,
-        local_pickup_settings_pickup_time,
-        longitude,
-        ships_inventory #}
         
     from fields
 )

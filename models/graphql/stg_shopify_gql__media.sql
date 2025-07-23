@@ -31,17 +31,6 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         source_relation
 
-        {# new fields
-        alt,
-        file_status,
-        media_content_type,
-        preview_image_alt_text,
-        preview_image_height,
-        preview_image_id,
-        preview_image_url,
-        preview_image_width,
-        preview_status #}
-
     from fields
 )
 
