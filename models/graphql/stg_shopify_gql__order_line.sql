@@ -30,7 +30,7 @@ final as (
         row_number() over(partition by order_id, source_relation order by id asc) as index,
         name,
         order_id,
-        unfulfilled_quantity as fulfillable_quantity, -- actually maybe use fulfillment_line_item.remaining_quantity? https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem#field-LineItem.fields.fulfillableQuantity
+        {# unfulfilled_quantity as fulfillable_quantity, -- actually shopify says to use fulfillment_line_item.remaining_quantity https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem#field-LineItem.fields.fulfillableQuantity #}
         case 
             when unfulfilled_quantity = 0 then 'fulfilled'
             when unfulfilled_quantity > 0 and unfulfilled_quantity < quantity then 'partial'

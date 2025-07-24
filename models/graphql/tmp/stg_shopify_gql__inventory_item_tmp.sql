@@ -9,6 +9,7 @@
         default_schema='shopify',
         default_variable='gql_inventory_item_source',
         union_schema_variable='shopify_union_schemas',
-        union_database_variable='shopify_union_databases'
+        union_database_variable='shopify_union_databases',
+        shopify_model_api='graphql'
     )
 }}

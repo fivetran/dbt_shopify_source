@@ -1,4 +1,4 @@
-{%- macro shopify_union_data(table_identifier, database_variable, schema_variable, default_database, default_schema, default_variable, union_schema_variable='union_schemas', union_database_variable='union_databases') -%}
+{%- macro shopify_union_data(table_identifier, database_variable, schema_variable, default_database, default_schema, default_variable, union_schema_variable='union_schemas', union_database_variable='union_databases', shopify_model_api='rest') -%}
 
 {{ adapter.dispatch('shopify_union_data', 'shopify_source') (
     table_identifier, 
@@ -8,7 +8,8 @@
     default_schema,
     default_variable,
     union_schema_variable,
-    union_database_variable
+    union_database_variable,
+    shopify_model_api
     ) }}
 
 {%- endmacro -%}
@@ -21,7 +22,8 @@
     default_schema, 
     default_variable,
     union_schema_variable,
-    union_database_variable
+    union_database_variable,
+    shopify_model_api
     ) -%}
 
 {%- if var(union_schema_variable, none) -%}
@@ -108,14 +110,14 @@
         {% endfor %}
     {% else %}
         {# In order for this macro to effectively work within upstream integration tests (mainly used by the Fivetran dbt package maintainers), this identifier variable selection is required to use the macro with different identifier names. #}
-        {% set identifier_var = default_schema + "_" + table_identifier + "_identifier"  %}
+        {% set identifier_var = default_schema + ('_gql_' if shopify_model_api == 'graphql' else '_') + table_identifier + "_identifier"  %}
         {# Unfortunately the Twitter Organic identifiers were misspelled. As such, we will need to account for this in the model. This will be adjusted in the Twitter Organic package, but to ensure backwards compatibility, this needs to be included. #}
         {% if var(identifier_var, none) is none %} 
             {% set identifier_var = default_schema + "_" + table_identifier + "_identifer"  %}
         {% endif %}
         {%- set relation.value=adapter.get_relation(
-            database=source(default_schema ~ ('_graphql' if var('shopify_api', 'rest') == 'graphql' else ''), table_identifier).database,
-            schema=source(default_schema ~ ('_graphql' if var('shopify_api', 'rest') == 'graphql' else ''), table_identifier).schema,
+            database=source(default_schema ~ ('_graphql' if shopify_model_api == 'graphql' else ''), table_identifier).database,
+            schema=source(default_schema ~ ('_graphql' if shopify_model_api == 'graphql' else ''), table_identifier).schema,
             identifier=var(identifier_var, table_identifier)
         ) -%}
     {% endif %}

@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_api', 'rest') == var('shopify_api_override','graphql')) }}
+{{ config(enabled=(var('shopify_gql_using_fulfillment_order_line_item', True) and var('shopify_api', 'rest') == var('shopify_api_override','graphql'))) }}
 
 {{
     shopify_source.shopify_union_data(
@@ -9,6 +9,7 @@
         default_schema='shopify',
         default_variable='gql_fulfillment_order_line_item_source',
         union_schema_variable='shopify_union_schemas',
-        union_database_variable='shopify_union_databases'
+        union_database_variable='shopify_union_databases',
+        shopify_model_api='graphql'
     )
 }}

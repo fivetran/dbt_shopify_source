@@ -119,7 +119,7 @@ final as (
         presentment_currency_code as presentment_currency,
         test as is_test_order,
         _fivetran_deleted as is_deleted,
-        customer_accepts_marketing as buyer_accepts_marketing,
+        customer_accepts_marketing as has_buyer_accepted_marketing,
         confirmed as is_confirmed,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
