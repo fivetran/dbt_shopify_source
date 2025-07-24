@@ -921,3 +921,1203 @@ models:
         description: The date and time (ISO 8601 format) when the fulfillment was last modified.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__fulfillment_event
+    description: >
+      The FulfillmentEvent resource represents tracking events that belong to a fulfillment of one or more items in an order. 
+      Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_event_id
+            - source_relation    
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: address_1
+        description: The street address where the fulfillment event occurred.
+      - name: city
+        description: The city where the fulfillment event occurred.
+      - name: country
+        description: The country where the fulfillment event occurred.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the fulfillment event was created.
+      - name: estimated_delivery_at
+        description: >
+          The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
+          Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
+      - name: fulfillment_id
+        description: An ID for the fulfillment that's associated with the fulfillment event.
+      - name: happened_at
+        description: The date and time (ISO 8601 format) when the fulfillment event occurred.
+      - name: fulfillment_event_id
+        description: An ID for the fulfillment event.
+      - name: latitude
+        description: A geographic coordinate specifying the latitude of the fulfillment event.
+      - name: longitude
+        description: A geographic coordinate specifying the longitude of the fulfillment event.
+      - name: message
+        description: An arbitrary message describing the status. Can be provided by a shipping carrier.
+      - name: province
+        description: The province where the fulfillment event occurred.
+      - name: status
+        description: >
+          The status of the fulfillment event. Valid values:
+          - label_printed: A label for the shipment was purchased and printed.
+          - label_purchased: A label for the shipment was purchased, but not printed.
+          - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
+          - ready_for_pickup: The shipment is ready for pickup at a shipping depot.
+          - picked_up: The fulfillment was successfully picked up.
+          - confirmed: The carrier is aware of the shipment, but hasn't received it yet.
+          - in_transit: The shipment is being transported between shipping facilities on the way to its destination.
+          - out_for_delivery: The shipment is being delivered to its final destination.
+          - delivered: The shipment was successfully delivered.
+          - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+        tests:
+          - accepted_values:
+              values:  ['attempted_delivery', 'delayed', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
+              config:
+                severity: warn # we pivot these out in shopify__daily_shop
+      - name: zip
+        description: The zip code of the location where the fulfillment event occurred.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__fulfillment_order_line_item
+    description: Links a fulfillment order to specific items that require fulfillment. Contains detailed product information, quantity tracking, variant metadata, and shipping requirements.
+      This is a core entity for determining which products and how many units are involved in a given fulfillment process.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_order_line_item_id
+            - source_relation
+    columns:
+        - name: _fivetran_synced
+          description: "{{ doc('_fivetran_synced') }}"
+        - name: fulfillment_order_line_item_id
+          description: A globally unique identifier for this fulfillment order line item.
+        - name: fulfillment_order_id
+          description: The identifier of the fulfillment order that this line item is associated with.
+        - name: image_alt_text
+          description: Alt text describing the image associated with the line item's variant.
+        - name: image_height
+          description: The height in pixels of the variant image, if hosted by Shopify.
+        - name: image_id
+          description: The unique identifier for the variant image.
+        - name: image_url
+          description: The url of the variant image used in this fulfillment line item.
+        - name: image_width
+          description: The width in pixels of the variant image, if hosted by Shopify.
+        - name: inventory_item_id
+          description: The identifier of the inventory item being fulfilled.
+        - name: order_line_item_id
+          description: The identifier of the original order line item linked to this fulfillment.
+        - name: product_title
+          description: The title of the product at the time of order creation.
+        - name: product_variant_id
+          description: The identifier of the product variant associated with this fulfillment item.
+        - name: remaining_quantity
+          description: The number of units remaining to be fulfilled.
+        - name: requires_shipping
+          description: Indicates whether physical shipping is required for this item.
+        - name: sku
+          description: The SKU of the product variant.
+        - name: total_quantity
+          description: The total number of units allocated to this fulfillment.
+        - name: variant_title
+          description: The title of the product variant at the time of order creation.
+        - name: vendor
+          description: The vendor of the product variant.
+        - name: weight_unit
+          description: The unit of measurement for the weight of a single item (e.g., grams, ounces).
+        - name: weight_value
+          description: The numeric weight of a single unit of the line item using the specified `weight_unit`.
+        - name: source_relation
+          description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__fulfillment_tracking_info
+    description: Represents tracking information associated with a fulfillment. Used by Shopify to generate clickable tracking numbers and delivery updates.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fulfillment_id
+            - index
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: fulfillment_id
+        description: The unique identifier of the fulfillment this tracking info belongs to. 
+      - name: company
+        description: The name of the tracking company. For supported carriers, Shopify automatically builds tracking URLs and may update the shipment status. 
+      - name: number
+        description: Tracking number for the fulfillment. If a known tracking company is specified, or the number matches a known format, Shopify may auto-generate a tracking URL.
+      - name: url
+        description: Direct URL to track the fulfillment. This is displayed in the Shopify admin and customer notifications.
+      - name: updated_at
+        description: Timestamp indicating when the tracking info was last modified.
+      - name: index
+        description: The index of the tracking information associated with a fulfillment.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__inventory_item
+    description: >
+      An inventory item represents a physical good. It holds essential information about the physical good, including its SKU and whether its inventory is tracked.
+      There is a 1:1 relationship between a product variant and an inventory item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_item_id
+            - source_relation
+    columns:
+      - name: inventory_item_id
+        description: The ID of the inventory item.
+        tests: 
+          - not_null
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: country_code_of_origin
+        description: The country code (ISO 3166-1 alpha-2) of where the item came from.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the inventory item was created.
+      - name: province_code_of_origin
+        description: The province code (ISO 3166-2 alpha-2) of where the item came from. The province code is only used if the shipping provider for the inventory item is Canada Post.
+      - name: is_shipping_required
+        description: Boolean representing whether a customer needs to provide a shipping address when placing an order containing the inventory item.
+      - name: sku
+        description: The unique SKU (stock keeping unit) of the inventory item.
+      - name: is_inventory_quantity_tracked
+        description: Boolean representing whether inventory levels are tracked for the item. If true, then the inventory quantity changes are tracked by Shopify.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the inventory item was last modified.
+      - name: duplicate_sku_count
+        description: The number of inventory items that share the same SKU with this item.
+      - name: harmonized_system_code
+        description: The harmonized system code of the item.
+      - name: inventory_history_url
+        description: The URL that points to the inventory history for the item.
+      - name: legacy_resource_id
+        description: The ID of the corresponding resource in the REST Admin API.
+      - name: measurement_id
+        description: The unique identifier for the inventory item's measurement.
+      - name: measurement_weight_value
+        description: The weight value of the inventory item's measurement.
+      - name: measurement_weight_unit
+        description: The unit of measurement for the inventory item's weight.
+      - name: tracked_editable_locked
+        description: Indicates whether the 'tracked' field for the inventory item is locked from editing.
+      - name: tracked_editable_reason
+        description: Provides the reason why the 'tracked' field for the inventory item is locked from editing.
+      - name: unit_cost_amount
+        description: Decimal money amount of the unit cost associated with the inventory item.
+      - name: unit_cost_currency_code
+        description: Currency of the unit cost associated with the inventory item. 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__inventory_level
+    description: >
+      An inventory level represents the quantities of an inventory item for a location.
+      Each inventory level belongs to one inventory item and has one location. For every location where an inventory item can be stocked, there's an inventory level that represents 
+      the inventory item's quantities relating to that location.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_level_id
+            - inventory_item_id
+            - location_id
+            - source_relation
+    columns:
+      - name: inventory_level_id
+        description: A globally unique identifier for the inventory level.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: inventory_item_id
+        description: The ID of the inventory item associated with the inventory level.
+      - name: location_id
+        description: The ID of the location that the inventory level belongs to.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the inventory level was last modified.
+      - name: can_deactivate
+        description: Indicates whether the inventory item can be deactivated at the location.
+      - name: created_at
+        description: The date and time when the inventory level was created.
+      - name: deactivation_alert
+        description: Provides an alert message when the inventory item is deactivated at the location.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__inventory_quantity
+    description: The total quantity of the inventory item available at all locations.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - inventory_quantity_id
+            - inventory_item_id
+            - inventory_level_id
+            - inventory_state_name
+            - source_relation
+    columns:
+      - name: inventory_quantity_id
+        description: The unique identifier for the record.
+      - name: inventory_item_id
+        description: The ID of the inventory item associated with this record.
+      - name: inventory_level_id
+        description: The ID of the inventory level where this item is stored.
+      - name: inventory_state_name
+        description: The name of the inventory state associated with the record. [Link to list of expected values](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states).
+      - name: quantity
+        description: The available quantity of the inventory item.
+      - name: updated_at
+        description: The timestamp of the last update to the inventory record.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__location
+    description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - location_id
+            - source_relation    
+    columns:
+      - name: location_id
+        description: The ID of the location. 
+        tests:
+          - not_null
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: is_active
+        description: >
+          Boolean representing whether the location is active. If true, then the location can be used to sell products, stock inventory, and fulfill orders.
+      - name: address_1
+        description: The location's street address.
+      - name: address_2
+        description: The optional second line of the location's street address.
+      - name: city
+        description: The city the location is in.
+      - name: country_name
+        description: The country the location is in (two-letter code).
+      - name: country
+        description: The two-letter code (ISO 3166-1 alpha-2 format) corresponding to country the location is in, this matches the REST API.
+      - name: country_code
+        description: The two-letter code (ISO 3166-1 alpha-2 format) corresponding to country the location is in.
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the location was created.
+      - name: is_fulfillment_service
+        description: Whether this location is a fulfillment service. 
+      - name: phone
+        description: The phone number of the location. This value can contain special characters, such as - or +.
+      - name: province
+        description: The province, state, or district of the location.
+      - name: province_code
+        description: The province, state, or district code (ISO 3166-2 alpha-2 format) of the location.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the location was last updated.
+      - name: zip
+        description: The zip or postal code.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__media
+    description: Table storing media metadata, including status and timestamps. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - media_id
+            - source_relation       
+    columns:
+      - name: media_id
+        description: The unique identifier for the media associated with a product image.
+        tests:
+          - not_null
+      - name: status
+        description: The status of the product image, indicating its availability or processing state.
+      - name: created_at
+        description: The date and time when the media was created. The API returns this value in ISO 8601 format.
+      - name: updated_at
+        description: The date and time when the media was last modified. The API returns this value in ISO 8601 format.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__media_image
+    description: Table storing image-specific properties for media assets. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - media_id
+            - image_id
+            - source_relation
+    columns:
+      - name: media_id
+        description: The unique identifier for the media associated with the product image.
+        tests:
+          - not_null
+      - name: image_id
+        description: Unique numeric identifier of the product image.
+      - name: image_alt_text
+        description: A word or phrase to share the nature or contents of an image.
+      - name: image_height
+        description: Height dimension of the image which is determined on upload.
+      - name: image_width
+        description: Width dimension of the image which is determined on upload.
+      - name: image_url
+        description: The URL of the product image, hashed for privacy.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__metafield
+    description: >
+      Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
+      downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - metafield_id
+            - source_relation    
+    columns:
+      - name: metafield_id
+        description: The unique ID of the metafield.
+        tests: 
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_at
+        description: The date and time (ISO 8601 format) when the metafield was created.
+      - name: description
+        description: A description of the information that the metafield contains.
+      - name: key
+        description: The key of the metafield. Keys can be up to 64 characters long and can contain alphanumeric characters, hyphens, underscores, and periods.
+      - name: namespace
+        description: A container for a group of metafields. Grouping metafields within a namespace prevents your metafields from conflicting with other metafields with the same key name. Must have between 3-255 characters.
+      - name: owner_resource_id
+        description: The unique ID of the resource that the metafield is attached to.
+      - name: owner_resource
+        description: The type of resource (table) that the metafield is attached to.
+      - name: type
+        description: The type of data that the metafield stores in the `value` field. Refer to the [list](https://shopify.dev/apps/metafields/types) of supported types. Use this instead of `value_type`.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the metafield was last updated.
+      - name: value
+        description: The data to store in the metafield. The value is always stored as a string, regardless of the metafield's type.
+      - name: value_type
+        description: DEPRECATED as of [June 2022](https://fivetran.com/docs/applications/shopify/changelog#june2022). Use `type` instead. 
+      - name: metafield_reference
+        description: Combination of the namespace and key columns. This field is key for metafield mapping in downstream models.
+      - name: is_most_recent_record
+        description: Boolean indicating the most up to date record identified by the most recent updated_at field.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__product_media
+    description: Table mapping products to their associated media.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - media_id
+            - source_relation
+    columns:
+      - name: product_id
+        description: The id of the product associated with the media.
+        tests:
+          - not_null
+      - name: media_id
+        description: The unique identifier for the media asset linked to the product.
+        tests:
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__order_adjustment 
+    description: Each record represents and adjustment to and order within Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_adjustment_id
+            - source_relation
+    columns:
+      - name: order_adjustment_id
+        description: The unique numeric identifier for the order adjustment.
+      - name: refund_id
+        description: Reference to the refund which the adjustment is associated. 
+      - name: amount_pres
+        description: The amount of the order adjustment in the currency the customer purchased in.
+      - name: amount_pres_currency_code
+        description: The three letter currency code for the order adjustment.
+      - name: amount_shop
+        description: The amount of the order adjustment in the shop's currency.
+      - name: amount_shop_currency_code
+        description: The three letter shop currency code of the order adjustment.
+      - name: reason
+        description: The reason for the order adjustment.
+      - name: tax_amount_pres
+        description: The tax amount of the order adjustment in the currency the customer purchased in.
+      - name: tax_amount_pres_currency_code
+        description: The three letter currency code for the tax of the order adjustment.
+      - name: tax_amount_shop
+        description: The tax amount of the order adjustment in the shop's currency.
+      - name: tax_amount_shop_currency_code
+        description: The three letter shop currency code of the tax for the order adjustment.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}" 
+
+  - name: stg_shopify_gql__order_discount_code
+    description: Discount codes placed on orders.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - index
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: code
+        description: This property returns the discount code that was entered at checkout. Otherwise this property returns the title of the discount that was applied.
+        tests:
+          - not_null
+      - name: order_id
+        description: Associated order ID.
+        tests:
+          - not_null
+      - name: index
+        description: Pairs with `order_id` to provide unique identifier for order discount code.     
+      - name: source_relation
+        description: "{{ doc('source_relation') }}" 
+
+  - name: stg_shopify_gql__order_line_refund 
+    description: Each record represents a line item refund in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_refund_id
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: order_line_refund_id
+        description: The unique identifier of the line item in the refund.
+      - name: location_id
+        description: The unique identifier of the location where the items will be restocked.
+      - name: order_line_id
+        description: The ID of the related line item in the order.
+      - name: quantity
+        description: The quantity of the associated line item that was returned.
+      - name: refund_id
+        description: The ID of the related refund.
+      - name: subtotal_pres_amount
+        description: The refunded subtotal amount of a line item in currency the customer paid in.
+      - name: subtotal_pres_currency_code
+        description: The three letter currency code for the subtotal the customer paid in.
+      - name: subtotal_shop_amount
+        description: The refunded subtotal amount of a line item in the currency of the shop.         
+      - name: subtotal_shop_currency_code
+        description: The three letter currency code for the subtotal in the currency of the shop.   
+      - name: total_tax_pres_amount
+        description: The total tax amount of a line item in currency the customer paid in.
+      - name: total_tax_pres_currency_code
+        description: The three letter currency code of the tax the customer paid in.          
+      - name: total_tax_shop_amount
+        description: The total tax amount of a line item in the currency of the shop.
+      - name: total_tax_shop_currency_code
+        description: The three letter currency code of the tax in the currency of the shop.
+      - name: restock_type
+        description: How this refund line item affects inventory levels.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}" 
+
+  - name: stg_shopify_gql__order_note_attribute
+    description: Table storing custom attributes placed on orders.  
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - name
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: name
+        description: Name of the attribute.
+        tests:
+          - not_null
+      - name: order_id
+        description: ID referencing the order the note attribute belongs to.
+        tests:
+          - not_null
+      - name: value
+        description: Value of the attribute.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}" 
+
+  - name: stg_shopify_gql__order_shipping_line
+    description: Represents the shipping details that the customer chose for their order. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_shipping_line_id
+            - source_relation
+    columns:
+      - name: order_shipping_line_id
+        description: A globally-unique identifier.
+        tests:
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: carrier_identifier
+        description: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
+      - name: code
+        description: A reference to the shipping method.
+      - name: delivery_category
+        description: The general classification of the delivery method.
+      - name: discounted_price_pres_amount
+        description: Shipping price in customer currency after applying discounts.
+      - name: discounted_price_pres_currency_code
+        description: Three digit customer currency code for the discounted price.
+      - name: discounted_price_shop_amount
+        description: Shipping price in shop currency after applying discounts.
+      - name: discounted_price_shop_currency_code
+        description: Three digit shop currency code for the discounted price.
+      - name: order_id
+        description: ID of the associated order.
+      - name: price_pres_amount
+        description: The pre-tax shipping price without any discounts applied in the customer currency.
+      - name: price_pres_currency_code
+        description: Three digit customer currency code for the pre-tax, non-discounted price.
+      - name: price_shop_amount
+        description: The pre-tax shipping price without any discounts applied in the shop currency.
+      - name: price_shop_currency_code
+        description: Three digit customer currency code for the pre-tax, non-discounted price.           
+      - name: phone
+        description: The phone number at the shipping address.
+      - name: source
+        description: Returns the rate source for the shipping line.
+      - name: title
+        description: Returns the title of the shipping line.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}" 
+
+  - name: stg_shopify_gql__order_shipping_tax_line
+    description: Represents taxes associated with order shipping lines.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_shipping_line_id
+            - index
+            - source_relation
+    columns:
+      - name: order_shipping_line_id
+        description: ID of the order shipping line this recod is associated with.
+        tests:
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: index
+        description: Index (from 1) representing the order of shipping lines per order.
+        tests:
+          - not_null
+      - name: price_pres_amount
+        description: The amount of tax in customer currency, after discounts and before returns. 
+      - name: price_pres_currency_code
+        description: The three letter currency code for the tax the customer pays. 
+      - name: price_shop_amount
+        description: The amount of tax in shop currency, after discounts and before returns. 
+      - name: price_shop_currency_code
+        description: The three letter currency code for the tax from the shop. 
+      - name: rate
+        description: The proportion of the line item price that the tax represents as a decimal.
+      - name: source
+        description: The source of the tax.
+      - name: title
+        description: The name of the tax.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}" 
+
+  - name: stg_shopify_gql__order_tag
+    description: Tags that the shop owner has attached to the order.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - index
+            - source_relation
+    columns:
+      - name: order_id
+        description: ID of the order being tagged.
+        tests:
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: index
+        description: Index (starting from 1) representing when the tag was placed on the order. 
+        tests:
+          - not_null
+      - name: value
+        description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__product
+    description: Each record represents a product in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - source_relation
+    columns:
+      - name: is_deleted
+        description: Whether the record has been deleted in the source system.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_timestamp
+        description: The date and time when the product was created.
+      - name: handle
+        description: A unique human-friendly string for the product. Automatically generated from the product's title.
+      - name: product_id
+        description: An unsigned 64-bit integer that's used as a unique identifier for the product. Each id is unique across the Shopify system. No two products will have the same id, even if they're from different shops.
+      - name: product_type
+        description: A categorization for the product used for filtering and searching products.
+      - name: published_timestamp
+        description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
+      - name: title
+        description: The name of the product.
+      - name: updated_timestamp
+        description: The date and time when the product was last modified.
+      - name: vendor
+        description: The name of the product's vendor.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: status
+        description: >
+          The status of the product. Valid values:
+          - active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
+          - archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
+          - draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.
+
+  - name: stg_shopify_gql__product_variant
+    description: Each record represents a product variant in Shopify
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - variant_id
+            - source_relation
+    columns:
+      - name: barcode
+        description: The barcode, UPC, or ISBN number for the product.
+      - name: compare_at_price
+        description: The original price of the item before an adjustment or a sale in shop currency
+      - name: created_timestamp
+        description: The date and time (ISO 8601 format) when the product variant was created.
+      - name: variant_id
+        description: The unique numeric identifier for the product variant.
+      - name: inventory_item_id
+        description: The unique identifier for the inventory item, which is used in the Inventory API to query for inventory information.
+      - name: inventory_policy
+        description: Whether customers are allowed to place an order for the product variant when it's out of stock.
+      - name: inventory_quantity
+        description: An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource.  
+      - name: position
+        description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
+      - name: price
+        description: The price of the product variant.
+      - name: product_id
+        description: The unique numeric identifier for the product.
+      - name: sku
+        description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService.
+      - name: is_taxable
+        description: Whether a tax is charged when the product variant is sold.
+      - name: tax_code
+        description: This parameter applies only to the stores that have the Avalara AvaTax app installed. Specifies the Avalara tax code for the product variant.
+      - name: title
+        description: The title of the product variant. The title field is a concatenation of the option1, option2, and option3 fields. You can only update title indirectly using the option fields.
+      - name: updated_timestamp
+        description: The date and time when the product variant was last modified. Gets returned in ISO 8601 format.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: is_available_for_sale
+        description: Indicates whether the product variant is available for sale.
+      - name: display_name
+        description: The display name of the variant, based on the product's title and variant's title. 
+      - name: legacy_resource_id
+        description: The ID of the corresponding resource in the REST Admin API. 
+      - name: has_components_required
+        description: Indicates whether a product variant requires components. 
+      - name: sellable_online_quantity
+        description: The total sellable quantity of the variant for online channels. 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__product_variant_media
+    description: Table mapping products to their associated media.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_variant_id
+            - media_id
+            - source_relation
+    columns:
+      - name: product_variant_id
+        description: The id of the product variant associated with the media.
+        tests:
+          - not_null
+      - name: media_id
+        description: The unique identifier for the media asset linked to the product.
+        tests:
+          - not_null
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__product_tag
+    description: Tags that the shop owner has attached to the product.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - index
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: index
+        description: Index (starting from 1) representing when the tag was placed on the product. 
+        tests:
+          - not_null
+      - name: product_id
+        description: ID of the product being tagged.
+        tests:
+          - not_null
+      - name: value
+        description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__refund
+    description: Each record represents a refund within Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - refund_id
+            - source_relation
+    columns:
+      - name: refund_id
+        description: The unique numeric identifier for the refund.
+      - name: created_at
+        description: Timestamp of the date when the refund was created.
+      - name: note
+        description: User generated note attached to the refund.
+      - name: user_id
+        description: Reference to the user id which generated the refund.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: order_id
+        description: Reference to the order which the refund is associated.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__shop
+    description: The Shop resource is a collection of general business and store management settings and information about the store.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - shop_id
+            - source_relation
+    columns:
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: address_1
+        description: The shop's street address.
+      - name: address_2
+        description: The optional second line of the shop's street address.
+      - name: has_checkout_api_supported
+        description: Boolean representing whether the shop is capable of accepting payments directly through the Checkout API.
+      - name: city
+        description: The shop's city. 
+      - name: country
+        description: The shop's country. In most cases, this value matches the country_code.
+      - name: country_code
+        description: The two-letter country code corresponding to the shop's country.
+      - name: country_name
+        description: The shop's normalized country name.
+      - name: created_at
+        description: The date and time (ISO 8601) when the shop was created.
+      - name: currency
+        description: The three-letter code (ISO 4217 format) for the shop's default currency.
+      - name: customer_email
+        description: The contact email used for communication between the shop owner and the customer.
+      - name: domain
+        description: The shop's domain.
+      - name: email
+        description: The contact email used for communication between Shopify and the shop owner.
+      - name: enabled_presentment_currencies
+        description: An array of of enabled currencies (ISO 4217 format) that the shop accepts. Merchants can enable currencies from their Shopify Payments settings in the Shopify Admin.
+      - name: has_storefront
+        description: Boolean representing whether this shop has an online store.
+      - name: iana_timezone
+        description: The name of the timezone assigned by the [IANA](https://www.iana.org/time-zones).
+      - name: shop_id
+        description: The ID for the shop. A 64-bit unsigned integer.
+        tests:
+          - not_null
+      - name: latitude
+        description: The latitude of the shop's location.
+      - name: longitude
+        description: The longitude of the shop's location.
+      - name: money_format
+        description: A string representing the way currency is formatted when the currency isn't specified.
+      - name: money_in_emails_format
+        description: A string representing the way currency is formatted in email notifications when the currency isn't specified.
+      - name: money_with_currency_format
+        description: A string representing the way currency is formatted when the currency is specified.
+      - name: money_with_currency_in_emails_format
+        description: A string representing the way currency is formatted in email notifications when the currency is specified.
+      - name: myshopify_domain
+        description: The shop's .myshopify.com domain.
+      - name: name
+        description: The name of the shop.
+      - name: is_password_enabled
+        description: Boolean representing whether the password protection page is enabled on the shop's online store.
+      - name: phone
+        description: The contact phone number for the shop.
+      - name: plan_display_name
+        description: The display name of the Shopify plan the shop is on.
+      - name: primary_locale
+        description: The shop's primary locale, as configured in the language settings of the shop's theme.
+      - name: province
+        description: The shop's normalized province or state name.
+      - name: province_code
+        description: The two- or three-letter code for the shop's province or state.
+      - name: is_setup_required
+        description: Boolean representing whether the shop has any outstanding setup steps.
+      - name: shop_owner
+        description: The username of the shop owner.
+      - name: has_shipping_taxes
+        description: Boolean representing whether taxes are charged for shipping. Valid values are true or false.
+      - name: has_taxes_included_in_price
+        description: Boolean representing whether applicable taxes are included in product prices. Valid values are true or null.
+      - name: timezone_abbreviation
+        description: The shop's time zone abbreviation.
+      - name: timezone_offset
+        description: The shop's time zone offset.
+      - name: timezone_offset_minutes
+        description: The shop's time zone offset expressed as a number of minutes.
+      - name: updated_at
+        description: The date and time (ISO 8601) when the shop was last updated.
+      - name: weight_unit
+        description: The default unit of weight measurement for the shop.
+      - name: zip
+        description: The shop's zip or postal code.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+  
+  - name: stg_shopify_gql__tax_line
+    description: Represents a single tax applied to the associated line item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_line_id
+            - index
+            - source_relation    
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: index
+        description: The index of the tax line.
+      - name: order_line_id
+        description: The order line that this tax line is associated with.
+      - name: rate
+        description: The proportion of the line item price that the tax represents as a decimal.
+      - name: title
+        description: The name of the tax.
+      - name: price_pres_amount
+        description: The amount of tax in customer currency after discounts and before returns.
+      - name: price_pres_currency_code
+        description: The three letter currency code for the tax the customer pays.
+      - name: price_shop_amount
+        description: The amount of tax in shop currency after discounts and before returns.
+      - name: price_shop_currency_code
+        description: The three letter currency code for the tax from the shop.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__tender_transaction
+    description: >
+      Each tender transaction represents money passing between the merchant and a customer. A tender transaction with a positive amount 
+      represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
+      merchant refunded money back to the customer. Tender transactions represent transactions that modify the shop's balance.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - transaction_id
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: amount
+        description: The amount of the tender transaction in the shop's currency.
+      - name: currency
+        description: The three-letter code (ISO 4217 format) for the currency used for the tender transaction.
+      - name: transaction_id
+        description: The ID of the transaction.
+        tests:
+          - not_null
+      - name: order_id
+        description: The ID of the order that the tender transaction belongs to.
+      - name: payment_method
+        description: >
+          Information about the payment method used for this transaction. Valid values include:
+          - credit_card
+          - cash
+          - android_pay
+          - apple_pay
+          - google_pay
+          - samsung_pay
+          - shopify_pay
+          - amazon
+          - klarna
+          - paypal
+          - unknown
+          - other
+      - name: processed_at
+        description: The date and time (ISO 8601 format) when the tender transaction was processed.
+      - name: remote_reference
+        description: The remote (gateway) reference associated with the tender.
+      - name: user_id
+        description: The ID of the user logged into the Shopify POS device that processed the tender transaction, if applicable.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+        
+  - name: stg_shopify_gql__transaction
+    description: Each record represents a transaction in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - transaction_id
+            - source_relation
+    columns:
+      - name: transaction_id
+        description: The ID for the transaction.
+      - name: order_id
+        description: The ID for the order that the transaction is associated with.
+      - name: refund_id
+        description: The ID associated with a refund in the refund table.
+      - name: amount_pres
+        description: The amount of the transaction in the customer currency.  
+      - name: amount_pres_currency_code
+        description: The three letter currency code of the customer currency. 
+      - name: amount_shop
+        description: The amount of the transaction in the shop currency.
+      - name: amount_shop_currency_code
+        description: The three letter currency code of the shop's transaction currency. 
+      - name: authorization_code
+        description: The authorization code associated with the transaction.
+      - name: created_timestamp
+        description: The date and time when the transaction was created.
+      - name: processed_timestamp
+        description: The date and time when a transaction was processed.
+      - name: gateway
+        description: The name of the gateway the transaction was issued through. 
+      - name: currency
+        description: The three-letter code (ISO 4217 format) for the currency used for the payment. 
+      - name: parent_id
+        description: The ID of an associated transaction.
+      - name: payment_avs_result_code
+        description: The response code from the address verification system.
+      - name: payment_credit_card_bin
+        description: The issuer identification number (IIN), formerly known as bank identification number (BIN) of the customer's credit card.
+      - name: payment_cvv_result_code
+        description: The response code from the credit card company indicating whether the customer entered the card security code, or card verification value, correctly.
+      - name: payment_credit_card_number
+        description: The customer's credit card number, with most of the leading digits redacted.
+      - name: payment_credit_card_company
+        description: The name of the company that issued the customer's credit card.
+      - name: kind
+        description: The transaction's type.
+      - name: receipt
+        description: A transaction receipt attached to the transaction by the gateway. 
+      - name: error_code
+        description: A standardized error code, independent of the payment provider.
+      - name: status
+        description: The status of the transaction.
+      - name: test
+        description: Whether the transaction is a test transaction.
+      - name: user_id
+        description: The ID for the user who was logged into the Shopify POS device when the order was processed, if applicable.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: authorization_expires_at
+        description: The date and time (ISO 8601 format) when the Shopify Payments authorization expires.
+
+  - name: stg_shopify_gql__customer_visit
+    description: Metadata about a customer's session visiting a Shopify store, including session, landing page, referrer, marketing campaign, and source attribution information.
+      This data helps merchants analyze the effectiveness of marketing campaigns and customer engagement. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_visit_id
+            - source_relation
+    columns:
+      - name: customer_visit_id
+        description: A globally-unique identifier for the customer visit session.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: order_id
+        description: The ID of the order associated with the customer visit, if any.
+      - name: type
+        description: >
+          The type of marketing tactic associated with the session. 
+          Possible values include: abandoned_cart, ad, affiliate, link, loyalty, message, newsletter, notification, post, retargeting, seo, storefront_app, transactional.
+      - name: landing_page
+        description: The URL of the first page the customer landed on for the session.
+      - name: landing_page_html
+        description: The landing page URL rendered as HTML with a hyperlink.
+      - name: occurred_at
+        description: The timestamp when the customer's session occurred.
+      - name: referral_code
+        description: A marketing referral code captured from the landing URL. Supports query params like `ref`, `source`, or `r`.
+      - name: referral_info_html
+        description: Referral info rendered as HTML with URLs.
+      - name: referring_site
+        description: The referring webpage where the customer clicked a link to arrive at the store.
+      - name: source
+        description: The origin of the customer's visit, such as a platform (e.g., Facebook, Google), a QR code, direct, or other attribution channels.
+      - name: source_description
+        description: A more descriptive label for the visit source; used primarily for the first or last session.
+      - name: source_type
+        description: The marketing tactic type, such as ad, seo, newsletter, etc.
+      - name: utm_parameters_campaign
+        description: The name of the marketing campaign.
+      - name: utm_parameters_content
+        description: Identifies specific content within a campaign, used to differentiate similar links.
+      - name: utm_parameters_medium
+        description: The medium of the campaign (e.g., cpc, banner, email).
+      - name: utm_parameters_source
+        description: The traffic source for the campaign (e.g., google, newsletter).
+      - name: utm_parameters_term
+        description: Search terms associated with paid campaigns.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__collection_rule
+    description: >
+      Defines the rules used to automatically include products in a smart collection.
+      Each rule specifies a product attribute, a comparison relation, and a condition value to match against.
+      These rules are evaluated dynamically to determine collection membership without manual curation.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - collection_id
+            - index
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: collection_id
+        description: The ID of the smart collection to which this rule applies.
+      - name: index
+        description: >
+          The position of the rule within the collection's rule set. 
+          Rules are evaluated in order and may be grouped depending on collection logic.
+      - name: condition
+        description: >
+          The value to compare against the attribute. For example, “Hats” if the rule is targeting products with a title containing “Hats”.
+          The interpretation depends on the associated `relation` and `columns` values.
+      - name: relation
+        description: >
+          The operator used to evaluate the rule. Common values include:
+          - `equals`
+          - `contains`
+          - `not_equals`
+          - `starts_with`
+          - `ends_with`
+          - `is_set`
+          - `is_not_set`
+          - `greater_than`
+          - `less_than`
+          - `not_contains`
+      - name: columns
+        description: >
+          The attribute being evaluated by the rule. Example values include:
+          - `title`
+          - `vendor`
+          - `tag`
+          - `variant_price`
+          - `product_category_id`
+          - `variant_compare_at_price`
+          - `variant_metafield_definition`
+          - `product_metafield_definition`
+          - `variant_weight`
+          - `type`
+          - `is_price_reduced`
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+  - name: stg_shopify_gql__customer_address
+    description: Represents a customer's mailing address and includes additional geographic metadata. 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_address_id
+            - source_relation    
+    columns:
+      - name: customer_address_id
+        description: A globally unique identifier for the customer address.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: customer_id
+        description: The unique identifier of the customer to whom this address belongs.
+      - name: address_1
+        description: The first line of the address (e.g., street address or PO Box).
+      - name: address_2
+        description: The second line of the address (e.g., apartment, suite, or unit).
+      - name: city
+        description: The name of the city, district, village, or town for the address.
+      - name: company
+        description: The company or organization associated with the customer at this address.
+      - name: country
+        description: The full country name for the address.
+      - name: country_code
+        description: The two-letter ISO country code for the address.
+      - name: first_name
+        description: The customer's first name for this address.
+      - name: is_default
+        description: Indicates if this address is the default shipping address for the customer.
+      - name: last_name
+        description: The customer's last name for this address.
+      - name: latitude
+        description: The latitude coordinate of the address location.
+      - name: longitude
+        description: The longitude coordinate of the address location.
+      - name: name
+        description: The full name of the customer, derived from first and last name.
+      - name: phone
+        description: The customer’s phone number.
+      - name: province
+        description: The name of the region, state, or province for the address.
+      - name: province_code
+        description: The standardized zone or province code for the region.
+      - name: zip
+        description: The zip or postal code of the address.
+      - name: validation_result_summary
+        description: A summary of address validation results (e.g., match confidence or status).
+      - name: timezone
+        description: The timezone associated with the address, if available.
+      - name: has_coordinates_validated
+        description: Indicates whether the latitude and longitude coordinates were validated.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
