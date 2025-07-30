@@ -39,14 +39,12 @@ final as (
         billing_address_zip as zip,
         billing_address_latitude as latitude,
         billing_address_longitude as longitude,
-        {# county_taxes was deprecated #}
         currency_code as currency,
         {{ shopify_source.json_to_string("enabled_presentment_currencies", source_columns_in_relation) }} as enabled_presentment_currencies,
         contact_email as customer_email,
         email,
         primary_domain_host as domain,
         billing_address_phone as phone,
-        {# timezone is presented differently #}
         timezone_abbreviation,
         {# timezone_offset is formatted like -0400 instead of -04:00 #}
         timezone_offset, 
@@ -55,30 +53,23 @@ final as (
         primary_domain_localization_default_locale as primary_locale,
         weight_unit,
         myshopify_domain,
-        {# no cookie_consent_level #}
         shop_owner_name as shop_owner,
-        {# source is deprecated #}
         tax_shipping as has_shipping_taxes,
         coalesce(taxes_included, false) as has_taxes_included_in_price,
-        {# has_discounts and has_gift_cards are deprecated. 
-        there is features_gift_cards but this reflects whether the shop can create gift cards, while has_gift_cards looks at whether any active gift cards exist for the shop. #}
         features_storefront as has_storefront,
         checkout_api_supported as has_checkout_api_supported,
-        {# no eligible_for_card_reader_giveaway #}
-        {# eligible_for_payments, google_apps_domain, google_apps_login_enabled are deprecated #}
         currency_formats_money_format as money_format,
         currency_formats_money_in_emails_format as money_in_emails_format,
         currency_formats_money_with_currency_format as money_with_currency_format,
         currency_formats_money_with_currency_in_emails_format as money_with_currency_in_emails_format,
         plan_display_name,
-        {# plan_name is deprecated #}
         password_enabled as is_password_enabled,
-        {# pre_launch_enabled and requires_extra_payments_agreement are deprecated #}
         setup_required as is_setup_required,
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
     from fields
 )

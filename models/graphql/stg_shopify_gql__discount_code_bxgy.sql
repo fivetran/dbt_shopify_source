@@ -39,14 +39,14 @@ final as (
         combines_with_product_discounts,
         combines_with_shipping_discounts,
         customer_selection_all_customers,
-        {# recurring_cycle_limit, #}
         total_sales_amount,
         total_sales_currency_code, 
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', 'UTC'), source_tz='UTC') }} as created_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', 'UTC'), source_tz='UTC') }} as updated_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(starts_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', 'UTC'), source_tz='UTC') }} as starts_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(ends_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', 'UTC'), source_tz='UTC') }} as ends_at,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
     
     from fields
 )

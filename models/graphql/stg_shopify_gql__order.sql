@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_api', 'rest') == var('shopify_api_override','graphql')) }}
+{{ config(enabled=var('shopify_api', 'REST') == var('shopify_api_override','graphql')) }}
 
 with base as (
 
@@ -27,42 +27,33 @@ final as (
     select 
         id as order_id,
         staff_member_id as user_id,
-        {# total_discounts broken out #}
         total_discounts_set_pres_amount as total_discounts_pres_amount,
         total_discounts_set_pres_currency_code as total_discounts_pres_currency_code,
         total_discounts_set_shop_amount as total_discounts_shop_amount,
         total_discounts_set_shop_currency_code as total_discounts_shop_currency_code,
-        {# no total_line_items_price - need to join in #}
-        {# total_price broken out #}
         total_price_set_pres_amount as total_price_pres_amount,
         total_price_set_pres_currency_code as total_price_pres_currency_code,
         total_price_set_shop_amount as total_price_shop_amount,
         total_price_set_shop_currency_code as total_price_shop_currency_code,
-        {# total_tax broken out #}
         total_tax_set_pres_amount as total_tax_pres_amount,
         total_tax_set_pres_currency_code as total_tax_pres_currency_code,
         total_tax_set_shop_amount as total_tax_shop_amount,
         total_tax_set_shop_currency_code as total_tax_shop_currency_code,
         source_name,
-        {# subtotal_price broken out #}
         subtotal_price_set_pres_amount as subtotal_price_pres_amount,
         subtotal_price_set_pres_currency_code as subtotal_price_pres_currency_code,
         subtotal_price_set_shop_amount as subtotal_price_shop_amount,
         subtotal_price_set_shop_currency_code as subtotal_price_shop_currency_code,
         taxes_included as has_taxes_included,
         total_weight,
-        {# total_tip_received broken out #}
         total_tip_received_set_pres_amount as total_tip_received_pres_amount,
         total_tip_received_set_pres_currency_code as total_tip_received_pres_currency_code,
         total_tip_received_set_shop_amount as total_tip_received_shop_amount,
         total_tip_received_set_shop_currency_code as total_tip_received_shop_currency_code,
-        {# no landing_site_base_url - maybe join in customer_visit.landing_page #}
         location_id,
         name,
         note,
-        {# number and order_number are not included rn #}
         cancel_reason,
-        {# cart_token and checkout_token are deprecated #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
         {{ shopify_source.fivetran_convert_timezone(column='cast(cancelled_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as cancelled_timestamp,
         {{ shopify_source.fivetran_convert_timezone(column='cast(closed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as closed_timestamp,
@@ -71,9 +62,8 @@ final as (
         currency_code as currency,
         customer_id,
         lower(email) as email,
-        lower(display_financial_status) as financial_status, -- match rest API casing
-        lower(display_fulfillment_status) as fulfillment_status, -- match rest API casing
-        {# no referring_site - join with customer_visit.referrer_url #}
+        lower(display_financial_status) as financial_status,
+        lower(display_fulfillment_status) as fulfillment_status,
         billing_address_address_1,
         billing_address_address_2,
         billing_address_city,
@@ -90,7 +80,6 @@ final as (
         billing_address_province_code,
         billing_address_zip,
         client_ip as browser_ip,
-        {# total_shipping_price broken out #}
         total_shipping_price_set_pres_amount as shipping_cost_pres_amount,
         total_shipping_price_set_pres_currency_code as shipping_cost_pres_currency_code,
         total_shipping_price_set_shop_amount as shipping_cost_shop_amount,
@@ -110,10 +99,7 @@ final as (
         shipping_address_province,
         shipping_address_province_code,
         shipping_address_zip,
-        {# token is deprecated #}
         app_id,
-        {# no checkout_id #}
-        {# no client_details_user_agent #}
         customer_locale,
         status_page_url as order_status_url,
         presentment_currency_code as presentment_currency,
@@ -122,7 +108,8 @@ final as (
         customer_accepts_marketing as has_buyer_accepted_marketing,
         confirmed as is_confirmed,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
         {{ fivetran_utils.fill_pass_through_columns('order_pass_through_columns') }}
 

@@ -32,14 +32,12 @@ final as (
             when applied_disjunctively then 'disjunctive'
             else 'conjunctive' end as rule_logic,
         handle,
-        {# no published_scope #}
-        {# no rules -- join with collection_rule #}
         sort_order,
         title,
-        {# no published_at #}
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
     from fields
 )

@@ -29,6 +29,8 @@
 ### Step 1: Prerequisites
 To use this dbt package, you must have either at least one Fivetran REST API-based Shopify connection or one Fivetran GraphQL-based Shopify connection syncing these respective tables to your destination:
 
+> If any table is not present, the package will create an empty staging model to ensure the success of downstream transformations. This behavior can be circumvented for select tables (see [Step 5](https://github.com/fivetran/dbt_shopify_source?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources)).
+
 #### Shopify REST API
 - customer
 - order_line_refund
@@ -139,7 +141,7 @@ packages:
 ```
 
 ### Step 3: Define REST API or GraphQL API Source
-In INSERT_DATE, Fivetran released a new version of the Shopify connector that leverages Shopify's newer [GraphQL](https://shopify.dev/docs/apps/build/graphql) API instead of the REST API, as Shopify deprecated the REST API in October 2024. The GraphQL and REST API-based schemas are slightly different, but this package is designed to run for either or, not both. It will do so based on the value of the `shopify_api` variable.
+On INSERT_DATE, Fivetran released a new version of the Shopify connector that leverages Shopify's newer [GraphQL](https://shopify.dev/docs/apps/build/graphql) API instead of the REST API, as Shopify deprecated the REST API in October 2024. The GraphQL and REST API-based schemas are slightly different, but this package is designed to run for either or, not both. It will do so based on the value of the `shopify_api` variable.
 
 By default, `shopify_api` is set to `rest` and will run the `stg_shopify__*` models in the [rest](https://github.com/fivetran/dbt_shopify_source/tree/main/models/rest) folder. If you would like to run the package on a GraphQL-based schema, adjust `shopify_api` accordingly. This will run the `stg_shopify_gql__*` models in the [graphql](https://github.com/fivetran/dbt_shopify_source/tree/main/models/graphql) folder:
 
@@ -188,12 +190,11 @@ The package takes into consideration that not every Shopify connection may have 
 # dbt_project.yml
 
 vars:
-    shopify_using_fulfillment_event: true # FALSE by default. 
+    shopify_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`.
     shopify_using_metafield: false  # TRUE by default.
     shopify_using_discount_code_app: true # FALSE by default.
+    shopify_using_fulfillment_event: true # FALSE by default. 
     shopify_using_product_variant_media: true # FALSE by default.
-    shopify_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout`, `abandoned_checkout_discount_code`, and `abandoned_checkout_shipping_line`.
-
 ```
 
 #### GraphQL API
@@ -205,15 +206,15 @@ The package takes into consideration that not every Shopify connection may have 
 # dbt_project.yml
 
 vars:
-    shopify_gql_using_fulfillment_event: true # FALSE by default.
-    shopify_gql_using_metafield: false  # TRUE by default.
-    shopify_gql_using_discount_code_app: true # FALSE by default.
-    shopify_gql_using_product_variant_media: true # FALSE by default.
     shopify_gql_using_abandoned_checkout: false # TRUE by default. Setting to false will disable `abandoned_checkout` and `abandoned_checkout_discount_code`
-    shopify_gql_using_collection_rule: true # FALSE by default. 
     shopify_gql_using_customer_visit: false # TRUE by default
     shopify_gql_using_fulfillment_order_line_item: false # TRUE by default
+    shopify_gql_using_metafield: false  # TRUE by default.
+    shopify_gql_using_collection_rule: true # FALSE by default. 
+    shopify_gql_using_discount_code_app: true # FALSE by default.
+    shopify_gql_using_fulfillment_event: true # FALSE by default.
     shopify_gql_using_fulfillment_tracking_info: true # FALSE by default.  
+    shopify_gql_using_product_variant_media: true # FALSE by default.
 ```
 
 ### Step 6: Setting your timezone

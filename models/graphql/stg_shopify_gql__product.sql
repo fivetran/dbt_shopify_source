@@ -28,7 +28,6 @@ final as (
         id as product_id,
         handle,
         product_type,
-        {# no published_scope #}
         title,
         vendor,
         status,
@@ -37,7 +36,8 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_timestamp,
         {{ shopify_source.fivetran_convert_timezone(column='cast(published_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as published_timestamp,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
         {{ fivetran_utils.fill_pass_through_columns('product_pass_through_columns') }}
 

@@ -1444,6 +1444,8 @@ sources:
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
             description: Unique identifier for the discount.
+          - name: title
+            description: The discount's name displayed in Shopify admin and to customers.
           - name: status
             description: The availability status of the discount (e.g., active, expired, scheduled).
           - name: created_at
@@ -1532,6 +1534,8 @@ sources:
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
             description: Unique identifier for the discount.
+          - name: title
+            description: The discount's name displayed in Shopify admin and to customers.
           - name: status
             description: The status of the discount, indicating whether it's active, expired, or scheduled.
           - name: created_at

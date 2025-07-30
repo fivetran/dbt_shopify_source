@@ -35,7 +35,8 @@ final as (
         created_by_title,
         discount_id,
         discount_type,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
     from fields
 )

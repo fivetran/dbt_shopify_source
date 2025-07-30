@@ -28,16 +28,11 @@ final as (
         id as transaction_id,
         order_id,
         refund_id,
-        {# amount is split out #}
         amount_set_pres_amount as amount_pres,
         amount_set_shop_amount as amount_shop,
-        {# no device_id #}
         gateway,
-        {# no source_name - join from order #}
-        {# no message #}
         amount_set_pres_currency_code as amount_pres_currency_code,
         amount_set_shop_currency_code as amount_shop_currency_code,
-        {# no location_id - join in from order #}
         parent_id,
         payment_avs_result_code,
         payment_credit_card_bin,
@@ -46,7 +41,6 @@ final as (
         payment_credit_card_company,
         lower(kind) as kind, -- lower in REST api
         {{ shopify_source.json_to_string("receipt_json", source_columns_in_relation) }} as receipt,
-        {# no currency_exchange_ fields rn #}
         error_code,
         lower(status) as status, -- lower in REST api
         staff_member_id as user_id,
@@ -55,7 +49,8 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(processed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_timestamp,
         {{ shopify_source.fivetran_convert_timezone(column='cast(authorization_expires_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as authorization_expires_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
         {{ fivetran_utils.fill_pass_through_columns('transaction_pass_through_columns') }}
 

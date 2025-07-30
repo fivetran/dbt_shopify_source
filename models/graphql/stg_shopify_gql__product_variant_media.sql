@@ -30,7 +30,8 @@ final as (
     select
         product_variant_id,
         media_id,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['product_variant_id', 'media_id', 'source_relation']) }} as unique_key
 
     from fields
 )

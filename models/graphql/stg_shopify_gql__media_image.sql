@@ -34,7 +34,8 @@ final as (
         image_height,
         image_url,
         image_width,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['media_id', 'image_id', 'source_relation']) }} as unique_key
 
     from fields
 )

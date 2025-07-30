@@ -32,12 +32,10 @@ final as (
         address_1,
         address_2,
         city,
-        country_code as country, -- match REST api
+        country_code as country, -- match REST API format
         country_code,
         country as country_name,
         is_fulfillment_service as is_legacy,
-        {# localized_country_name,
-        localized_province_name, #}
         phone,
         province,
         province_code,
@@ -45,7 +43,8 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
         
     from fields
 )

@@ -30,27 +30,19 @@ final as (
 
     select
         id as order_adjustment_id,
-        {# order_id, #}
         refund_id,
-
-        {# amount,
-        amount_set, #}
         amount_set_pres_amount as amount_pres,
         amount_set_pres_currency_code as amount_pres_currency_code,
         amount_set_shop_amount as amount_shop,
         amount_set_shop_currency_code as amount_shop_currency_code,
-
-        {# tax_amount,
-        tax_amount_set, #}
         tax_amount_set_pres_amount as tax_amount_pres,
         tax_amount_set_pres_currency_code as tax_amount_pres_currency_code,
         tax_amount_set_shop_amount as tax_amount_shop,
         tax_amount_set_shop_currency_code as tax_amount_shop_currency_code,
-
-        {# kind, #}
         reason,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
 
     from fields
 )

@@ -40,7 +40,8 @@ final as (
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         lower({{ dbt.concat(["namespace","'_'","key"]) }}) as metafield_reference,
         row_number() over(partition by id, source_relation order by updated_at desc) = 1 as is_most_recent_record,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation']) }} as unique_key
         
     from fields
 )

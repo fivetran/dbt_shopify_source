@@ -3,12 +3,12 @@ version: 2
 models:
   - name: stg_shopify_gql__customer
     description: Each record represents a customer in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `customer_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: customer_id
         description: A unique identifier for the customer.
       - name: _fivetran_synced
@@ -56,12 +56,12 @@ models:
 
   - name: stg_shopify_gql__order
     description: Each record represents an order in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - source_relation 
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: order_id
         description: A globally-unique ID.
       - name: app_id
@@ -241,12 +241,12 @@ models:
 
   - name: stg_shopify_gql__order_line
     description: Each record represents a line item from an order in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_line_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: order_line_id
         description: The ID of the line item.
       - name: _fivetran_synced
@@ -302,12 +302,12 @@ models:
 
   - name: stg_shopify_gql__abandoned_checkout
     description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - checkout_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `checkout_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
@@ -445,13 +445,12 @@ models:
 
   - name: stg_shopify_gql__abandoned_checkout_discount_code
     description: Abandoned checkouts that applied a discount code. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - checkout_id
-            - code
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `checkout_id`, `code`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: amount
@@ -476,13 +475,13 @@ models:
   - name: stg_shopify_gql__collection
     description: >
       A collection is a grouping of products that merchants can create to make their stores easier to browse.
-      Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included (aka a "smart collection").
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - collection_id
-            - source_relation    
+      Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included (aka a "smart collection"). 
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `collection_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: collection_id
         description: The ID for the collection.
         tests:
@@ -515,13 +514,12 @@ models:
 
   - name: stg_shopify_gql__collection_product
     description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - collection_id
-            - product_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `collection_id`, `product_id`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: collection_id
@@ -537,13 +535,12 @@ models:
 
   - name: stg_shopify_gql__customer_tag
     description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_id
-            - index    
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `customer_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
@@ -561,25 +558,22 @@ models:
 
   - name: stg_shopify_gql__discount_allocation
     description: Table storing allocation amounts from discount applications across specific order lines.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_id
-            - discount_application_index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_line_id`, `discount_application_index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
-      - name: amount
-        description: The total amount discounted on the order line from this allocation.
-      - name: amount_set_presentment_money_amount
+      - name: allocated_pres_amount
         description: The presentment money amount of the discount allocation in the customer’s local currency.
-      - name: amount_set_presentment_money_currency_code
+      - name: allocated_pres_currency_code
         description: The presentment money currency code for the customer’s local currency.
-      - name: amount_set_shop_money_amount
+      - name: allocated_shop_amount
         description: The shop money amount of the discount allocation in the store’s currency.
-      - name: amount_set_shop_money_currency_code
-        description: The shop money currency code for the store’s currency.
+      - name: allocated_shop_currency_code
+        description: The shop money currency code for the store’s currency
       - name: discount_application_index
         description: Index of the discount application this allocation relates to. Used to join with the discount application.
         tests:
@@ -595,13 +589,12 @@ models:
 
   - name: stg_shopify_gql__discount_application
     description: Table storing discount applications, which define how discounts were applied at the order level.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - index
-            - order_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: allocation_method
@@ -636,12 +629,12 @@ models:
 
   - name: stg_shopify_gql__discount_code_app
     description: Table storing metadata for discount codes created through third-party apps in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `discount_code_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: discount_code_id
         description: The unique ID for the discount code.
         tests:
@@ -687,12 +680,12 @@ models:
 
   - name: stg_shopify_gql__discount_code_basic
     description: Table storing metadata about basic discount codes created by merchants.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `discount_code_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: discount_code_id
         description: The unique ID for the discount code.
         tests:
@@ -738,12 +731,12 @@ models:
 
   - name: stg_shopify_gql__discount_code_bxgy
     description: Table storing metadata for Buy X Get Y-style discount codes in Shopify, where discounts are applied based on product quantity thresholds.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `discount_code_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: discount_code_id
         description: The unique ID for the discount code.
         tests:
@@ -787,16 +780,18 @@ models:
 
   - name: stg_shopify_gql__discount_code_free_shipping
     description: Table storing metadata for free shipping discount codes in Shopify, where shipping costs are discounted based on qualifying conditions.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `discount_code_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: discount_code_id
         description: The unique ID for the discount code.
         tests:
           - not_null
+      - name: title
+        description: The display name for the discount code.
       - name: status
         description: The status of the discount code (e.g., `enabled`, `disabled`, `expired`).
       - name: applies_once_per_customer
@@ -836,12 +831,12 @@ models:
 
   - name: stg_shopify_gql__discount_redeem_code
     description: Table storing individual redeem codes that customers can use at checkout to receive a discount. Each redeem code is tied to a parent discount and may be created by an app or manually.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `discount_code_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: discount_code_id
         description: The unique ID of the redeem code.
         tests:
@@ -867,12 +862,12 @@ models:
     description: >
       A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
       A fulfillment represents work that is completed as part of a fulfillment order and can include one or more items.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - fulfillment_id
-            - source_relation   
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `fulfillment_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: created_at
@@ -926,12 +921,12 @@ models:
     description: >
       The FulfillmentEvent resource represents tracking events that belong to a fulfillment of one or more items in an order. 
       Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - fulfillment_event_id
-            - source_relation    
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `fulfillment_event_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: address_1
@@ -986,64 +981,63 @@ models:
   - name: stg_shopify_gql__fulfillment_order_line_item
     description: Links a fulfillment order to specific items that require fulfillment. Contains detailed product information, quantity tracking, variant metadata, and shipping requirements.
       This is a core entity for determining which products and how many units are involved in a given fulfillment process.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - fulfillment_order_line_item_id
-            - source_relation
     columns:
-        - name: _fivetran_synced
-          description: "{{ doc('_fivetran_synced') }}"
-        - name: fulfillment_order_line_item_id
-          description: A globally unique identifier for this fulfillment order line item.
-        - name: fulfillment_order_id
-          description: The identifier of the fulfillment order that this line item is associated with.
-        - name: image_alt_text
-          description: Alt text describing the image associated with the line item's variant.
-        - name: image_height
-          description: The height in pixels of the variant image, if hosted by Shopify.
-        - name: image_id
-          description: The unique identifier for the variant image.
-        - name: image_url
-          description: The url of the variant image used in this fulfillment line item.
-        - name: image_width
-          description: The width in pixels of the variant image, if hosted by Shopify.
-        - name: inventory_item_id
-          description: The identifier of the inventory item being fulfilled.
-        - name: order_line_item_id
-          description: The identifier of the original order line item linked to this fulfillment.
-        - name: product_title
-          description: The title of the product at the time of order creation.
-        - name: product_variant_id
-          description: The identifier of the product variant associated with this fulfillment item.
-        - name: remaining_quantity
-          description: The number of units remaining to be fulfilled.
-        - name: requires_shipping
-          description: Indicates whether physical shipping is required for this item.
-        - name: sku
-          description: The SKU of the product variant.
-        - name: total_quantity
-          description: The total number of units allocated to this fulfillment.
-        - name: variant_title
-          description: The title of the product variant at the time of order creation.
-        - name: vendor
-          description: The vendor of the product variant.
-        - name: weight_unit
-          description: The unit of measurement for the weight of a single item (e.g., grams, ounces).
-        - name: weight_value
-          description: The numeric weight of a single unit of the line item using the specified `weight_unit`.
-        - name: source_relation
-          description: "{{ doc('source_relation') }}"
+      - name: unique_key
+        description: Surrogate key hashed on `fulfillment_order_line_item_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: fulfillment_order_line_item_id
+        description: A globally unique identifier for this fulfillment order line item.
+      - name: fulfillment_order_id
+        description: The identifier of the fulfillment order that this line item is associated with.
+      - name: image_alt_text
+        description: Alt text describing the image associated with the line item's variant.
+      - name: image_height
+        description: The height in pixels of the variant image, if hosted by Shopify.
+      - name: image_id
+        description: The unique identifier for the variant image.
+      - name: image_url
+        description: The url of the variant image used in this fulfillment line item.
+      - name: image_width
+        description: The width in pixels of the variant image, if hosted by Shopify.
+      - name: inventory_item_id
+        description: The identifier of the inventory item being fulfilled.
+      - name: order_line_item_id
+        description: The identifier of the original order line item linked to this fulfillment.
+      - name: product_title
+        description: The title of the product at the time of order creation.
+      - name: product_variant_id
+        description: The identifier of the product variant associated with this fulfillment item.
+      - name: remaining_quantity
+        description: The number of units remaining to be fulfilled.
+      - name: requires_shipping
+        description: Indicates whether physical shipping is required for this item.
+      - name: sku
+        description: The SKU of the product variant.
+      - name: total_quantity
+        description: The total number of units allocated to this fulfillment.
+      - name: variant_title
+        description: The title of the product variant at the time of order creation.
+      - name: vendor
+        description: The vendor of the product variant.
+      - name: weight_unit
+        description: The unit of measurement for the weight of a single item (e.g., grams, ounces).
+      - name: weight_value
+        description: The numeric weight of a single unit of the line item using the specified `weight_unit`.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify_gql__fulfillment_tracking_info
     description: Represents tracking information associated with a fulfillment. Used by Shopify to generate clickable tracking numbers and delivery updates.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - fulfillment_id
-            - index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `fulfillment_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: fulfillment_id
@@ -1065,12 +1059,12 @@ models:
     description: >
       An inventory item represents a physical good. It holds essential information about the physical good, including its SKU and whether its inventory is tracked.
       There is a 1:1 relationship between a product variant and an inventory item.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - inventory_item_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `inventory_item_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: inventory_item_id
         description: The ID of the inventory item.
         tests: 
@@ -1131,6 +1125,11 @@ models:
             - location_id
             - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `inventory_level_id`, `inventory_item_id`, `location_id`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: inventory_level_id
         description: A globally unique identifier for the inventory level.
       - name: _fivetran_synced
@@ -1152,15 +1151,12 @@ models:
 
   - name: stg_shopify_gql__inventory_quantity
     description: The total quantity of the inventory item available at all locations.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - inventory_quantity_id
-            - inventory_item_id
-            - inventory_level_id
-            - inventory_state_name
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `inventory_quantity_id`, `inventory_level_id`, `inventory_item_id`, `inventory_state_name`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: inventory_quantity_id
         description: The unique identifier for the record.
       - name: inventory_item_id
@@ -1179,13 +1175,13 @@ models:
         description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify_gql__location
-    description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - location_id
-            - source_relation    
+    description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist.   
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `location_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: location_id
         description: The ID of the location. 
         tests:
@@ -1227,13 +1223,13 @@ models:
         description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify_gql__media
-    description: Table storing media metadata, including status and timestamps. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - media_id
-            - source_relation       
+    description: Table storing media metadata, including status and timestamps.    
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `media_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: media_id
         description: The unique identifier for the media associated with a product image.
         tests:
@@ -1249,13 +1245,12 @@ models:
 
   - name: stg_shopify_gql__media_image
     description: Table storing image-specific properties for media assets. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - media_id
-            - image_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `media_id`, `image_id`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: media_id
         description: The unique identifier for the media associated with the product image.
         tests:
@@ -1276,13 +1271,13 @@ models:
   - name: stg_shopify_gql__metafield
     description: >
       Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
-      downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - metafield_id
-            - source_relation    
+      downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context. 
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `metafield_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: metafield_id
         description: The unique ID of the metafield.
         tests: 
@@ -1318,13 +1313,12 @@ models:
 
   - name: stg_shopify_gql__product_media
     description: Table mapping products to their associated media.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - media_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `product_id`, `media_id`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: product_id
         description: The id of the product associated with the media.
         tests:
@@ -1340,12 +1334,12 @@ models:
 
   - name: stg_shopify_gql__order_adjustment 
     description: Each record represents and adjustment to and order within Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_adjustment_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_adjustment_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: order_adjustment_id
         description: The unique numeric identifier for the order adjustment.
       - name: refund_id
@@ -1375,13 +1369,12 @@ models:
 
   - name: stg_shopify_gql__order_discount_code
     description: Discount codes placed on orders.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: code
@@ -1399,12 +1392,12 @@ models:
 
   - name: stg_shopify_gql__order_line_refund 
     description: Each record represents a line item refund in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_refund_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_line_refund_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: order_line_refund_id
@@ -1439,14 +1432,13 @@ models:
         description: "{{ doc('source_relation') }}" 
 
   - name: stg_shopify_gql__order_note_attribute
-    description: Table storing custom attributes placed on orders.  
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - name
-            - source_relation
+    description: Table storing custom attributes placed on orders.
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_id`, `name`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: name
@@ -1464,12 +1456,12 @@ models:
 
   - name: stg_shopify_gql__order_shipping_line
     description: Represents the shipping details that the customer chose for their order. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_shipping_line_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_shipping_line_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: order_shipping_line_id
         description: A globally-unique identifier.
         tests:
@@ -1511,15 +1503,14 @@ models:
 
   - name: stg_shopify_gql__order_shipping_tax_line
     description: Represents taxes associated with order shipping lines.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_shipping_line_id
-            - index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_shipping_line_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: order_shipping_line_id
-        description: ID of the order shipping line this recod is associated with.
+        description: ID of the order shipping line this record is associated with.
         tests:
           - not_null
       - name: _fivetran_synced
@@ -1547,13 +1538,12 @@ models:
 
   - name: stg_shopify_gql__order_tag
     description: Tags that the shop owner has attached to the order.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: order_id
         description: ID of the order being tagged.
         tests:
@@ -1571,12 +1561,12 @@ models:
 
   - name: stg_shopify_gql__product
     description: Each record represents a product in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `product_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: is_deleted
         description: Whether the record has been deleted in the source system.
       - name: _fivetran_synced
@@ -1607,13 +1597,13 @@ models:
           - draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.
 
   - name: stg_shopify_gql__product_variant
-    description: Each record represents a product variant in Shopify
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - variant_id
-            - source_relation
+    description: Each record represents a product variant in Shopify.
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `variant_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: barcode
         description: The barcode, UPC, or ISBN number for the product.
       - name: compare_at_price
@@ -1661,13 +1651,12 @@ models:
 
   - name: stg_shopify_gql__product_variant_media
     description: Table mapping products to their associated media.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_variant_id
-            - media_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `product_variant_id`, `media_id`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: product_variant_id
         description: The id of the product variant associated with the media.
         tests:
@@ -1681,13 +1670,12 @@ models:
 
   - name: stg_shopify_gql__product_tag
     description: Tags that the shop owner has attached to the product.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `product_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
@@ -1705,12 +1693,12 @@ models:
 
   - name: stg_shopify_gql__refund
     description: Each record represents a refund within Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - refund_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `refund_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: refund_id
         description: The unique numeric identifier for the refund.
       - name: created_at
@@ -1728,12 +1716,12 @@ models:
 
   - name: stg_shopify_gql__shop
     description: The Shop resource is a collection of general business and store management settings and information about the store.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - shop_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `shop_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
@@ -1825,13 +1813,12 @@ models:
   
   - name: stg_shopify_gql__tax_line
     description: Represents a single tax applied to the associated line item.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_id
-            - index
-            - source_relation    
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `order_line_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
@@ -1858,12 +1845,12 @@ models:
       Each tender transaction represents money passing between the merchant and a customer. A tender transaction with a positive amount 
       represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
       merchant refunded money back to the customer. Tender transactions represent transactions that modify the shop's balance.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `transaction_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: amount
@@ -1902,12 +1889,12 @@ models:
         
   - name: stg_shopify_gql__transaction
     description: Each record represents a transaction in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `transaction_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: transaction_id
         description: The ID for the transaction.
       - name: order_id
@@ -1966,12 +1953,12 @@ models:
   - name: stg_shopify_gql__customer_visit
     description: Metadata about a customer's session visiting a Shopify store, including session, landing page, referrer, marketing campaign, and source attribution information.
       This data helps merchants analyze the effectiveness of marketing campaigns and customer engagement. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_visit_id
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `customer_visit_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: customer_visit_id
         description: A globally-unique identifier for the customer visit session.
       - name: _fivetran_synced
@@ -2018,13 +2005,12 @@ models:
       Defines the rules used to automatically include products in a smart collection.
       Each rule specifies a product attribute, a comparison relation, and a condition value to match against.
       These rules are evaluated dynamically to determine collection membership without manual curation.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - collection_id
-            - index
-            - source_relation
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `collection_id`, `index`, and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: collection_id
@@ -2068,13 +2054,13 @@ models:
         description: "{{ doc('source_relation') }}"
 
   - name: stg_shopify_gql__customer_address
-    description: Represents a customer's mailing address and includes additional geographic metadata. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_address_id
-            - source_relation    
+    description: Represents a customer's mailing address and includes additional geographic metadata.   
     columns:
+      - name: unique_key
+        description: Surrogate key hashed on `customer_address_id` and `source_relation`.
+        tests:
+          - unique
+          - not_null
       - name: customer_address_id
         description: A globally unique identifier for the customer address.
       - name: _fivetran_synced

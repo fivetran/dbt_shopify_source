@@ -25,16 +25,13 @@ fields as (
 final as (
     
     select 
-        lower(allocation_method) as allocation_method, -- was lowercase in old api, upper in gql
-        {# no code rn #}
-        cast(null as {{dbt.type_string() }}) as code, -- for development
-        {# description, #}
+        lower(allocation_method) as allocation_method,
+        {# no code rn - will be added #}
+        cast(null as {{ dbt.type_string() }}) as code, -- for development
         index,
         order_id,
-        lower(target_selection) as target_selection, -- was lowercase in old api, upper in gql
-        lower(target_type) as target_type, -- was lowercase in old api, upper in gql
-        {# no title, #}
-        {# no type #}
+        lower(target_selection) as target_selection,
+        lower(target_type) as target_type,
         value_amount,
         value_percentage,
         value_currency_code,
@@ -44,7 +41,8 @@ final as (
             when value_amount is not null then 'fixed_amount'
         else null end as value_type,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['index', 'order_id', 'source_relation']) }} as unique_key
 
     from fields
 )

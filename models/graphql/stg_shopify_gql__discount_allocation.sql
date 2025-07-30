@@ -25,16 +25,16 @@ fields as (
 final as (
     
     select 
-        {# match REST name, which we kept the _set_ in. Should we remove to align with the other models (or align the other models with this? Model was introduced in late May #}
-        allocated_amount_set_pres_amount as amount_set_presentment_money_amount,
-        allocated_amount_set_pres_currency_code as amount_set_presentment_money_currency_code,
-        allocated_amount_set_shop_amount as amount_set_shop_money_amount,
-        allocated_amount_set_shop_currency_code as amount_set_shop_money_currency_code,
+        allocated_amount_set_pres_amount as allocated_pres_amount,
+        allocated_amount_set_pres_currency_code as allocated_pres_currency_code,
+        allocated_amount_set_shop_amount as allocated_shop_amount,
+        allocated_amount_set_shop_currency_code as allocated_shop_currency_code,
         discount_application_index,
         index,
         order_line_id,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.generate_surrogate_key(['order_line_id', 'discount_application_index', 'source_relation']) }} as unique_key
 
     from fields
 )
