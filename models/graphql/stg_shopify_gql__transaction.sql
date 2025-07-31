@@ -30,6 +30,7 @@ final as (
         refund_id,
         amount_set_pres_amount as amount_pres,
         amount_set_shop_amount as amount_shop,
+        device_id, -- Will be included in 2025-07 release of GraphQL API
         gateway,
         amount_set_pres_currency_code as amount_pres_currency_code,
         amount_set_shop_currency_code as amount_shop_currency_code,
@@ -41,6 +42,11 @@ final as (
         payment_credit_card_company,
         lower(kind) as kind, -- lower in REST api
         {{ shopify_source.json_to_string("receipt_json", source_columns_in_relation) }} as receipt,
+        currency_exchange_id, -- Will be included in 2025-07 release of GraphQL API
+        currency_exchange_adjustment, -- Will be included in 2025-07 release of GraphQL API
+        currency_exchange_original_amount, -- Will be included in 2025-07 release of GraphQL API
+        currency_exchange_final_amount, -- Will be included in 2025-07 release of GraphQL API
+        currency_exchange_currency, -- Will be included in 2025-07 release of GraphQL API
         error_code,
         lower(status) as status, -- lower in REST api
         staff_member_id as user_id,

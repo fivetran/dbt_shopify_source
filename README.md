@@ -143,14 +143,18 @@ packages:
 ### Step 3: Define REST API or GraphQL API Source
 On INSERT_DATE, Fivetran released a new version of the Shopify connector that leverages Shopify's newer [GraphQL](https://shopify.dev/docs/apps/build/graphql) API instead of the REST API, as Shopify deprecated the REST API in October 2024. The GraphQL and REST API-based schemas are slightly different, but this package is designed to run for either or, not both. It will do so based on the value of the `shopify_api` variable.
 
-By default, `shopify_api` is set to `rest` and will run the `stg_shopify__*` models in the [rest](https://github.com/fivetran/dbt_shopify_source/tree/main/models/rest) folder. If you would like to run the package on a GraphQL-based schema, adjust `shopify_api` accordingly. This will run the `stg_shopify_gql__*` models in the [graphql](https://github.com/fivetran/dbt_shopify_source/tree/main/models/graphql) folder:
+By default, `shopify_api` is set to `rest` and will run the `stg_shopify__*` models in the [rest](https://github.com/fivetran/dbt_shopify_source/tree/main/models/rest) folder. If you would like to run the package on a GraphQL-based schema, adjust `shopify_api` accordingly. This will run the `stg_shopify_gql__*` models in the [graphql](https://github.com/fivetran/dbt_shopify_source/tree/main/models/graphql) folder.
+
+> This variable is dynamically configured for you in Fivetran Quickstart based on your Shopify connection details.
 
 ```yml
 vars:
   shopify_api: graphql # By default = rest. Must be lowercase
 ```
 
-This variable is dynamically configured for you in Fivetran Quickstart based on your Shopify connection details.
+Overall, the package aims for parity across the different API versions and aligns column names with their REST names, if the fields are supported in GraphQL. There will be a largely 1:1 relationship between REST API and GraphQL based models, except for models based on the following source tables:
+- `ABANDONED_CHECKOUT_SHIPPING_LINE`: This is not available in the GraphQL schema, so there will be no `stg_shopify_gql__abandoned_checkout_shipping_line` model or downstream transformations.
+- `ORDER_URL_TAG`: This is not available in the GraphQL schema, so there will be no `stg_shopify_gql__order_url_tag` model or downstream transformations.
 
 ### Step 4: Define database and schema variables
 #### Single connection

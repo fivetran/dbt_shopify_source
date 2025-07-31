@@ -53,6 +53,7 @@ final as (
         location_id,
         name,
         note,
+        number, -- Will be included in 2025-07 release of GraphQL API
         cancel_reason,
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_timestamp,
         {{ shopify_source.fivetran_convert_timezone(column='cast(cancelled_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as cancelled_timestamp,

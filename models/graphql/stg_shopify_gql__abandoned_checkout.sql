@@ -93,6 +93,7 @@ final as (
         total_tax_set_shop_currency_code as total_tax_shop_currency_code,
         total_tax_set_pres_amount as total_tax_pres_amount,
         total_tax_set_pres_currency_code as total_tax_pres_currency_code,
+        {{ shopify_source.fivetran_convert_timezone(column='cast(completed_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as completed_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(updated_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as updated_at,
         {{ shopify_source.fivetran_convert_timezone(column='cast(_fivetran_synced as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation,

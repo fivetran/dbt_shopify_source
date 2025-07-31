@@ -127,6 +127,7 @@
     {"name": "location_id", "datatype": dbt.type_int()},
     {"name": "name", "datatype": dbt.type_string()},
     {"name": "note", "datatype": dbt.type_string()},
+    {"name": "number", "datatype": dbt.type_numeric()},
     {"name": "presentment_currency_code", "datatype": dbt.type_string()},
     {"name": "processed_at", "datatype": dbt.type_timestamp()},
     {"name": "shipping_address_address_1", "datatype": dbt.type_string()},

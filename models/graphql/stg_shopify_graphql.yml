@@ -126,6 +126,8 @@ models:
         description: The unique identifier for the order that appears on the order page in the Shopify admin and the Order status page. For example, "#1001", "EN1001", or "1001-A". This value isn't unique across multiple stores.
       - name: note
         description: The optional note associated with the order. Contains additional information or instructions added by merchants or customers during the order process. Commonly used for special delivery instructions, gift messages, or internal processing notes.
+      - name: number
+        description: The order number used to generate the name using the store's configured order number prefix/suffix. This number isn't guaranteed to follow a consecutive integer sequence (e.g. 1, 2, 3..), nor is it guaranteed to be unique across multiple stores, or even for a single store.
       - name: processed_timestamp
         description: The date and time when an order was processed. This value is the date that appears on your orders and that's used in the analytic reports.
       - name: shipping_address_address_1
@@ -442,6 +444,8 @@ models:
         description: The three-letter code (ISO 4217 format) for the presentment currency used to display the total tax amount.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+      - name: completed_at
+        description: The date and time when the buyer completed the checkout. Null if the checkout has not been completed.
 
   - name: stg_shopify_gql__abandoned_checkout_discount_code
     description: Abandoned checkouts that applied a discount code. 
@@ -626,6 +630,8 @@ models:
           If `target_type` is `shipping_line`, only `percentage` is accepted.
       - name: source_relation
         description: "{{ doc('source_relation') }}"
+      - name: code
+        description: The discount code applied, if applicable.
 
   - name: stg_shopify_gql__discount_code_app
     description: Table storing metadata for discount codes created through third-party apps in Shopify.
@@ -1949,6 +1955,18 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: authorization_expires_at
         description: The date and time (ISO 8601 format) when the Shopify Payments authorization expires.
+      - name: device_id
+        description: The ID for the device.
+      - name: currency_exchange_id
+        description: The ID of the adjustment.
+      - name: currency_exchange_adjustment
+        description: The difference between the amounts on the associated transaction and the parent transaction.
+      - name: currency_exchange_original_amount
+        description: The amount of the parent transaction in the shop currency.
+      - name: currency_exchange_final_amount
+        description: The amount of the associated transaction in the shop currency.
+      - name: currency_exchange_currency
+        description: The shop currency.
 
   - name: stg_shopify_gql__customer_visit
     description: Metadata about a customer's session visiting a Shopify store, including session, landing page, referrer, marketing campaign, and source attribution information.
