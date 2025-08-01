@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_api', 'REST') == var('shopify_api_override','graphql')) }}
+{{ config(enabled=var('shopify_api', 'rest') == var('shopify_api_override','graphql')) }}
 
 with base as (
 
