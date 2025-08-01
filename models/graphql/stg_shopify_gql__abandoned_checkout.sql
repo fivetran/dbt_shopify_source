@@ -45,10 +45,6 @@ final as (
         billing_address_province_code,
         billing_address_zip,
         {{ shopify_source.fivetran_convert_timezone(column='cast(created_at as ' ~ dbt.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as created_at,
-
-        -- QUESTION: should we recreate this or just refer to the multiple currency_code fields?
-        {# currency_code as shop_currency, #}
-
         customer_id,
         id as checkout_id,
         name,

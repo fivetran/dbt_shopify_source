@@ -237,8 +237,6 @@ sources:
             description: "{{ doc('_fivetran_synced') }}"
           - name: unfulfilled_quantity
             description: The number of units not yet fulfilled.
-          - name: fulfillment_status
-            description: How far along an order is in terms line items fulfilled.
           - name: is_gift_card
             description: Whether the item is a gift card. If true, then the item is not taxed or considered for shipping charges.
           - name: id
@@ -871,7 +869,9 @@ sources:
           - name: id
             description: The ID of the location.
           - name: is_fulfillment_service
-            description: Whether this location is a fulfillment service.
+            description: >
+              Boolean representing whether this is a fulfillment service location. If true, then the location is a fulfillment service location. 
+              If false, then the location was created by the merchant and isn't tied to a fulfillment service.
           - name: name
             description: The name of the location.
           - name: phone
@@ -1024,6 +1024,8 @@ sources:
         description: Table storing media metadata, including status and timestamps.
         identifier: "{{ var('shopify_gql_media_identifier', 'media') }}"
         columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
           - name: id
             description: The unique identifier for the media associated with a product image.
           - name: status

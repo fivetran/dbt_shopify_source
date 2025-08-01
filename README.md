@@ -152,7 +152,7 @@ vars:
   shopify_api: graphql # By default = rest. Must be lowercase
 ```
 
-Overall, the package aims for parity across the different API versions and aligns column names with their REST names, if the fields are supported in GraphQL. There will be a largely 1:1 relationship between REST API and GraphQL based models, except for models based on the following source tables:
+Overall, the package aims for parity across the different API versions and aligns column names with their REST names, **if the fields are supported in GraphQL**. There will be a largely 1:1 relationship between REST API and GraphQL based models, except for models based on the following source tables:
 - `ABANDONED_CHECKOUT_SHIPPING_LINE`: This is not available in the GraphQL schema, so there will be no `stg_shopify_gql__abandoned_checkout_shipping_line` model or downstream transformations.
 - `ORDER_URL_TAG`: This is not available in the GraphQL schema, so there will be no `stg_shopify_gql__order_url_tag` model or downstream transformations.
 
