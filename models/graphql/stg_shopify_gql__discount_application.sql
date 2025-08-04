@@ -26,8 +26,7 @@ final as (
     
     select 
         lower(allocation_method) as allocation_method,
-        {# no code rn - will be added #}
-        cast(null as {{ dbt.type_string() }}) as code, -- for development
+        upper(code) as code,
         index,
         order_id,
         lower(target_selection) as target_selection,
