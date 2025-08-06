@@ -21,7 +21,7 @@ if [ "$db" = "databricks-sql" ]; then
 dbt seed --vars '{shopify_schema: shopify_source_integrations_tests_sqlw}' --target "$db" --full-refresh
 dbt run --vars '{shopify_schema: shopify_source_integrations_tests_sqlw}' --target "$db" --full-refresh
 dbt test --vars '{shopify_schema: shopify_source_integrations_tests_sqlw}' --target "$db"
-dbt run --vars '{shopify_schema: shopify_source_integrations_tests_sqlw, shopify_timezone: "America/New_York", shopify_using_fulfillment_event: true, shopify_using_abandoned_checkout: false, shopify_using_metafield: false, shopify_using_discount_code_app: true, shopify_product_variant_media: true}' --target "$db" --full-refresh
+dbt run --vars '{shopify_schema: shopify_source_integrations_tests_sqlw, shopify_timezone: "America/New_York", shopify_using_fulfillment_event: true, shopify_gql_using_fulfillment_event: true, shopify_using_abandoned_checkout: false, shopify_gql_using_abandoned_checkout: false, shopify_using_metafield: false, shopify_gql_using_metafield: false, shopify_using_discount_code_app: true, shopify_gql_using_discount_code_app: true, shopify_product_variant_media: true, shopify_gql_product_variant_media: true, shopify_gql_using_collection_rule: true, shopify_gql_using_customer_visit: false}' --target "$db" --full-refresh
 dbt test --vars '{shopify_schema: shopify_source_integrations_tests_sqlw}' --target "$db"
 dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"
 
@@ -29,7 +29,7 @@ else
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run --vars '{shopify_timezone: "America/New_York", shopify_using_fulfillment_event: true, shopify_using_abandoned_checkout: false, shopify_using_metafield: false, shopify_using_discount_code_app: true, shopify_product_variant_media: true}' --target "$db" --full-refresh
+dbt run --vars '{shopify_timezone: "America/New_York", shopify_using_fulfillment_event: true, shopify_gql_using_fulfillment_event: true, shopify_using_abandoned_checkout: false, shopify_gql_using_abandoned_checkout: false, shopify_using_metafield: false, shopify_gql_using_metafield: false, shopify_using_discount_code_app: true, shopify_gql_using_discount_code_app: true, shopify_product_variant_media: true, shopify_gql_product_variant_media: true, shopify_gql_using_collection_rule: true, shopify_gql_using_customer_visit: false}' --target "$db" --full-refresh
 dbt test --target "$db"
 if [ "$db" = "bigquery" ]; then
 dbt run --vars '{shopify_collection_identifier: shopify_collection_bq_json_data, shopify_order_identifier: shopify_order_bq_json_data, shopify_transaction_identifier: shopify_transaction_bq_json_data}' --target "$db" --full-refresh

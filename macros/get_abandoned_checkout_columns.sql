@@ -69,3 +69,78 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_abandoned_checkout_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "abandoned_checkout_url", "datatype": dbt.type_string()},
+    {"name": "billing_address_address_1", "datatype": dbt.type_string()},
+    {"name": "billing_address_address_2", "datatype": dbt.type_string()},
+    {"name": "billing_address_city", "datatype": dbt.type_string()},
+    {"name": "billing_address_company", "datatype": dbt.type_string()},
+    {"name": "billing_address_country", "datatype": dbt.type_string()},
+    {"name": "billing_address_country_code", "datatype": dbt.type_string()},
+    {"name": "billing_address_first_name", "datatype": dbt.type_string()},
+    {"name": "billing_address_last_name", "datatype": dbt.type_string()},
+    {"name": "billing_address_latitude", "datatype": dbt.type_string()},
+    {"name": "billing_address_longitude", "datatype": dbt.type_string()},
+    {"name": "billing_address_name", "datatype": dbt.type_string()},
+    {"name": "billing_address_phone", "datatype": dbt.type_string()},
+    {"name": "billing_address_province", "datatype": dbt.type_string()},
+    {"name": "billing_address_province_code", "datatype": dbt.type_string()},
+    {"name": "billing_address_zip", "datatype": dbt.type_string()},
+    {"name": "created_at", "datatype": dbt.type_timestamp()},
+    {"name": "completed_at", "datatype": dbt.type_timestamp()},
+    {"name": "customer_id", "datatype": dbt.type_int()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "name", "datatype": dbt.type_string()},
+    {"name": "note", "datatype": dbt.type_string()},
+    {"name": "shipping_address_address_1", "datatype": dbt.type_string()},
+    {"name": "shipping_address_address_2", "datatype": dbt.type_string()},
+    {"name": "shipping_address_city", "datatype": dbt.type_string()},
+    {"name": "shipping_address_company", "datatype": dbt.type_string()},
+    {"name": "shipping_address_country", "datatype": dbt.type_string()},
+    {"name": "shipping_address_country_code", "datatype": dbt.type_string()},
+    {"name": "shipping_address_first_name", "datatype": dbt.type_string()},
+    {"name": "shipping_address_last_name", "datatype": dbt.type_string()},
+    {"name": "shipping_address_latitude", "datatype": dbt.type_string()},
+    {"name": "shipping_address_longitude", "datatype": dbt.type_string()},
+    {"name": "shipping_address_name", "datatype": dbt.type_string()},
+    {"name": "shipping_address_phone", "datatype": dbt.type_string()},
+    {"name": "shipping_address_province", "datatype": dbt.type_string()},
+    {"name": "shipping_address_province_code", "datatype": dbt.type_string()},
+    {"name": "shipping_address_zip", "datatype": dbt.type_string()},
+    {"name": "subtotal_price_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "subtotal_price_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "subtotal_price_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "subtotal_price_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "taxes_included", "datatype": dbt.type_boolean()},
+    {"name": "total_discount_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "total_discount_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_discount_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "total_discount_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_duties_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "total_duties_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_duties_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "total_duties_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_line_items_price_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "total_line_items_price_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_line_items_price_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "total_line_items_price_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_price_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "total_price_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_price_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "total_price_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_tax_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "total_tax_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "total_tax_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "total_tax_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "updated_at", "datatype": dbt.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

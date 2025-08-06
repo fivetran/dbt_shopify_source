@@ -58,3 +58,54 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_shop_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "billing_address_address_1", "datatype": dbt.type_string()},
+    {"name": "billing_address_address_2", "datatype": dbt.type_string()},
+    {"name": "billing_address_city", "datatype": dbt.type_string()},
+    {"name": "billing_address_country", "datatype": dbt.type_string()},
+    {"name": "billing_address_country_code_v_2", "datatype": dbt.type_string()},
+    {"name": "billing_address_latitude", "datatype": dbt.type_float()},
+    {"name": "billing_address_longitude", "datatype": dbt.type_float()},
+    {"name": "billing_address_phone", "datatype": dbt.type_string()},
+    {"name": "billing_address_province", "datatype": dbt.type_string()},
+    {"name": "billing_address_province_code", "datatype": dbt.type_string()},
+    {"name": "billing_address_zip", "datatype": dbt.type_string()},
+    {"name": "checkout_api_supported", "datatype": dbt.type_boolean()},
+    {"name": "contact_email", "datatype": dbt.type_string()},
+    {"name": "created_at", "datatype": dbt.type_timestamp()},
+    {"name": "currency_code", "datatype": dbt.type_string()},
+    {"name": "currency_formats_money_format", "datatype": dbt.type_string()},
+    {"name": "currency_formats_money_in_emails_format", "datatype": dbt.type_string()},
+    {"name": "currency_formats_money_with_currency_format", "datatype": dbt.type_string()},
+    {"name": "currency_formats_money_with_currency_in_emails_format", "datatype": dbt.type_string()},
+    {"name": "email", "datatype": dbt.type_string()},
+    {"name": "enabled_presentment_currencies", "datatype": dbt.type_string()},
+    {"name": "features_storefront", "datatype": dbt.type_boolean()},
+    {"name": "iana_timezone", "datatype": dbt.type_string()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "myshopify_domain", "datatype": dbt.type_string()},
+    {"name": "name", "datatype": dbt.type_string()},
+    {"name": "password_enabled", "datatype": dbt.type_boolean()},
+    {"name": "plan_display_name", "datatype": dbt.type_string()},
+    {"name": "primary_domain_host", "datatype": dbt.type_string()},
+    {"name": "primary_domain_localization_default_locale", "datatype": dbt.type_string()},
+    {"name": "setup_required", "datatype": dbt.type_boolean()},
+    {"name": "shop_owner_name", "datatype": dbt.type_string()},
+    {"name": "tax_shipping", "datatype": dbt.type_boolean()},
+    {"name": "taxes_included", "datatype": dbt.type_boolean()},
+    {"name": "timezone_abbreviation", "datatype": dbt.type_string()},
+    {"name": "timezone_offset", "datatype": dbt.type_string()},
+    {"name": "timezone_offset_minutes", "datatype": dbt.type_int()},
+    {"name": "updated_at", "datatype": dbt.type_timestamp()},
+    {"name": "weight_unit", "datatype": dbt.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

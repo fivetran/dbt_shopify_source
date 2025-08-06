@@ -1,13 +1,17 @@
 name: 'shopify_source'
-version: '0.18.2'
+version: '0.19.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
   shopify_source:
     +schema: stg_shopify
     +materialized: view
-    stg_shopify__metafield:
-      +materialized: table
+    rest:
+      stg_shopify__metafield:
+        +materialized: table
+    graphql:
+      stg_shopify__metafield:
+        +materialized: table
 
 vars:
   shopify_source:
@@ -20,7 +24,6 @@ vars:
     transaction_source: "{{ source('shopify','transaction') }}"
     refund_source: "{{ source('shopify','refund') }}"
     order_adjustment_source: "{{ source('shopify','order_adjustment') }}"
-    
     abandoned_checkout_source: "{{ source('shopify','abandoned_checkout') }}"
     collection_product_source: "{{ source('shopify','collection_product') }}"
     collection_source: "{{ source('shopify','collection') }}" 
@@ -55,6 +58,45 @@ vars:
     abandoned_checkout_shipping_line_source: "{{ source('shopify', 'abandoned_checkout_shipping_line') }}"
     fulfillment_event_source: "{{ source('shopify', 'fulfillment_event') }}"
     tax_line_source: "{{ source('shopify', 'tax_line') }}"
+
+    gql_abandoned_checkout_source: "{{ source('shopify_graphql','abandoned_checkout') }}"
+    gql_collection_product_source: "{{ source('shopify_graphql','collection_product') }}"
+    gql_collection_source: "{{ source('shopify_graphql','collection') }}" 
+    gql_customer_tag_source: "{{ source('shopify_graphql','customer_tag') }}"
+    gql_discount_allocation_source: "{{ source('shopify_graphql','discount_allocation') }}"
+    gql_discount_application_source: "{{ source('shopify_graphql','discount_application') }}"
+    gql_discount_code_app_source: "{{ source('shopify_graphql','discount_code_app') }}"
+    gql_discount_code_basic_source: "{{ source('shopify_graphql','discount_code_basic') }}"
+    gql_discount_code_bxgy_source: "{{ source('shopify_graphql','discount_code_bxgy') }}"
+    gql_discount_code_free_shipping_source: "{{ source('shopify_graphql','discount_code_free_shipping') }}"
+    gql_discount_redeem_code_source: "{{ source('shopify_graphql','discount_redeem_code') }}"
+    gql_fulfillment_source: "{{ source('shopify_graphql','fulfillment') }}"
+    gql_inventory_item_source: "{{ source('shopify_graphql','inventory_item') }}"
+    gql_inventory_level_source: "{{ source('shopify_graphql','inventory_level') }}"
+    gql_inventory_quantity_source: "{{ source('shopify_graphql','inventory_quantity') }}"
+    gql_location_source: "{{ source('shopify_graphql','location') }}"
+    gql_media_source: "{{ source('shopify_graphql','media') }}"
+    gql_media_image_source: "{{ source('shopify_graphql','media_image') }}"
+    gql_metafield_source: "{{ source('shopify_graphql','metafield') }}"
+    gql_order_line_refund_source: "{{ source('shopify_graphql','order_line_refund') }}" 
+    gql_order_note_attribute_source: "{{ source('shopify_graphql','order_note_attribute') }}"
+    gql_order_shipping_line_source: "{{ source('shopify_graphql','order_shipping_line') }}"
+    gql_order_shipping_tax_line_source: "{{ source('shopify_graphql','order_shipping_tax_line') }}"
+    gql_order_tag_source: "{{ source('shopify_graphql','order_tag') }}"
+    gql_product_media_source: "{{ source('shopify_graphql','product_media') }}"
+    gql_product_variant_media_source: "{{ source('shopify_graphql','product_variant_media') }}"
+    gql_product_tag_source: "{{ source('shopify_graphql','product_tag') }}"
+    gql_shop_source: "{{ source('shopify_graphql','shop') }}"
+    gql_tender_transaction_source: "{{ source('shopify_graphql','tender_transaction') }}"
+    gql_abandoned_checkout_discount_code_source: "{{ source('shopify_graphql','abandoned_checkout_discount_code') }}" 
+    gql_order_discount_code_source: "{{ source('shopify_graphql','order_discount_code') }}" 
+    gql_fulfillment_event_source: "{{ source('shopify_graphql', 'fulfillment_event') }}"
+    gql_tax_line_source: "{{ source('shopify_graphql', 'tax_line') }}"
+    gql_fulfillment_tracking_info_source: "{{ source('shopify_graphql', 'fulfillment_tracking_info') }}"
+    gql_fulfillment_order_line_item_source: "{{ source('shopify_graphql', 'fulfillment_order_line_item') }}"
+    gql_customer_visit_source: "{{ source('shopify_graphql', 'customer_visit') }}"
+    gql_customer_address_source: "{{ source('shopify_graphql', 'customer_address') }}"
+    gql_collection_rule_source: "{{ source('shopify_graphql', 'collection_rule') }}"
 
     customer_pass_through_columns: []
     order_line_refund_pass_through_columns: []

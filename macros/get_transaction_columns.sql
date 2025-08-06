@@ -40,6 +40,51 @@
  {{ columns.append({"name": "authorization", "datatype": dbt.type_string(), "alias": "authorization_code"}) }}
 {% endif %}
 
+{{ fivetran_utils.add_pass_through_columns(columns, var('transaction_pass_through_columns')) }}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_graphql_transaction_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "amount_set_pres_amount", "datatype": dbt.type_float()},
+    {"name": "amount_set_pres_currency_code", "datatype": dbt.type_string()},
+    {"name": "amount_set_shop_amount", "datatype": dbt.type_float()},
+    {"name": "amount_set_shop_currency_code", "datatype": dbt.type_string()},
+    {"name": "authorization_code", "datatype": dbt.type_string()},
+    {"name": "authorization_expires_at", "datatype": dbt.type_timestamp()},
+    {"name": "created_at", "datatype": dbt.type_timestamp()},
+    {"name": "error_code", "datatype": dbt.type_string()},
+    {"name": "gateway", "datatype": dbt.type_string()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "kind", "datatype": dbt.type_string()},
+    {"name": "order_id", "datatype": dbt.type_int()},
+    {"name": "parent_id", "datatype": dbt.type_int()},
+    {"name": "payment_avs_result_code", "datatype": dbt.type_string()},
+    {"name": "payment_credit_card_bin", "datatype": dbt.type_string()},
+    {"name": "payment_credit_card_company", "datatype": dbt.type_string()},
+    {"name": "payment_credit_card_number", "datatype": dbt.type_string()},
+    {"name": "payment_cvv_result_code", "datatype": dbt.type_string()},
+    {"name": "processed_at", "datatype": dbt.type_timestamp()},
+    {"name": "receipt_json", "datatype": dbt.type_string()},
+    {"name": "refund_id", "datatype": dbt.type_int()},
+    {"name": "staff_member_id", "datatype": dbt.type_int()},
+    {"name": "status", "datatype": dbt.type_string()},
+    {"name": "test", "datatype": dbt.type_boolean()},
+    {"name": "device_id", "datatype": dbt.type_string()},
+    {"name": "currency_exchange_id", "datatype": dbt.type_numeric()},
+    {"name": "currency_exchange_adjustment", "datatype": dbt.type_numeric()},
+    {"name": "currency_exchange_original_amount", "datatype": dbt.type_numeric()},
+    {"name": "currency_exchange_final_amount", "datatype": dbt.type_numeric()},
+    {"name": "currency_exchange_currency", "datatype": dbt.type_string()}
+] %}
+
+{{ fivetran_utils.add_pass_through_columns(columns, var('transaction_pass_through_columns')) }}
+
 {{ return(columns) }}
 
 {% endmacro %}

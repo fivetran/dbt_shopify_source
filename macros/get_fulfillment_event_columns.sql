@@ -25,3 +25,29 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_graphql_fulfillment_event_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "address_1", "datatype": dbt.type_string()},
+    {"name": "city", "datatype": dbt.type_string()},
+    {"name": "country", "datatype": dbt.type_string()},
+    {"name": "created_at", "datatype": dbt.type_timestamp()},
+    {"name": "estimated_delivery_at", "datatype": dbt.type_timestamp()},
+    {"name": "fulfillment_id", "datatype": dbt.type_int()},
+    {"name": "happened_at", "datatype": dbt.type_timestamp()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "latitude", "datatype": dbt.type_string()},
+    {"name": "longitude", "datatype": dbt.type_string()},
+    {"name": "message", "datatype": dbt.type_string()},
+    {"name": "province", "datatype": dbt.type_string()},
+    {"name": "status", "datatype": dbt.type_string()},
+    {"name": "zip", "datatype": dbt.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
