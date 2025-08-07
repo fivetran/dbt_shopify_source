@@ -1,5 +1,5 @@
 name: 'shopify_source'
-version: '0.19.0'
+version: '0.20.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -15,6 +15,8 @@ models:
 
 vars:
   shopify_source:
+    shopify_api: graphql # rest on official release
+
     customer_source: "{{ source('shopify','customer') }}"
     order_line_refund_source: "{{ source('shopify','order_line_refund') }}"
     order_line_source: "{{ source('shopify','order_line') }}"

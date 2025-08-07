@@ -1,5 +1,5 @@
 name: 'shopify_source_integration_tests'
-version: '0.19.0'
+version: '0.20.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -15,6 +15,7 @@ vars:
   
   shopify_schema: shopify_source_integration_tests_13
   shopify_api_override: rest
+  shopify_api: rest
   
   shopify_source:
     shopify_customer_identifier: "shopify_customer_data"
