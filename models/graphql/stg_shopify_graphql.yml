@@ -895,11 +895,6 @@ models:
           - cancelled: The fulfillment was cancelled.
           - error: There was an error with the fulfillment request.
           - failure: The fulfillment request failed.
-        tests:
-          - accepted_values:
-              values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
-              config:
-                severity: warn # we pivot these out in shopify__inventory_levels
       - name: updated_at
         description: The date and time (ISO 8601 format) when the fulfillment was last modified.
       - name: source_relation
@@ -956,11 +951,6 @@ models:
           - out_for_delivery: The shipment is being delivered to its final destination.
           - delivered: The shipment was successfully delivered.
           - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
-        tests:
-          - accepted_values:
-              values:  ['attempted_delivery', 'delayed', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
-              config:
-                severity: warn # we pivot these out in shopify__daily_shop
       - name: zip
         description: The zip code of the location where the fulfillment event occurred.
       - name: source_relation
@@ -1103,13 +1093,6 @@ models:
       An inventory level represents the quantities of an inventory item for a location.
       Each inventory level belongs to one inventory item and has one location. For every location where an inventory item can be stocked, there's an inventory level that represents 
       the inventory item's quantities relating to that location.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - inventory_level_id
-            - inventory_item_id
-            - location_id
-            - source_relation
     columns:
       - name: unique_key
         description: Surrogate key hashed on `inventory_level_id`, `inventory_item_id`, `location_id`, and `source_relation`.

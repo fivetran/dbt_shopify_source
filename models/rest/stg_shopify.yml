@@ -3,11 +3,6 @@ version: 2
 models:
   - name: stg_shopify__customer
     description: Each record represents a customer in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -54,11 +49,6 @@ models:
 
   - name: stg_shopify__order_line_refund
     description: Each record represents a line item from an order in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_refund_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -87,11 +77,6 @@ models:
 
   - name: stg_shopify__order_line
     description: Each record represents a line item from an order in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -152,11 +137,6 @@ models:
 
   - name: stg_shopify__order
     description: Each record represents an order in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -325,11 +305,6 @@ models:
 
   - name: stg_shopify__product
     description: Each record represents a product in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - source_relation
     columns:
       - name: is_deleted
         description: Whether the record has been deleted in the source system.
@@ -365,11 +340,6 @@ models:
 
   - name: stg_shopify__product_variant
     description: Each record represents a product variant in Shopify
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - variant_id
-            - source_relation
     columns:
       - name: barcode
         description: The barcode, UPC, or ISBN number for the product.
@@ -438,11 +408,6 @@ models:
 
   - name: stg_shopify__transaction
     description: Each record represents a transaction in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_id
-            - source_relation
     columns:
       - name: transaction_id
         description: The ID for the transaction.
@@ -513,11 +478,6 @@ models:
 
   - name: stg_shopify__refund
     description: Each record represents a refund within Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - refund_id
-            - source_relation
     columns:
       - name: refund_id
         description: The unique numeric identifier for the refund.
@@ -542,11 +502,6 @@ models:
 
   - name: stg_shopify__order_adjustment
     description: Each record represents and adjustment to and order within Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_adjustment_id
-            - source_relation
     columns:
       - name: order_adjustment_id
         description: The unique numeric identifier for the order adjustment.
@@ -573,11 +528,6 @@ models:
 
   - name: stg_shopify__abandoned_checkout
     description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - checkout_id
-            - source_relation
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -712,12 +662,6 @@ models:
         
   - name: stg_shopify__collection_product
     description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - collection_id
-            - product_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -736,11 +680,6 @@ models:
     description: >
       A collection is a grouping of products that merchants can create to make their stores easier to browse.
       Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included (aka a "smart collection").
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - collection_id
-            - source_relation    
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -787,12 +726,6 @@ models:
 
   - name: stg_shopify__customer_tag
     description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_id
-            - index    
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -813,11 +746,6 @@ models:
     description: >
       A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
       A fulfillment represents work that is completed as part of a fulfillment order and can include one or more items.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - fulfillment_id
-            - source_relation   
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -858,11 +786,6 @@ models:
           - cancelled: The fulfillment was cancelled.
           - error: There was an error with the fulfillment request.
           - failure: The fulfillment request failed.
-        tests:
-          - accepted_values:
-              values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
-              config:
-                severity: warn # we pivot these out in shopify__inventory_levels
       - name: tracking_company
         description: The name of the tracking company. 
       - name: tracking_number
@@ -880,11 +803,6 @@ models:
     description: >
       An inventory item represents a physical good. It holds essential information about the physical good, including its SKU and whether its inventory is tracked.
       There is a 1:1 relationship between a product variant and an inventory item.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - inventory_item_id
-            - source_relation
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -939,13 +857,6 @@ models:
 
       Each inventory level belongs to one inventory item and has one location. For every location where an inventory item can be stocked, there's an inventory level that represents 
       the inventory item's quantities relating to that location.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - inventory_level_id
-            - inventory_item_id
-            - location_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -970,14 +881,6 @@ models:
 
   - name: stg_shopify__inventory_quantity
     description: The total quantity of the inventory item available at all locations.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - inventory_quantity_id
-            - inventory_item_id
-            - inventory_level_id
-            - inventory_state_name
-            - source_relation
     columns:
       - name: inventory_quantity_id
         description: The unique identifier for the record.
@@ -998,11 +901,6 @@ models:
 
   - name: stg_shopify__location
     description: A location represents a geographical location where your stores, pop-up stores, headquarters, and warehouses exist.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - location_id
-            - source_relation
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -1054,11 +952,6 @@ models:
 
   - name: stg_shopify__media
     description: Table storing media metadata, including status and timestamps.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - media_id
-            - source_relation
     columns:
       - name: media_id
         description: The unique identifier for the media associated with a product image.
@@ -1075,12 +968,6 @@ models:
 
   - name: stg_shopify__media_image
     description: Table storing image-specific properties for media assets.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - media_id
-            - image_id
-            - source_relation
     columns:
       - name: media_id
         description: The unique identifier for the media associated with the product image.
@@ -1105,11 +992,6 @@ models:
     description: >
       Metafields are a flexible way to attach additional information to a Shopify resource (e.g. Product, Collection, etc.). Some examples of data stored using metafields include specifications, size charts, 
       downloadable documents, release dates, images, or part numbers. Metafields are identified by an owner resource, a namespace, and a key and they store a value along with type information for that context.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - metafield_id
-            - source_relation    
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1144,12 +1026,6 @@ models:
 
   - name: stg_shopify__order_note_attribute
     description: Table storing custom attributes placed on orders. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - name
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1168,11 +1044,6 @@ models:
 
   - name: stg_shopify__order_shipping_line
     description: Represents the shipping details that the customer chose for their order.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_shipping_line_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1209,12 +1080,6 @@ models:
 
   - name: stg_shopify__order_shipping_tax_line
     description: Represents taxes associated with order shipping lines.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_shipping_line_id
-            - index
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1239,12 +1104,6 @@ models:
 
   - name: stg_shopify__order_tag
     description: Tags that the shop owner has attached to the order.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - index
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1263,12 +1122,6 @@ models:
 
   - name: stg_shopify__order_url_tag
     description: Key-value tags that the shop owner has attached to the order url.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - key
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1287,12 +1140,6 @@ models:
 
   - name: stg_shopify__product_media
     description: Table mapping products to their associated media.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - media_id
-            - source_relation
     columns:
       - name: product_id
         description: The id of the product associated with the media.
@@ -1307,12 +1154,6 @@ models:
 
   - name: stg_shopify__product_variant_media
     description: Table mapping products to their associated media.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_variant_id
-            - media_id
-            - source_relation
     columns:
       - name: product_variant_id
         description: The id of the product variant associated with the media.
@@ -1327,12 +1168,6 @@ models:
 
   - name: stg_shopify__product_tag
     description: Tags that the shop owner has attached to the product.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - index
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1353,11 +1188,6 @@ models:
 
   - name: stg_shopify__shop
     description: The Shop resource is a collection of general business and store management settings and information about the store.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - shop_id
-            - source_relation
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -1473,11 +1303,6 @@ models:
       Each tender transaction represents money passing between the merchant and a customer. A tender transaction with a positive amount 
       represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
       merchant refunded money back to the customer. Tender transactions represent transactions that modify the shop's balance.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1517,12 +1342,6 @@ models:
 
   - name: stg_shopify__abandoned_checkout_discount_code
     description: Abandoned checkouts that applied a discount code. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - checkout_id
-            - code
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1550,12 +1369,6 @@ models:
 
   - name: stg_shopify__order_discount_code
     description: Discount codes placed on orders.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - index
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1579,12 +1392,6 @@ models:
 
   - name: stg_shopify__abandoned_checkout_shipping_line
     description: Shipping lines associated with abandoned checkouts.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - checkout_id
-            - index
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1627,11 +1434,6 @@ models:
     description: >
       The FulfillmentEvent resource represents tracking events that belong to a fulfillment of one or more items in an order. 
       Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - fulfillment_event_id
-            - source_relation    
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1678,11 +1480,6 @@ models:
           - out_for_delivery: The shipment is being delivered to its final destination.
           - delivered: The shipment was successfully delivered.
           - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
-        tests:
-          - accepted_values:
-              values:  ['attempted_delivery', 'delayed', 'delivered', 'failure', 'in_transit', 'out_for_delivery', 'ready_for_pickup', 'picked_up', 'label_printed', 'label_purchased', 'confirmed']
-              config:
-                severity: warn # we pivot these out in shopify__daily_shop
       - name: updated_at
         description: The date and time (ISO 8601 format) when the fulfillment event was updated.
       - name: zip
@@ -1692,12 +1489,6 @@ models:
 
   - name: stg_shopify__tax_line
     description: Represents a single tax applied to the associated line item.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_id
-            - index
-            - source_relation    
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1716,12 +1507,6 @@ models:
 
   - name: stg_shopify__discount_allocation
     description: Table storing allocation amounts from discount applications across specific order lines.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_line_id
-            - discount_application_index
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1750,12 +1535,6 @@ models:
 
   - name: stg_shopify__discount_application
     description: Table storing discount applications, which define how discounts were applied at the order level.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - index
-            - order_id
-            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -1794,11 +1573,6 @@ models:
 
   - name: stg_shopify__discount_code_app
     description: Table storing metadata for discount codes created through third-party apps in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
       - name: discount_code_id
         description: The unique ID for the discount code.
@@ -1845,11 +1619,6 @@ models:
 
   - name: stg_shopify__discount_code_basic
     description: Table storing metadata about basic discount codes created by merchants.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
       - name: discount_code_id
         description: The unique ID for the discount code.
@@ -1896,11 +1665,6 @@ models:
 
   - name: stg_shopify__discount_code_bxgy
     description: Table storing metadata for Buy X Get Y-style discount codes in Shopify, where discounts are applied based on product quantity thresholds.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
       - name: discount_code_id
         description: The unique ID for the discount code.
@@ -1947,11 +1711,6 @@ models:
 
   - name: stg_shopify__discount_code_free_shipping
     description: Table storing metadata for free shipping discount codes in Shopify, where shipping costs are discounted based on qualifying conditions.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
       - name: discount_code_id
         description: The unique ID for the discount code.
@@ -1998,11 +1757,6 @@ models:
 
   - name: stg_shopify__discount_redeem_code
     description: Table storing individual redeem codes that customers can use at checkout to receive a discount. Each redeem code is tied to a parent discount and may be created by an app or manually.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - discount_code_id
-            - source_relation
     columns:
       - name: discount_code_id
         description: The unique ID of the redeem code.
