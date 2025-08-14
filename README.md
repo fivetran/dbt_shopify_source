@@ -134,7 +134,7 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: [">=0.19.0", "<0.20.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.20.0", "<0.21.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define REST API or GraphQL API Source
