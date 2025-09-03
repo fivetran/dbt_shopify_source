@@ -4,7 +4,7 @@
 
 ## Feature Update
 
-This pre-release adjusts v0.19.0 so that the GraphQL API-based models are run by default, rather than the REST API ones. It therefore updates the default value of the `shopify_api` [variable](https://github.com/fivetran/dbt_shopofy_source?tab=readme-ov-file#step-3-define-rest-api-or-graphql-api-source) to be `graphql` instead of its original `rest` value.
+This pre-release ensures that the GraphQL API-based models are run by default, rather than the REST API ones. It therefore updates the default value of the `shopify_api` [variable](https://github.com/fivetran/dbt_shopofy_source?tab=readme-ov-file#step-3-define-rest-api-or-graphql-api-source) to be `graphql` instead of its original `rest` value.
 
 This version is intended to be used by Fivetran Quickstart users who cannot manually adjust the `shopify_api` variable value and have GraphQL Shopify connections.
 

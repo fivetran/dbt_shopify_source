@@ -134,13 +134,13 @@ If you  are **not** using the [Shopify transformation package](https://github.co
 ```yml
 packages:
   - package: fivetran/shopify_source
-    version: 0.20.0-a1
+    version: 0.20.1-a1
 ```
 
 ### Step 3: Define REST API or GraphQL API Source
 Fivetran has released a version of the Shopify connector that leverages Shopify's [GraphQL](https://shopify.dev/docs/apps/build/graphql) API instead of the REST API, as Shopify deprecated the REST API in October 2024. The GraphQL and REST API-based schemas are slightly different, so this package is designed to run either or, not both. It will do so based on the value of the `shopify_api` variable.
 
-By default for this `v0.20.0-a1` release, `shopify_api` is set to `graphql` and will run the `stg_shopify_gql__*` models in the [graphql](https://github.com/fivetran/dbt_shopify_source/tree/main/models/graphql) folder. If you would like to run the package on a REST-based schema, adjust `shopify_api` accordingly or use [`v0.19.0`](https://github.com/fivetran/dbt_shopify_source/releases/tag/v0.19.0) of this package. This will run the `stg_shopify__*` models in the [rest](https://github.com/fivetran/dbt_shopify_source/tree/main/models/rest) folder.
+By default for this `v0.20.1-a1` release, `shopify_api` is set to `graphql` and will run the `stg_shopify_gql__*` models in the [graphql](https://github.com/fivetran/dbt_shopify_source/tree/main/models/graphql) folder. If you would like to run the package on a REST-based schema, adjust `shopify_api` accordingly or use [`v0.20.0`](https://github.com/fivetran/dbt_shopify_source/releases/tag/v0.20.0) of this package. This will run the `stg_shopify__*` models in the [rest](https://github.com/fivetran/dbt_shopify_source/tree/main/models/rest) folder.
 
 > This variable is dynamically configured for you in Fivetran Quickstart based on your Shopify connection details.
 
