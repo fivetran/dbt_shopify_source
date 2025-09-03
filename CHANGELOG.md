@@ -1,3 +1,24 @@
+# dbt_shopify_source v0.20.1-a1
+
+[PR #109](https://github.com/fivetran/dbt_shopify_source/pull/109) introduces the following changes:
+
+## Feature Update
+
+This pre-release adjusts v0.19.0 so that the GraphQL API-based models are run by default, rather than the REST API ones. It therefore updates the default value of the `shopify_api` [variable](https://github.com/fivetran/dbt_shopofy_source?tab=readme-ov-file#step-3-define-rest-api-or-graphql-api-source) to be `graphql` instead of its original `rest` value.
+
+This version is intended to be used by Fivetran Quickstart users who cannot manually adjust the `shopify_api` variable value and have GraphQL Shopify connections.
+
+> This pre-release merges updates from [v0.20.0](https://github.com/fivetran/dbt_shopify_source/blob/update/graphql/CHANGELOG.md#dbt_shopify_source-v0200) into the pre-existing [v0.20.0-a1](https://github.com/fivetran/dbt_shopify_source/blob/update/graphql/CHANGELOG.md#dbt_shopify_source-v0200-a1) version.
+
+# dbt_shopify_source v0.20.0
+[PR #111](https://github.com/fivetran/dbt_shopify_source/pull/111) includes the following updates:
+
+### dbt Fusion Compatibility Updates
+- Updated package to maintain compatibility with dbt-core versions both before and after v1.10.6, which introduced a breaking change to multi-argument test syntax (e.g., `unique_combination_of_columns`).
+- Temporarily removed unsupported tests to avoid errors and ensure smoother upgrades across different dbt-core versions. These tests will be reintroduced once a safe migration path is available.
+  - Removed all `dbt_utils.unique_combination_of_columns` tests.
+  - Removed all `accepted_values` tests.
+
 # dbt_shopify_source v0.20.0-a1
 
 [PR #109](https://github.com/fivetran/dbt_shopify_source/pull/109) introduces the following changes:
