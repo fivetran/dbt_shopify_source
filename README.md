@@ -38,5 +38,4 @@
 
 ## Support
 - This package is archived and no longer accepts new issues or pull requests.  All open issues from this repository have been copied over to the [`dbt_shopify`](https://github.com/fivetran/dbt_shopify) repository, where they will continue to be tracked.  
-
 - For any new questions, bug reports, or feature requests, open an issue in [`dbt_shopify`](https://github.com/fivetran/dbt_shopify).  
