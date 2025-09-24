@@ -1,5 +1,5 @@
 # [DEPRECATED] Shopify Source dbt Package
-> _This package was archived on 2025-MM-DD and is no longer maintained. Use [`dbt_shopify`](https://github.com/fivetran/dbt_shopify) instead, which now contains all models previously found here._
+> _This package has been archived and is no longer maintained. Use [`dbt_shopify`](https://github.com/fivetran/dbt_shopify) instead, which now contains all models previously found here._
 
 <p align="left">
     <a alt="License"
